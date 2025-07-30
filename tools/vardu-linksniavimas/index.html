@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="lt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vardų linksniavimo įrankis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #f0f0f0;
+
+            max-width: 800px;
+            margin: 0 auto 3em;
+        }
+
+        header p {
+            max-width: 35em;
+            margin: 1em auto;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5em;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 0.25em;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+
+        h2 {
+            margin-top: 2em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Vardų linksniavimo įrankis</h1>
+        <p>Renkant klientų el. paštus per prenumeratos laukelius (el. paštas + vardas), dažnai susiduriama su problema –
+            klientai įrašo vardus neteisingu linksniu. Kai siunčiami naujienlaiškiai, vardai gali atrodyti keistai
+            ("Laba diena, Jonas...").</p>
+        <p>
+            Šis įrankis <strong>automatiškai atnaujina vardus</strong> pagal lietuvių kalbos linksniavimo taisykles,
+            užtikrindamas teisingą formuluotę naujienlaiškiuose.
+        </p>
+    </header>
+
+    <main>
+        <form id="namesForm">
+            <label for="names">Rašykite arba copy-paste vardus, vienas vardas eilutėje:</label>
+            <textarea id="names" rows="10" cols="50" placeholder='Pavyzdžiui "Jonas"' required></textarea>
+            <br>
+            <button id="submitButton" type="button" onclick="updateNames()" disabled>Pakeisti linksnius</button>
+        </form>
+
+        <details>
+            <summary>Pavyzdys kaip rašyti</summary>
+            <div>
+                Jonas<br>
+                Jurgis<br>
+                Danielius<br>
+                Merkurijus<br>
+                Eglė<br>
+                Kristina<br>
+                John
+            </div>
+        </details>
+
+        <h2 id="result__header" style="display: none;">Atnaujinti vardai:</h2>
+        <div id="result"></div>
+    </main>
+
+    <script>
+        function updateNames() {
+            var namesInput = document.getElementById('names');
+            var resultContainer = document.getElementById('result');
+            var resultHeader = document.getElementById('result__header');
+            var names = namesInput.value.split(/\r?\n/);
+
+            var updatedNames = names.map(function (name) {
+                if (name.endsWith('as')) {
+                    return name.slice(0, -2) + 'ai';
+                } else if (name.endsWith('ius')) {
+                    return name.slice(0, -3) + 'iau';
+                } else if (name.endsWith('ė')) {
+                    return name.slice(0, -1) + 'e';
+                } else if (name.endsWith('is')) {
+                    return name.slice(0, -2) + 'i';
+                } else if (name.endsWith('us')) {
+                    return name.slice(0, -2) + 'au';
+                } else {
+                    return name;
+                }
+            });
+
+            resultContainer.innerHTML = updatedNames.join('<br>');
+            resultHeader.style.display = "block";
+        }
+
+        // Enable the submit button when there is content in the textarea
+        document.getElementById('names').addEventListener('input', function () {
+            var submitButton = document.getElementById('submitButton');
+            submitButton.disabled = this.value.trim() === '';
+        });
+    </script>
+
+</body>
+
+</html>
