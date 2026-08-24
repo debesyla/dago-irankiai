@@ -1,0 +1,178 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-asmens-kodai
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://dago.lt/irankiai/asmens-kodai/
+    permissions:
+      contents: read
+    env:
+      MARKER: .deploy-marker-asmens-kodai
+      SITE: https://dago.lt/irankiai/asmens-kodai
+      ORIGIN: https://dago.lt
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify and build
+        run: |
+          set -euo pipefail
+          npm run lint
+          npm test
+
+          printf '%s\n' "$GITHUB_SHA" > build/BUILD
+
+          for file in .htaccess index.html og.png BUILD; do
+            test -f "build/$file" \
+              || { echo "::error::production artifact is missing $file"; exit 1; }
+          done
+
+          find build/assets -type f -name '*.js' -print -quit | grep -q . \
+            || { echo "::error::production artifact has no JavaScript bundle"; exit 1; }
+          find build/assets -type f -name '*.css' -print -quit | grep -q . \
+            || { echo "::error::production artifact has no stylesheet"; exit 1; }
+          grep -Fq 'https://dago.lt/irankiai/asmens-kodai/' build/index.html \
+            || { echo "::error::production metadata uses the wrong URL"; exit 1; }
+          grep -Fq '/irankiai/asmens-kodai/assets/' build/index.html \
+            || { echo "::error::built assets use the wrong base path"; exit 1; }
+
+      - name: Configure SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+          REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
+        run: |
+          set -euo pipefail
+
+          for variable in DEPLOY_SSH_KEY SSH_HOST SSH_USER SSH_PORT \
+                          SSH_KNOWN_HOSTS REMOTE_DIR; do
+            value="${!variable:-}"
+            test -n "$value" \
+              || { echo "::error::$variable secret is empty or unset"; exit 1; }
+          done
+
+          case "$REMOTE_DIR" in
+            */irankiai/asmens-kodai) ;;
+            *) echo "::error::REMOTE_DIR must end in /irankiai/asmens-kodai"; exit 1 ;;
+          esac
+
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+          cat > ~/.ssh/config <<EOF
+          Host deploy-target
+            HostName $SSH_HOST
+            User $SSH_USER
+            Port $SSH_PORT
+            IdentityFile ~/.ssh/deploy_key
+            IdentitiesOnly yes
+            StrictHostKeyChecking yes
+            UserKnownHostsFile ~/.ssh/known_hosts
+            BatchMode yes
+            ConnectTimeout 20
+          EOF
+          chmod 600 ~/.ssh/config
+
+      - name: Guard target directory
+        env:
+          REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
+        run: |
+          set -uo pipefail
+
+          if error="$(ssh deploy-target "test -f '$REMOTE_DIR/$MARKER'" 2>&1 >/dev/null)"; then
+            status=0
+          else
+            status=$?
+          fi
+
+          case "$status" in
+            0) echo "Marker present - target confirmed." ;;
+            1) echo "::error::$MARKER is absent; refusing to deploy"; exit 1 ;;
+            255) echo "::error::SSH could not reach the host: ${error:-no stderr output}"; exit 1 ;;
+            *) echo "::error::Marker check exited $status: ${error:-no stderr output}"; exit 1 ;;
+          esac
+
+      - name: Dry run
+        env:
+          REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
+        run: |
+          rsync -a --checksum --delete --itemize-changes --dry-run \
+            --exclude "$MARKER" \
+            --exclude '.well-known/' \
+            -e "ssh -F $HOME/.ssh/config" \
+            build/ "deploy-target:$REMOTE_DIR/"
+
+      - name: Deploy
+        env:
+          REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
+        run: |
+          rsync -a --checksum --delete --itemize-changes \
+            --exclude "$MARKER" \
+            --exclude '.well-known/' \
+            -e "ssh -F $HOME/.ssh/config" \
+            build/ "deploy-target:$REMOTE_DIR/"
+
+      - name: Smoke test
+        run: |
+          set -euo pipefail
+          sleep 2
+
+          fetch() {
+            local url="$1" destination="$2" status
+            status="$(curl -sS --max-time 20 -o "$destination" -w '%{http_code}' "$url")" || {
+              echo "::error::GET $url failed to complete"; exit 1;
+            }
+            case "$status" in
+              2*) ;;
+              *) echo "::error::GET $url returned HTTP $status"; exit 1 ;;
+            esac
+          }
+
+          fetch "$SITE/BUILD" /tmp/asmens-kodai-BUILD
+          deployed_sha="$(cat /tmp/asmens-kodai-BUILD)"
+          test "$deployed_sha" = "$GITHUB_SHA" \
+            || { echo "::error::live BUILD=$deployed_sha, expected $GITHUB_SHA"; exit 1; }
+
+          fetch "$SITE/" /tmp/asmens-kodai-index.html
+          grep -Fq '<title>Asmens kodai // dago</title>' /tmp/asmens-kodai-index.html \
+            || { echo "::error::live page does not contain expected metadata"; exit 1; }
+
+          asset_path="$(grep -oE '/irankiai/asmens-kodai/assets/[^\" ]+\.js' /tmp/asmens-kodai-index.html | head -n 1)"
+          test -n "$asset_path" \
+            || { echo "::error::live page does not reference its JavaScript bundle"; exit 1; }
+          fetch "$ORIGIN$asset_path" /tmp/asmens-kodai-app.js
+          grep -Fq 'Generuoti' /tmp/asmens-kodai-app.js \
+            || { echo "::error::live JavaScript bundle does not contain the app"; exit 1; }
+
+          fetch "$SITE/og.png" /tmp/asmens-kodai-og.png
+          test -s /tmp/asmens-kodai-og.png \
+            || { echo "::error::live social image is empty"; exit 1; }
+
+          echo "Deployed $GITHUB_SHA to $SITE/"

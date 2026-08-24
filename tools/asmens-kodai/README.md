@@ -35,6 +35,12 @@ npm test
 npm run lint
 ```
 
+## Diegimas
+
+Pakeitimai `main` šakoje automatiškai patikrinami ir per SSH įdiegiami į
+`https://dago.lt/irankiai/asmens-kodai/`. Saugos žymeklis, GitHub paslaptys ir
+patikros trumpai aprašytos faile [`docs/deployment.md`](docs/deployment.md).
+
 ## Licencija
 
 Projektas yra atvirojo kodo. Jį galima kopijuoti, keisti ir naudoti pagal
