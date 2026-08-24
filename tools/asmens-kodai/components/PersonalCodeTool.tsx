@@ -3,15 +3,12 @@
 import { FormEvent, useMemo, useState } from "react";
 import { buildLlmPrompt } from "@/lib/llm-prompt";
 import {
-  createPersonalCode,
   formatIsoDate,
   generatePersonalCodes,
   parsePersonalCode,
   PENSION_AGE,
   type PersonalCodeResult,
 } from "@/lib/personal-code";
-
-const initialCode = createPersonalCode(new Date(1990, 0, 1), "male", 1);
 
 const javascriptExample = `function validuotiAsmensKoda(kodas) {
   if (!/^[1-6]\\d{10}$/.test(kodas)) return false;
@@ -69,7 +66,7 @@ const phpExample = `function validuotiAsmensKoda(string $kodas): bool {
     return ($k === 10 ? 0 : $k) === $skaiciai[10];
 }`;
 
-export function PersonalCodeTool() {
+export function PersonalCodeTool({ initialCode }: { initialCode: string }) {
   const [mode, setMode] = useState<"generate" | "validate">("generate");
   const [adultOnly, setAdultOnly] = useState(false);
   const [notOlderThanPensionAge, setNotOlderThanPensionAge] = useState(false);
@@ -78,7 +75,11 @@ export function PersonalCodeTool() {
   const [count, setCount] = useState(1);
   const [codes, setCodes] = useState([initialCode]);
   const [generatorError, setGeneratorError] = useState("");
-  const [copied, setCopied] = useState("");
+  const [copyStatus, setCopyStatus] = useState<{
+    area: "generator" | "example";
+    message: string;
+    target?: string;
+  } | null>(null);
   const [inputCode, setInputCode] = useState("");
   const [validationResult, setValidationResult] = useState<PersonalCodeResult | null>(null);
   const todayIso = useMemo(() => formatIsoDate(new Date()), []);
@@ -99,7 +100,7 @@ export function PersonalCodeTool() {
         count,
       }));
       setGeneratorError("");
-      setCopied("");
+      setCopyStatus(null);
     } catch (error) {
       setGeneratorError(error instanceof Error ? error.message : "Nepavyko sugeneruoti kodų.");
     }
@@ -110,13 +111,13 @@ export function PersonalCodeTool() {
     setValidationResult(parsePersonalCode(inputCode));
   }
 
-  async function copy(value: string, label: string) {
+  async function copy(value: string, area: "generator" | "example", target?: string) {
     try {
       await navigator.clipboard.writeText(value);
-      setCopied(label);
-      window.setTimeout(() => setCopied(""), 1800);
+      setCopyStatus({ area, message: "Nukopijuota", target });
+      window.setTimeout(() => setCopyStatus(null), 1800);
     } catch {
-      setCopied("Nepavyko nukopijuoti");
+      setCopyStatus({ area, message: "Nepavyko nukopijuoti", target });
     }
   }
 
@@ -132,7 +133,8 @@ export function PersonalCodeTool() {
   return (
     <main className="tool-page">
       <header className="site-header">
-        <h1>asmens kodai <a href="https://dago.lt">{"// dago"}</a></h1>
+        {/* eslint-disable-next-line react/jsx-no-target-blank -- Matches the shared dago project header markup exactly. */}
+        <h1>asmens kodai <a href="https://dago.lt" target="_blank" rel="noopener" className="opacity-20 text-nowrap hover:opacity-100 no-underline">{"// dago"}</a></h1>
         <p>Lietuviško asmens kodo generatorius ir validatorius.</p>
       </header>
 
@@ -148,18 +150,18 @@ export function PersonalCodeTool() {
 
         {mode === "generate" ? (
           <div id="generate-panel" className="tool-content" role="tabpanel" aria-labelledby="generate-tab">
-            <div className="result-heading">
-              <h2>Sugeneruotas kodas{codes.length > 1 ? "i" : ""}</h2>
-              {codes.length > 1 && <button className="text-button" onClick={() => copy(codes.join("\n"), "Visi kodai nukopijuoti")}>Kopijuoti visus</button>}
-            </div>
+            <h2 className="sr-only">Sugeneruotas kodas{codes.length > 1 ? "i" : ""}</h2>
+            {codes.length > 1 && <button className="text-button copy-all-button" onClick={() => copy(codes.join("\n"), "generator", "all")}>{copyStatus?.area === "generator" && copyStatus.target === "all" ? copyStatus.message : "Kopijuoti visus"}</button>}
 
-            <div className={codes.length > 1 ? "code-list" : "single-code"} aria-live="polite">
-              {codes.map((code) => (
-                <div className="code-row" key={code}>
-                  <output className="code-output">{code}</output>
-                  <button className="copy-button" onClick={() => copy(code, `${code} nukopijuotas`)} aria-label={`Kopijuoti ${code}`}>kopijuoti</button>
-                </div>
-              ))}
+            <div className="code-result">
+              <div className={codes.length > 1 ? "code-list" : "single-code"}>
+                {codes.map((code) => (
+                  <div className="code-row" key={code}>
+                    <output className="code-output">{copyStatus?.area === "generator" && copyStatus.target === code ? copyStatus.message : code}</output>
+                    <button className="copy-button" onClick={() => copy(code, "generator", code)} aria-label={`Kopijuoti ${code}`}>kopijuoti</button>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <fieldset className="filters">
@@ -186,12 +188,10 @@ export function PersonalCodeTool() {
 
             <button className="primary-button" onClick={generate}>Generuoti</button>
             {generatorError && <p className="result invalid" role="alert">{generatorError}</p>}
-            <p className="copy-status" role="status" aria-live="polite">{copied}</p>
           </div>
         ) : (
           <form id="validate-panel" className="tool-content" onSubmit={validate} role="tabpanel" aria-labelledby="validate-tab">
-            <h2>Patikrinti asmens kodą</h2>
-            <label htmlFor="personal-code">Asmens kodas</label>
+            <label className="sr-only" htmlFor="personal-code">Asmens kodas</label>
             <input id="personal-code" className="personal-code-input" inputMode="numeric" autoComplete="off" maxLength={11} pattern="[0-9]{11}" placeholder="39001010011" value={inputCode} onChange={(event) => { setInputCode(event.target.value.replace(/\D/g, "")); setValidationResult(null); }} />
             <button className="primary-button" type="submit">Tikrinti</button>
 
@@ -213,12 +213,33 @@ export function PersonalCodeTool() {
         )}
       </section>
 
+      <section className="info-section" id="kodo-pavyzdziai">
+        <h2>Kodo pavyzdžiai</h2>
+        <details>
+          <summary>LLM / AI</summary>
+          <div className="example-actions">
+            <p>Promptas automatiškai naudoja generatoriuje parinktus nustatymus.</p>
+            <button className="text-button" type="button" onClick={() => copy(llmPrompt, "example")}>Kopijuoti promptą</button>
+          </div>
+          <pre><code>{llmPrompt}</code></pre>
+          <p className="copy-status example-copy-status" role="status" aria-live="polite">{copyStatus?.area === "example" ? copyStatus.message : ""}</p>
+        </details>
+        <details>
+          <summary>JavaScript</summary>
+          <pre><code>{javascriptExample}</code></pre>
+        </details>
+        <details>
+          <summary>PHP</summary>
+          <pre><code>{phpExample}</code></pre>
+        </details>
+      </section>
+
       <section className="info-section" id="kaip-veikia">
         <h2>Kaip veikia asmens kodas?</h2>
         <p>Asmens kodą sudaro 11 skaitmenų. Pirmasis žymi gimimo šimtmetį ir lytį, kiti šeši – gimimo datą, po jų eina trijų skaitmenų eilės numeris, o paskutinis yra kontrolinis skaitmuo.</p>
         <div className="code-anatomy" aria-label="Asmens kodo dalių pavyzdys">
           <span><strong>3</strong><small>šimtmetis<br />ir lytis</small></span>
-          <span><strong>900101</strong><small>gimimo<br />data</small></span>
+          <span><strong><small className="century-prefix">19</small>90-01-01</strong><small>gimimo data:<br />metai, mėnuo, diena</small></span>
           <span><strong>001</strong><small>eilės<br />numeris</small></span>
           <span><strong>1</strong><small>kontrolinis<br />skaitmuo</small></span>
         </div>
@@ -231,31 +252,9 @@ export function PersonalCodeTool() {
         </ol>
       </section>
 
-      <section className="info-section" id="kodo-pavyzdziai">
-        <h2>Validatoriaus kodo pavyzdžiai</h2>
-        <p>Trumpi pavyzdžiai savo projektui arba pokalbiui su pasirinktu DI įrankiu.</p>
-        <details open>
-          <summary>JavaScript</summary>
-          <pre><code>{javascriptExample}</code></pre>
-        </details>
-        <details>
-          <summary>PHP</summary>
-          <pre><code>{phpExample}</code></pre>
-        </details>
-        <details>
-          <summary>LLM</summary>
-          <div className="example-actions">
-            <p>Promptas automatiškai naudoja generatoriuje parinktus nustatymus.</p>
-            <button className="text-button" type="button" onClick={() => copy(llmPrompt, "LLM promptas nukopijuotas")}>Kopijuoti promptą</button>
-          </div>
-          <pre><code>{llmPrompt}</code></pre>
-          <p className="copy-status example-copy-status" role="status" aria-live="polite">{copied}</p>
-        </details>
-      </section>
-
       <footer className="contact-section">
         <p>Reikia pagalbos su API jungtimis ar validatoriaus kūrimu? Galiu padėti.</p>
-        <a href="mailto:labas@dago.lt">labas (sraigė) dago.lt</a>
+        <strong>labas (sraigė) dago.lt</strong>
       </footer>
     </main>
   );
