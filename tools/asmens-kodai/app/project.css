@@ -9,6 +9,7 @@
 
 .site-header h1 a {
   opacity: 0.25;
+  text-decoration: none;
   white-space: nowrap;
 }
 

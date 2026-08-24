@@ -43,6 +43,7 @@ test("keeps the shared dago base separate from project styles", async () => {
   assert.match(layout, /dago\.lt\/assets\/styles\/reset\.css/);
   assert.match(layout, /dago\.lt\/assets\/styles\/dago\.css/);
   assert.match(layout, /dago\.lt\/assets\/img\/dago-icon\.png/);
+  assert.match(projectCss, /\.site-header h1 a\s*\{[^}]*text-decoration:\s*none;/s);
   assert.doesNotMatch(projectCss, /body\s*\{|--theme\s*:|--black\s*:/);
   await access(new URL("../public/og.png", import.meta.url));
 });
