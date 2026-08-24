@@ -1,0 +1,331 @@
+/* Project-specific styles layered on top of the shared dago.lt base. */
+.tool-page {
+  width: min(100%, 75ch);
+}
+
+.site-header {
+  margin-bottom: 2.5rem;
+}
+
+.site-header h1 a {
+  opacity: 0.25;
+  white-space: nowrap;
+}
+
+.site-header p {
+  margin-top: 0.5rem;
+}
+
+.tool-card {
+  border: 1px solid hsl(var(--theme) / 0.35);
+}
+
+.mode-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-bottom: 1px solid hsl(var(--theme) / 0.35);
+}
+
+button,
+input,
+select {
+  border-radius: 0;
+  font: inherit;
+}
+
+button {
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.mode-switch button {
+  background: transparent;
+  padding: 0.85rem 1rem;
+}
+
+.mode-switch button + button {
+  border-left: 1px solid hsl(var(--theme) / 0.35);
+}
+
+.mode-switch button.active,
+.mode-switch button:hover,
+.mode-switch button:focus-visible,
+.primary-button {
+  background: hsl(var(--theme));
+  color: hsl(var(--black));
+}
+
+.tool-content {
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1rem, 4vw, 2rem);
+}
+
+.tool-content h2,
+.result-heading h2 {
+  margin: 0;
+}
+
+.result-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.text-button,
+.copy-button {
+  background: transparent;
+  padding: 0;
+  text-decoration: underline;
+  text-decoration-color: hsl(var(--theme) / 0.5);
+  text-underline-offset: 0.125em;
+}
+
+.single-code,
+.code-list {
+  display: grid;
+  gap: 0;
+}
+
+.code-list {
+  max-height: 22rem;
+  overflow-y: auto;
+  border: 1px solid hsl(var(--theme) / 0.35);
+}
+
+.code-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.code-list .code-row {
+  padding: 0.55rem 0.75rem;
+}
+
+.code-list .code-row + .code-row {
+  border-top: 1px solid hsl(var(--theme) / 0.2);
+}
+
+.code-output {
+  display: block;
+  font-size: clamp(1.45rem, 7vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  overflow-wrap: anywhere;
+}
+
+.code-list .code-output {
+  font-size: clamp(1rem, 5vw, 1.35rem);
+}
+
+.primary-button {
+  justify-self: start;
+  padding: 0.7rem 1rem;
+  font-weight: 700;
+}
+
+.primary-button:hover,
+.primary-button:focus-visible {
+  background: hsl(var(--theme) / 0.82);
+}
+
+.filters {
+  display: grid;
+  gap: 0.65rem;
+  border: 0;
+  border-top: 1px solid hsl(var(--theme) / 0.25);
+  padding: 1.25rem 0 0;
+}
+
+.filters legend {
+  padding: 0 0 0.75rem;
+}
+
+.filters label {
+  display: block;
+}
+
+.filters .nested-field {
+  display: grid;
+  gap: 0.35rem;
+  margin-left: 1.5rem;
+  width: min(100% - 1.5rem, 17rem);
+}
+
+.inline-field {
+  display: flex !important;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.35rem;
+}
+
+input[type="date"],
+select,
+.personal-code-input {
+  border: 1px solid hsl(var(--theme) / 0.55);
+  background: hsl(var(--black) / 0.6);
+  color: inherit;
+  padding: 0.65rem 0.75rem;
+}
+
+.personal-code-input {
+  width: 100%;
+  font-size: clamp(1.25rem, 6vw, 1.75rem);
+  letter-spacing: 0.06em;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(80%) sepia(70%) saturate(1300%);
+}
+
+input:focus-visible,
+select:focus-visible,
+button:focus-visible,
+a:focus-visible,
+summary:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.result {
+  margin: 0;
+  padding-left: 0.75rem;
+  border-left: 0.35rem solid currentColor;
+}
+
+.result.invalid {
+  color: #ff8b7c;
+}
+
+.code-details {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.8rem;
+}
+
+.code-details div {
+  display: grid;
+  grid-template-columns: minmax(7.5rem, 1fr) 1fr;
+  gap: 1rem;
+}
+
+.code-details dt {
+  opacity: 0.65;
+}
+
+.code-details dd {
+  margin: 0;
+}
+
+.copy-status {
+  min-height: 1.5em;
+  margin: -0.35rem 0 0;
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.info-section,
+.contact-section {
+  margin-top: clamp(3.5rem, 9vw, 6rem);
+}
+
+.info-section > * + *,
+.contact-section > * + * {
+  margin-top: 1rem;
+}
+
+.info-section h3 {
+  margin-top: 2.5rem;
+}
+
+.code-anatomy {
+  display: grid;
+  grid-template-columns: 0.8fr 1.6fr 1fr 1fr;
+  gap: 2px;
+  overflow-x: auto;
+}
+
+.code-anatomy span {
+  display: grid;
+  align-content: space-between;
+  min-width: 6.5rem;
+  min-height: 7rem;
+  border: 1px solid hsl(var(--theme) / 0.35);
+  padding: 0.65rem;
+}
+
+.code-anatomy strong {
+  font-size: clamp(1.25rem, 5vw, 1.85rem);
+  letter-spacing: 0.05em;
+}
+
+.code-anatomy small {
+  line-height: 1.25;
+  opacity: 0.6;
+}
+
+details {
+  border: 1px solid hsl(var(--theme) / 0.35);
+}
+
+details + details {
+  margin-top: 0.75rem !important;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: 700;
+  padding: 0.7rem 0.85rem;
+}
+
+details[open] summary {
+  border-bottom: 1px solid hsl(var(--theme) / 0.35);
+}
+
+details pre {
+  margin: 0;
+  border: 0;
+  max-height: 28rem;
+  font-size: 0.78rem;
+}
+
+.contact-section {
+  border-top: 1px solid hsl(var(--theme) / 0.35);
+  padding: 1.5rem 0 3rem;
+}
+
+@media (max-width: 32rem) {
+  .copy-button {
+    font-size: 0.75rem;
+  }
+
+  .single-code .code-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .code-details div {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}
