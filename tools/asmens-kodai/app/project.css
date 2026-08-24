@@ -301,6 +301,25 @@ details pre {
   font-size: 0.78rem;
 }
 
+.example-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  padding: 0.8rem 0.85rem;
+}
+
+.example-actions p {
+  margin: 0;
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.example-copy-status {
+  padding: 0 0.85rem 0.5rem;
+}
+
 .contact-section {
   border-top: 1px solid hsl(var(--theme) / 0.35);
   padding: 1.5rem 0 3rem;

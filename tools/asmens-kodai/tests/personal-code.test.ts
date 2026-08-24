@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { buildLlmPrompt } from "../lib/llm-prompt.ts";
 import {
   createPersonalCode,
   generatePersonalCodes,
@@ -77,4 +78,19 @@ test("uses the exact requested birth date in bulk generation", () => {
       assert.equal(result.birthDate.getDate(), 29);
     }
   }
+});
+
+test("fills the LLM prompt with the selected generator settings", () => {
+  const prompt = buildLlmPrompt({
+    adultOnly: true,
+    notOlderThanPensionAge: true,
+    useExactDate: true,
+    exactDate: "2000-02-29",
+    count: 10,
+  });
+
+  assert.match(prompt, /\[KIEKIS: 10\]/);
+  assert.match(prompt, /\[AMŽIUS: nuo 18 iki 65 metų\]/);
+  assert.match(prompt, /\[GIMIMO DATA: 2000-02-29\]/);
+  assert.match(prompt, /1,2,3,4,5,6,7,8,9,1/);
 });

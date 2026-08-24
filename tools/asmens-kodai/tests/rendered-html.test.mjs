@@ -26,6 +26,9 @@ test("renders the finished tool at the root and intended dago.lt path", async ()
     assert.match(html, /Generavimo nustatymai/);
     assert.match(html, /Kaip veikia asmens kodas/);
     assert.match(html, /Validatoriaus kodo pavyzdžiai/);
+    assert.match(html, />LLM</);
+    assert.match(html, /Kopijuoti promptą/);
+    assert.match(html, /KIEKIS:/);
     assert.match(html, /https:\/\/dago\.lt\/assets\/styles\/dago\.css/);
     assert.doesNotMatch(html, /codex-preview|Building your site|react-loading-skeleton/i);
   }

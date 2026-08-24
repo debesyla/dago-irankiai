@@ -1,7 +1,15 @@
 {
-  "name": "site-creator-vinext-starter",
+  "name": "asmens-kodai",
   "version": "0.1.0",
   "private": true,
+  "description": "Lietuviško asmens kodo generatorius ir validatorius.",
+  "license": "GPL-2.0-or-later",
+  "author": "Danielius Goriunovas",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/debesyla/asmens-kodai.git"
+  },
+  "homepage": "https://dago.lt/irankiai/asmens-kodai/",
   "engines": {
     "node": ">=22.13.0"
   },

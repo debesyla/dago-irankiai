@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
+import { buildLlmPrompt } from "@/lib/llm-prompt";
 import {
   createPersonalCode,
   formatIsoDate,
@@ -81,6 +82,13 @@ export function PersonalCodeTool() {
   const [inputCode, setInputCode] = useState("");
   const [validationResult, setValidationResult] = useState<PersonalCodeResult | null>(null);
   const todayIso = useMemo(() => formatIsoDate(new Date()), []);
+  const llmPrompt = useMemo(() => buildLlmPrompt({
+    adultOnly,
+    notOlderThanPensionAge,
+    useExactDate,
+    exactDate,
+    count,
+  }), [adultOnly, count, exactDate, notOlderThanPensionAge, useExactDate]);
 
   function generate() {
     try {
@@ -225,7 +233,7 @@ export function PersonalCodeTool() {
 
       <section className="info-section" id="kodo-pavyzdziai">
         <h2>Validatoriaus kodo pavyzdžiai</h2>
-        <p>Trumpi pavyzdžiai, kuriuos galima pritaikyti savo projekte.</p>
+        <p>Trumpi pavyzdžiai savo projektui arba pokalbiui su pasirinktu DI įrankiu.</p>
         <details open>
           <summary>JavaScript</summary>
           <pre><code>{javascriptExample}</code></pre>
@@ -233,6 +241,15 @@ export function PersonalCodeTool() {
         <details>
           <summary>PHP</summary>
           <pre><code>{phpExample}</code></pre>
+        </details>
+        <details>
+          <summary>LLM</summary>
+          <div className="example-actions">
+            <p>Promptas automatiškai naudoja generatoriuje parinktus nustatymus.</p>
+            <button className="text-button" type="button" onClick={() => copy(llmPrompt, "LLM promptas nukopijuotas")}>Kopijuoti promptą</button>
+          </div>
+          <pre><code>{llmPrompt}</code></pre>
+          <p className="copy-status example-copy-status" role="status" aria-live="polite">{copied}</p>
         </details>
       </section>
 
