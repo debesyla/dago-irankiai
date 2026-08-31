@@ -69,12 +69,14 @@ to paties tipo projektu „Asmens kodai“.
   slinkimą ir galimas perėjimo animacijas.
 - LLM / AI, JavaScript ir PHP pavyzdžiai kartoja „Asmens kodai“ naudojamą
   išskleidžiamų kodo blokų struktūrą.
+- Kontaktinė poraštė kartoja „Asmens kodai“ rėmelio, tarpų ir kontakto pateikimo
+  struktūrą, o jos tekstas pritaikytas vardų linksniavimo paslaugai.
 
 ## Sąmoningi skirtumai
 
-- Atskiro universalaus `dago.lt` navigacijos ar poraštės komponento audituotuose
-  puslapiuose nėra. Todėl bendra tapatybė perteikiama pavadinimo `// dago`
-  nuoroda, o atskira poraštė šiame įrankyje nerodoma.
+- Atskiro universalaus `dago.lt` navigacijos komponento audituotuose puslapiuose
+  nėra. Todėl bendra tapatybė perteikiama pavadinimo `// dago` nuoroda, o
+  kontaktinė poraštė perimta iš artimiausio giminingo įrankio „Asmens kodai“.
 - Audituoti puslapiai nepateikia žiniatinklio programos manifesto, o bendras
   faviconas yra tik `48×48`. Manifestas nepridėtas, kad nebūtų imituojama
   nepalaikoma diegiamos programos konvencija; tas pats bendras paveikslas

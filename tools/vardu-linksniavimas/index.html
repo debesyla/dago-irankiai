@@ -318,6 +318,20 @@
             border-top-color: var(--border-soft);
         }
 
+        .contact-section {
+            border-top: 1px solid var(--border);
+            margin-top: clamp(3.5rem, 9vw, 6rem);
+            padding: 1.5rem 0 3rem;
+        }
+
+        .contact-section > * + * {
+            margin-top: 1rem;
+        }
+
+        .contact-section strong {
+            display: block;
+        }
+
         [hidden] {
             display: none !important;
         }
@@ -490,6 +504,11 @@ $sauksmininkai = array_map('iSauksmininka', $vardai);
                 </table>
             </div>
         </section>
+
+        <footer class="contact-section">
+            <p>Reikia pagalbos su vardų linksniavimu ar jo integracija? Galiu padėti.</p>
+            <strong>labas (sraigė) dago.lt</strong>
+        </footer>
 
     </main>
 
