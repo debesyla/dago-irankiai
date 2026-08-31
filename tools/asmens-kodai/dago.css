@@ -1,0 +1,365 @@
+/*
+ * dago.css
+ * updated: 20260901 (migration candidate)
+ *
+ * Candidate shared stylesheet. This file is intentionally not imported by
+ * the project; review and copy the desired rules into the canonical dago.css.
+ */
+:root {
+	/* HSL channels: H S% L% */
+	--theme: 45 100% 50%;
+	/* #FFBF00 */
+	--black: 0 0% 13%;
+	/* #222 */
+}
+
+body {
+	background: hsl(var(--black, #222));
+	color: hsl(var(--theme, #ffbf00));
+	accent-color: hsl(var(--theme, #ffbf00));
+	margin: 0 auto 0 0;
+	padding: 2em 1em;
+	font-family: monospace, "Courier New", Courier, sans-serif;
+	font-size: 16px;
+	line-height: 1.5;
+}
+
+* {
+	gap: 1em 2em;
+}
+
+::selection {
+	background: hsl(var(--theme, #ffbf00));
+	color: hsl(var(--black, #222));
+}
+
+/* Shared utilities used by Dago project headers and accessible labels. */
+.opacity-20 {
+	opacity: 20%;
+}
+
+.text-nowrap {
+	text-wrap: nowrap;
+}
+
+.no-underline {
+	text-decoration: none;
+}
+
+.hover\:opacity-100:is(:hover, :focus-visible) {
+	opacity: 100%;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: hsl(var(--theme, #ffbf00));
+	font-family: monospace, "Courier New", Courier, sans-serif;
+	font-weight: bolder;
+	line-height: 1.25;
+	margin-top: 1em;
+	margin-bottom: 0.5em;
+
+	&:first-child {
+		margin-top: 0;
+	}
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	&:only-child {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+}
+
+h1 {
+	font-size: 1.75em;
+}
+
+h2 {
+	font-size: 1.5em;
+}
+
+h3 {
+	font-size: 1.25em;
+}
+
+ul,
+ol {
+	padding-left: 1.5em;
+	list-style-type: disc;
+
+	li {
+		& + li {
+			margin-top: 0.375em;
+		}
+
+		&::marker {
+			color: hsl(var(--theme, #ffbf00) / 0.325);
+		}
+	}
+}
+
+ol {
+	list-style-type: decimal;
+
+	li::marker {
+		font-size: 0.75em;
+	}
+}
+
+code,
+pre {
+	background: hsl(var(--black, #222) / 0.65);
+}
+
+code {
+	padding: 0.1em 0.2em;
+}
+
+pre {
+	padding: 0.5em 1em;
+	overflow-x: auto;
+	border: 1px solid hsl(var(--theme, #ffbf00) / 0.35);
+	margin-top: 0.5em;
+}
+
+pre code {
+	padding: 0;
+	background: none;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+th,
+td {
+	border: 1px solid hsl(var(--theme, #ffbf00) / 0.35);
+	padding: 0.2em 0.4em;
+	text-align: left;
+}
+
+th {
+	background: hsl(var(--black, #222) / 0.65);
+}
+
+:where(p, ul, ol, pre) + :is(p, ul, ol, pre) {
+	margin-top: 1.25em;
+}
+
+/* Shared form-control defaults. Font inheritance remains in reset.css. */
+button,
+input,
+select,
+textarea {
+	border-radius: 0;
+}
+
+button {
+	border: 0;
+	color: inherit;
+	cursor: pointer;
+}
+
+:is(button, input, select, textarea):disabled {
+	cursor: not-allowed;
+	opacity: 0.4;
+}
+
+input {
+	&:is([type="radio"], [type="checkbox"]) {
+		width: 1em;
+		height: 1em;
+		vertical-align: middle;
+		cursor: pointer;
+	}
+}
+
+input[type="date"],
+select {
+	border: 1px solid hsl(var(--theme, #ffbf00) / 0.55);
+	background: hsl(var(--black, #222) / 0.6);
+	color: inherit;
+	padding: 0.65rem 0.75rem;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+	filter: invert(80%) sepia(70%) saturate(1300%);
+}
+
+:is(a, button, input, select, summary, textarea):focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 3px;
+}
+
+label:has(:is([type="radio"], [type="checkbox"])) {
+	cursor: pointer;
+}
+
+fieldset legend {
+	font-weight: bold;
+}
+
+/* Reusable Dago button treatments; layout remains project-specific. */
+.text-button {
+	background: transparent;
+	padding: 0;
+	text-decoration: underline;
+	text-decoration-color: hsl(var(--theme, #ffbf00) / 0.5);
+	text-underline-offset: 0.125em;
+}
+
+.primary-button {
+	background: hsl(var(--theme, #ffbf00));
+	color: hsl(var(--black, #222));
+	padding: 0.7rem 1rem;
+	font-weight: 700;
+}
+
+.primary-button:is(:hover, :focus-visible) {
+	background: hsl(var(--theme, #ffbf00) / 0.82);
+}
+
+a {
+	color: inherit;
+	text-decoration: underline;
+	text-underline-offset: 0.125em;
+	text-decoration-color: hsl(var(--theme, #ffbf00) / 0.5);
+	text-decoration-thickness: 0.125em;
+
+	&:hover,
+	&:focus {
+		text-decoration-style: dashed;
+	}
+}
+
+/* Consistent native disclosure styling for documentation and examples. */
+details {
+	border: 1px solid hsl(var(--theme, #ffbf00) / 0.35);
+}
+
+details + details {
+	margin-top: 0.75rem;
+}
+
+summary {
+	cursor: pointer;
+	font-weight: 700;
+	padding: 0.7rem 0.85rem;
+}
+
+details[open] summary {
+	border-bottom: 1px solid hsl(var(--theme, #ffbf00) / 0.35);
+}
+
+details pre {
+	margin: 0;
+	border: 0;
+	max-height: 28rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+	}
+}
+
+@media print {
+	:root {
+		--theme: 0 0% 0%;
+		--black: 0 0% 100%;
+	}
+
+	*,
+	*::before,
+	*::after {
+		background: transparent !important;
+		box-shadow: none !important;
+		text-shadow: none !important;
+	}
+
+	a {
+		text-decoration: none;
+	}
+
+	/* Show URLs in print */
+	a[href]::after {
+		content: " (" attr(href) ")";
+		font-size: 0.75em;
+		word-wrap: break-word;
+		/* Prevents long URLs from overflowing the page */
+	}
+
+	a[href].print-a-no-link::after,
+	a[href^="#"]::after,
+	a[href^="javascript:"]::after {
+		content: "";
+	}
+
+	/* Avoid page breaks inside certain elements, do not split them across pages */
+	blockquote,
+	pre,
+	img,
+	tr,
+	figure,
+	li {
+		page-break-inside: avoid;
+		break-inside: avoid;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		page-break-after: avoid;
+		break-after: avoid;
+	}
+
+	/* Control orphans and widows */
+	p,
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		orphans: 3;
+		widows: 3;
+	}
+
+	/* Limit overflow */
+	img,
+	svg {
+		max-width: 100% !important;
+	}
+
+	/* Set page margins for printing */
+	@page {
+		size: A4;
+		margin: 1cm;
+	}
+}
