@@ -1,18 +1,18 @@
-# Vardų šauksmininko įrankio tyrimas
+# Vardų linksniavimo įrankio tyrimas
 
 Tyrimo data: 2026-08-31
 
 ## Trumpa išvada
 
-Projektą verta pozicionuoti ne kaip bendrą „vardų keitiklį“ ar visų linksnių
-linksniuoklę, o kaip vieną aiškią užduotį atliekantį įrankį:
+Projektą verta pozicionuoti kaip aiškų vardų linksniavimo įrankį, kurio
+pagrindinė dabartinė funkcija yra šauksmininko formos:
 
-> **Vardų šauksmininkas** — taisyklingi kreipiniai el. laiškams ir
-> naujienlaiškiams.
+> **Vardų linksniavimas** — šauksmininko formos taisyklingiems kreipiniams
+> el. laiškuose ir naujienlaiškiuose.
 
 Siūlomas adresas:
 
-`dago.lt/irankiai/vardu-sauksmininkas/`
+`dago.lt/irankiai/vardu-linksniavimas/`
 
 Svarbiausia prieš viešinant pagerinti ne dizainą, o pasitikėjimą rezultatu:
 
@@ -48,21 +48,21 @@ kableliu ar šauktuku ([Visuotinė lietuvių enciklopedija](https://www.vle.lt/s
 
 ### Rekomendacija
 
-**Vardų šauksmininkas**
+**Vardų linksniavimas**
 
 Kodėl:
 
-- iš karto pasako, kokią formą įrankis pateikia;
-- sutampa su vartotojo problema — taisyklingu kreipiniu;
-- nekuria lūkesčio, kad įrankis pateiks visus septynis linksnius;
-- tinka ir H1 antraštei, ir aiškiam URL;
-- leidžia natūraliai vartoti paieškos frazes „vardo šauksmininkas“,
-  „vardas šauksmininku“ ir „taisyklingas kreipinys“.
+- išlaiko platesnę ir populiaresnę paieškos frazę „vardų linksniavimas“;
+- sutampa su esamu repo vardu ir leidžia išlaikyti stabilų URL;
+- žodis „šauksmininkas“ matomame tekste tiksliai paaiškina dabartinę funkciją;
+- palieka vietos ateityje pridėti kitus linksnius nekeičiant produkto vardo;
+- leidžia natūraliai vartoti ir konkretesnes frazes „vardo šauksmininkas“,
+  „vardas šauksmininku“ bei „taisyklingas kreipinys“.
 
 Rekomenduojamas pateikimas:
 
-- prekės / puslapio vardas: **Vardų šauksmininkas**;
-- H1: **Paverskite vardus taisyklingais kreipiniais**;
+- prekės / puslapio vardas: **Vardų linksniavimas**;
+- H1: **Vardų linksniavimas į šauksmininką**;
 - paantraštė: **Įklijuokite lietuviškų vardų sąrašą ir gaukite
   šauksmininko formas naujienlaiškiams, kvietimams ar asmeninėms žinutėms.**
 
@@ -70,10 +70,11 @@ Rekomenduojamas pateikimas:
 
 | Pavadinimas | Aiškumas | Tikslumas | Pastaba |
 | --- | ---: | ---: | --- |
-| **Vardų šauksmininkas** | 5/5 | 5/5 | Geriausias dabartinei vienai funkcijai |
+| **Vardų linksniavimas** | 5/5 | 4/5 | Rekomenduojamas viešas vardas ir URL; funkciją patikslina H1 bei paantraštė |
+| **Vardų šauksmininkas** | 4/5 | 5/5 | Labai tikslus dabartinei funkcijai, bet siauresnis ir silpnesnis norint plėsti į kitus linksnius |
 | **Kreipinys** | 3/5 | 4/5 | Trumpas prekės vardas, bet be paantraštės per abstraktus |
 | **Vardų linksniuoklė** | 4/5 | 3/5 | Skamba natūraliai, tačiau žada visus linksnius |
-| **Vardų linksniavimo įrankis** | 4/5 | 3/5 | Suprantamas, bet ilgas ir platesnis už funkciją |
+| **Vardų linksniavimo įrankis** | 4/5 | 3/5 | Suprantamas, bet ilgesnis už pasirinktą vardą |
 | **Vardų keitiklis** | 2/5 | 1/5 | Gali reikšti vardo pakeitimą, perrašymą ar transliteraciją |
 
 Paieškos rezultatų peržiūroje pagal kelias lietuviškas frazes nepasirodė
@@ -88,7 +89,7 @@ su specializuotu SEO įrankiu.
 
 **Title**
 
-`Vardų šauksmininkas – kreipiniai el. laiškams`
+`Vardų linksniavimas – šauksmininkas kreipiniams`
 
 **Meta description**
 
@@ -96,9 +97,9 @@ su specializuotu SEO įrankiu.
 
 ### Hero dalis
 
-**Vardų šauksmininkas**
+**Vardų linksniavimas**
 
-**Paverskite vardus taisyklingais kreipiniais**
+**Vardų linksniavimas į šauksmininką**
 
 Žmogus registracijos formoje įrašo „Jonas“, tačiau laiške kreipiamės
 „Jonai“. Įklijuokite vardų sąrašą — įrankis paruoš šauksmininko formas,
@@ -372,10 +373,10 @@ CSV versijai:
 
 ## Galutinis sprendimas
 
-Viešinimui rinktis **Vardų šauksmininkas** ir
-`/irankiai/vardu-sauksmininkas/`. Repo pavadinimo nebūtina skubiai keisti —
-istorinį `vardu-linksniavimas` galima palikti, o vartotojui rodyti tikslesnį
-produkto vardą.
+Viešinimui rinktis **Vardų linksniavimas** ir
+`/irankiai/vardu-linksniavimas/`. Matomame H1 bei paantraštėje aiškiai vartoti
+žodį **šauksmininkas**, kad dabartinė funkcija nebūtų suprasta kaip visų
+linksnių generatorius.
 
 Pirmiausia sukurti patikimą vienos paskirties įrankį. Visus linksnius, pavardes,
 npm paketą ir API plėsti tik tada, kai naudojimas parodys tikrą poreikį.

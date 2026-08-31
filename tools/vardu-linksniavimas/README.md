@@ -1,4 +1,4 @@
-# Vardų šauksmininkas
+# Vardų linksniavimas
 
 Prenumeratos formoje klientas vardą teisingai įrašo vardininku, pavyzdžiui,
 „Jonas“. Tačiau naujienlaiškio kreipinyje reikia šauksmininko: „Laba diena,
