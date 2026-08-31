@@ -216,6 +216,59 @@
             padding: 0.8rem 0.85rem 0.8rem 2.4rem;
         }
 
+        .examples-section {
+            margin-top: clamp(3.5rem, 9vw, 6rem);
+        }
+
+        .examples-section > * + * {
+            margin-top: 1rem;
+        }
+
+        .examples-section details + details {
+            margin-top: 0.75rem;
+        }
+
+        .examples-section pre {
+            border: 0;
+            font-size: 0.78rem;
+            margin: 0;
+            max-height: 28rem;
+            overflow: auto;
+        }
+
+        .example-actions {
+            align-items: baseline;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 0.8rem 0.85rem;
+        }
+
+        .example-actions p {
+            color: var(--muted);
+            font-size: 0.8rem;
+            margin: 0;
+        }
+
+        .text-button {
+            background: transparent;
+            border: 0;
+            color: inherit;
+            padding: 0;
+            text-decoration: underline;
+            text-decoration-color: hsl(var(--theme) / 0.5);
+            text-decoration-thickness: 0.125em;
+            text-underline-offset: 0.125em;
+        }
+
+        .copy-status {
+            color: var(--muted);
+            font-size: 0.8rem;
+            margin: 0;
+            min-height: 1.5em;
+            padding: 0 0.85rem 0.5rem;
+        }
+
         .results {
             margin-top: clamp(3.5rem, 9vw, 6rem);
         }
@@ -263,16 +316,6 @@
 
         tbody tr + tr td {
             border-top-color: var(--border-soft);
-        }
-
-        .site-footer {
-            border-top: 1px solid var(--border);
-            margin-top: clamp(3.5rem, 9vw, 6rem);
-            padding: 1.5rem 0 3rem;
-        }
-
-        .site-footer p {
-            margin: 0;
         }
 
         [hidden] {
@@ -343,6 +386,85 @@
             </ul>
         </details>
 
+        <section class="examples-section" id="kodo-pavyzdziai" aria-labelledby="examples-heading">
+            <h2 id="examples-heading">Kodo pavyzdžiai</h2>
+
+            <details>
+                <summary>LLM / AI</summary>
+                <div class="example-actions">
+                    <p>Promptą papildykite savo vardų sąrašu.</p>
+                    <button class="text-button" type="button" data-copy-target="llm-example"
+                        aria-describedby="llm-copy-status">Kopijuoti promptą</button>
+                </div>
+                <pre><code id="llm-example">Paversk šiuos lietuviškus vardus į šauksmininko formą, tinkamą kreipiniams.
+
+Taisyklės:
+1. Išlaikyk vardų eilės tvarką.
+2. Kiekvieną vardą grąžink atskiroje eilutėje.
+3. Nepateik numeracijos ar paaiškinimų.
+4. Jei vardas užsienietiškas, retas ar forma neaiški, palik jį nepakeistą ir pažymėk „[patikrinti]“.
+
+Vardai:
+Jonas
+Eglė
+Saulius</code></pre>
+                <p id="llm-copy-status" class="copy-status" role="status" aria-live="polite"></p>
+            </details>
+
+            <details>
+                <summary>JavaScript</summary>
+                <pre><code>function iSauksmininka(vardas) {
+    const taisykles = [
+        ['ius', 'iau'],
+        ['as', 'ai'],
+        ['is', 'i'],
+        ['us', 'au'],
+        ['ė', 'e'],
+    ];
+
+    const taisykle = taisykles.find(function ([galune]) {
+        return vardas.endsWith(galune);
+    });
+
+    if (!taisykle) return vardas;
+
+    const [galune, pakaitalas] = taisykle;
+    return vardas.slice(0, -galune.length) + pakaitalas;
+}
+
+['Jonas', 'Eglė', 'Saulius'].map(iSauksmininka);
+// ['Jonai', 'Egle', 'Sauliau']</code></pre>
+            </details>
+
+            <details>
+                <summary>PHP</summary>
+                <pre><code>&lt;?php
+
+function iSauksmininka(string $vardas): string
+{
+    $taisykles = [
+        'ius' =&gt; 'iau',
+        'as' =&gt; 'ai',
+        'is' =&gt; 'i',
+        'us' =&gt; 'au',
+        'ė' =&gt; 'e',
+    ];
+
+    foreach ($taisykles as $galune =&gt; $pakaitalas) {
+        if (str_ends_with($vardas, $galune)) {
+            return mb_substr($vardas, 0, -mb_strlen($galune)) . $pakaitalas;
+        }
+    }
+
+    return $vardas;
+}
+
+$vardai = ['Jonas', 'Eglė', 'Saulius'];
+$sauksmininkai = array_map('iSauksmininka', $vardai);
+// ['Jonai', 'Egle', 'Sauliau']</code></pre>
+            </details>
+        </section>
+
         <section id="results" class="results" aria-labelledby="resultHeading" hidden>
             <div class="results-header">
                 <h2 id="resultHeading" tabindex="-1">Atnaujinti vardai</h2>
@@ -361,11 +483,6 @@
             </div>
         </section>
 
-        <footer class="site-footer">
-            <p>
-                <a href="https://dago.lt/irankiai/">daugiau dago įrankių ↗</a>
-            </p>
-        </footer>
     </main>
 
     <script>
@@ -436,6 +553,20 @@
             const hasNames = namesInput.value.trim() !== '';
             submitButton.disabled = !hasNames;
             formStatus.textContent = hasNames ? '' : 'Įveskite bent vieną vardą.';
+        });
+
+        document.querySelectorAll('[data-copy-target]').forEach(function (button) {
+            button.addEventListener('click', async function () {
+                const target = document.getElementById(button.dataset.copyTarget);
+                const status = document.getElementById(button.getAttribute('aria-describedby'));
+
+                try {
+                    await navigator.clipboard.writeText(target.textContent);
+                    status.textContent = 'Promptas nukopijuotas.';
+                } catch (error) {
+                    status.textContent = 'Nepavyko nukopijuoti. Pažymėkite tekstą rankiniu būdu.';
+                }
+            });
         });
     </script>
 </body>

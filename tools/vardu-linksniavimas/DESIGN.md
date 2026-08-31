@@ -50,8 +50,8 @@ to paties tipo projektu „Asmens kodai“.
 - Formos valdikliai yra tamsūs, su gintariniu rėmeliu ir tuo pačiu monospace
   šriftu kaip likęs puslapis.
 - Lentelės naudoja tuos pačius rėmelius kaip įrankio kortelė.
-- Ilgesnės informacinės dalys ir poraštė atskiriamos dideliu vertikaliu tarpu;
-  poraštė prasideda plona akcento spalvos linija.
+- Ilgesnės informacinės dalys atskiriamos dideliu vertikaliu tarpu, o kodo
+  pavyzdžiai pateikiami vienodo stiliaus išskleidžiamuose blokuose.
 
 ## Pritaikymas šiame įrankyje
 
@@ -67,12 +67,14 @@ to paties tipo projektu „Asmens kodai“.
   o puslapio pradžioje yra klaviatūra pasiekiama turinio praleidimo nuoroda.
 - Judesio beveik nėra; `prefers-reduced-motion` vis tiek išjungia sklandų
   slinkimą ir galimas perėjimo animacijas.
+- LLM / AI, JavaScript ir PHP pavyzdžiai kartoja „Asmens kodai“ naudojamą
+  išskleidžiamų kodo blokų struktūrą.
 
 ## Sąmoningi skirtumai
 
 - Atskiro universalaus `dago.lt` navigacijos ar poraštės komponento audituotuose
-  puslapiuose nėra. Todėl naudojama bendra pavadinimo nuoroda ir kompaktiška
-  nuoroda į kitus įrankius, o ne kuriama nauja globali navigacija.
+  puslapiuose nėra. Todėl bendra tapatybė perteikiama pavadinimo `// dago`
+  nuoroda, o atskira poraštė šiame įrankyje nerodoma.
 - Audituoti puslapiai nepateikia žiniatinklio programos manifesto, o bendras
   faviconas yra tik `48×48`. Manifestas nepridėtas, kad nebūtų imituojama
   nepalaikoma diegiamos programos konvencija; tas pats bendras paveikslas
@@ -80,6 +82,7 @@ to paties tipo projektu „Asmens kodai“.
 - Pagrindinis bendras CSS įkeliamas iš `dago.lt`, kaip ir kituose šeimos
   puslapiuose. Kritiniai spalvų ir formų žetonai pakartoti lokaliame CSS, kad
   įrankis liktų įskaitomas, jei bendras failas laikinai nepasiekiamas.
-- Užduotis #2 atskirai valdo įrankio turinį, eilučių redagavimą, kopijavimą ir
-  išsamesnes rezultatų būsenas. Šiame pakeitime dabartinis konvertavimas tik
-  pateikiamas šeimos dizainą atitinkančioje saugioje dviejų stulpelių lentelėje.
+- Užduotis #2 atskirai valdo eilučių redagavimą, rezultatų kopijavimą ir
+  išsamesnes rezultatų būsenas. Dabartinis konvertavimas pateikiamas šeimos
+  dizainą atitinkančioje saugioje dviejų stulpelių lentelėje; atskirai pridėti
+  naudotojo paprašyti LLM / AI, JavaScript ir PHP pavyzdžiai.
