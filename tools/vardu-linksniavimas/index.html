@@ -128,12 +128,14 @@
             margin-top: 0.5rem;
         }
 
-        .product-name {
-            font-weight: 700;
-            margin: 0 0 0.5rem;
+        .title-row {
+            align-items: baseline;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0 0.5rem;
         }
 
-        .site-header h1 {
+        .title-row h1 {
             margin: 0;
         }
 
@@ -146,14 +148,6 @@
         .dago-link:hover,
         .dago-link:focus-visible {
             opacity: 1;
-        }
-
-        .intro {
-            margin-bottom: 2rem;
-        }
-
-        .intro p + p {
-            margin-top: 1.25rem;
         }
 
         .tool-card {
@@ -503,23 +497,12 @@
 
     <main class="tool-page" id="main-content">
         <header class="site-header">
-            <p class="product-name">
-                Vardų linksniavimas
+            <div class="title-row">
+                <h1>Vardų linksniavimas į šauksmininką</h1>
                 <a class="dago-link print-a-no-link" href="https://dago.lt" target="_blank" rel="noopener">// dago</a>
-            </p>
-            <h1>Vardų linksniavimas į šauksmininką</h1>
-            <p>Paruoškite taisyklingas vardų formas asmeniniams kreipiniams.</p>
+            </div>
+            <p>Įklijuokite vardus, patikrinkite šauksmininko formas ir nukopijuokite kreipinius.</p>
         </header>
-
-        <section class="intro" aria-labelledby="intro-title">
-            <h2 id="intro-title">Taisyklingiems kreipiniams</h2>
-            <p>
-                Žmogus registracijos formoje teisingai įrašo „Jonas“, tačiau laiško kreipinyje sakome „Jonai“.
-                Įklijuokite vardų sąrašą — įrankis paruoš šauksmininko formas, kurias galėsite patikrinti,
-                pataisyti ir nukopijuoti.
-            </p>
-            <p><strong>Jonas → Jonai · Eglė → Egle · Saulius → Sauliau</strong></p>
-        </section>
 
         <form id="namesForm" class="tool-card">
             <div class="tool-content">

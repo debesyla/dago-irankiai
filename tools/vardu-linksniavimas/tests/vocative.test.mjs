@@ -102,7 +102,7 @@ test('the page exposes the issue 2 product copy and browser-only privacy promise
     const projectRoot = fileURLToPath(new URL('..', import.meta.url));
     const page = await readFile(new URL('index.html', `file://${projectRoot}/`), 'utf8');
 
-    assert.match(page, /<p class="product-name">\s*Vardų linksniavimas/u);
+    assert.match(page, /<div class="title-row">\s*<h1>Vardų linksniavimas į šauksmininką<\/h1>\s*<a class="dago-link/u);
     assert.match(page, /<h1>Vardų linksniavimas į šauksmininką<\/h1>/u);
     assert.match(page, /kreipin/u);
     assert.match(page, /Vardai apdorojami tik jūsų naršyklėje ir niekur nesiunčiami/u);
