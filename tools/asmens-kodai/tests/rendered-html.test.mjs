@@ -22,6 +22,13 @@ test("renders the finished tool at the root and intended dago.lt path", async ()
 
     const html = await response.text();
     assert.match(html, /<title>Asmens kodai \/\/ dago<\/title>/i);
+    const structuredDataMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/i);
+    assert.ok(structuredDataMatch, "rendered HTML should contain JSON-LD");
+    const structuredData = JSON.parse(structuredDataMatch[1]);
+    assert.equal(structuredData["@type"], "WebApplication");
+    assert.equal(structuredData.url, "https://dago.lt/irankiai/asmens-kodai/");
+    assert.equal(structuredData.isAccessibleForFree, true);
+    assert.equal(structuredData.codeRepository, "https://github.com/debesyla/asmens-kodai");
     assert.match(html, /Lietuviško asmens kodo generatorius ir validatorius/);
     assert.match(html, /Generavimo nustatymai/);
     assert.match(html, /Kaip veikia asmens kodas/);

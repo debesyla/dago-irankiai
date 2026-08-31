@@ -6,6 +6,13 @@ test("statinis gamybinis puslapis naudoja teisingą dago.lt kelią", async () =>
   const html = await readFile(new URL("../build/index.html", import.meta.url), "utf8");
 
   assert.match(html, /<title>Asmens kodai \/\/ dago<\/title>/);
+  const structuredDataMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/i);
+  assert.ok(structuredDataMatch, "static HTML should contain JSON-LD");
+  const structuredData = JSON.parse(structuredDataMatch[1]);
+  assert.equal(structuredData["@type"], "WebApplication");
+  assert.equal(structuredData.applicationCategory, "DeveloperApplication");
+  assert.equal(structuredData.offers.price, "0");
+  assert.equal(structuredData.license, "https://www.gnu.org/licenses/old-licenses/gpl-2.0.html");
   assert.match(html, /https:\/\/dago\.lt\/irankiai\/asmens-kodai\//);
   assert.match(html, /\/irankiai\/asmens-kodai\/assets\/[^"']+\.js/);
   assert.match(html, /\/irankiai\/asmens-kodai\/assets\/[^"']+\.css/);
