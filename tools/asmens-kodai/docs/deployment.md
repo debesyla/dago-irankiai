@@ -33,3 +33,10 @@ sustoti, kol naujas rakto atspaudas bus patikrintas.
 
 Grąžinimui į ankstesnę versiją reikia atšaukti atitinkamą commitą `main`
 šakoje. Naujas push automatiškai įdiegs grąžintą versiją.
+
+## IndexNow
+
+Paieškos sistemų indeksavimui naudojamas viešas IndexNow raktas:
+`public/4d92520a0ed54c33988657ccb048d8c3.txt`. Įdiegus svetainę, konkretaus
+įrankio URL galima pateikti su `keyLocation` reikšme
+`https://dago.lt/irankiai/asmens-kodai/4d92520a0ed54c33988657ccb048d8c3.txt`.
