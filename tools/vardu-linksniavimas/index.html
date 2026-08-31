@@ -311,7 +311,16 @@
             border: 1px solid var(--border);
             padding: 0.55rem 0.75rem;
             overflow-wrap: anywhere;
-            width: 50%;
+            width: 40%;
+        }
+
+        th:last-child,
+        td:last-child {
+            width: 20%;
+        }
+
+        .review-status {
+            color: var(--muted);
         }
 
         tbody tr + tr td {
@@ -438,6 +447,7 @@ Vardai:
                 <pre><code>function iSauksmininka(vardas) {
     const taisykles = [
         ['ius', 'iau'],
+        ['ys', 'y'],
         ['as', 'ai'],
         ['is', 'i'],
         ['us', 'au'],
@@ -466,6 +476,7 @@ function iSauksmininka(string $vardas): string
 {
     $taisykles = [
         'ius' =&gt; 'iau',
+        'ys' =&gt; 'y',
         'as' =&gt; 'ai',
         'is' =&gt; 'i',
         'us' =&gt; 'au',
@@ -489,7 +500,7 @@ $sauksmininkai = array_map('iSauksmininka', $vardai);
 
         <section id="results" class="results" aria-labelledby="resultHeading" hidden>
             <div class="results-header">
-                <h2 id="resultHeading" tabindex="-1">Atnaujinti vardai</h2>
+                <h2 id="resultHeading" tabindex="-1">Paruošti kreipiniai</h2>
                 <p id="resultStatus" role="status" aria-live="polite"></p>
             </div>
             <div class="table-wrap">
@@ -497,7 +508,8 @@ $sauksmininkai = array_map('iSauksmininka', $vardai);
                     <thead>
                         <tr>
                             <th scope="col">Įvestas vardas</th>
-                            <th scope="col">Atnaujintas vardas</th>
+                            <th scope="col">Kreipinys</th>
+                            <th scope="col">Būsena</th>
                         </tr>
                     </thead>
                     <tbody id="resultBody"></tbody>
@@ -512,7 +524,9 @@ $sauksmininkai = array_map('iSauksmininka', $vardai);
 
     </main>
 
-    <script>
+    <script type="module">
+        import { toVocativeMany } from './src/vocative.mjs';
+
         const form = document.getElementById('namesForm');
         const namesInput = document.getElementById('names');
         const submitButton = document.getElementById('submitButton');
@@ -522,58 +536,57 @@ $sauksmininkai = array_map('iSauksmininka', $vardai);
         const resultStatus = document.getElementById('resultStatus');
         const resultBody = document.getElementById('resultBody');
 
-        function updateName(name) {
-            if (name.endsWith('as')) {
-                return name.slice(0, -2) + 'ai';
+        function statusLabel(result) {
+            if (result.confidence === 'high') {
+                return result.changed ? 'Patikima taisyklė' : 'Patikima · nekinta';
             }
-            if (name.endsWith('ius')) {
-                return name.slice(0, -3) + 'iau';
+            if (result.changed) {
+                return 'Patikrinkite';
             }
-            if (name.endsWith('ė')) {
-                return name.slice(0, -1) + 'e';
-            }
-            if (name.endsWith('is')) {
-                return name.slice(0, -2) + 'i';
-            }
-            if (name.endsWith('us')) {
-                return name.slice(0, -2) + 'au';
-            }
-            return name;
+            return 'Patikrinkite · nepakeista';
         }
 
-        function renderResults(names) {
+        function renderResults(convertedNames) {
             resultBody.replaceChildren();
 
-            names.forEach(function (name) {
+            convertedNames.forEach(function (result) {
                 const row = document.createElement('tr');
                 const inputCell = document.createElement('td');
                 const resultCell = document.createElement('td');
+                const statusCell = document.createElement('td');
 
-                inputCell.textContent = name;
-                resultCell.textContent = updateName(name);
-                row.append(inputCell, resultCell);
+                inputCell.textContent = result.input;
+                resultCell.textContent = result.value;
+                statusCell.textContent = statusLabel(result);
+                if (result.confidence !== 'high') {
+                    statusCell.classList.add('review-status');
+                }
+                row.append(inputCell, resultCell, statusCell);
                 resultBody.append(row);
             });
 
-            const noun = names.length === 1 ? 'vardas' : 'vardai';
-            resultStatus.textContent = names.length + ' ' + noun;
+            const reviewCount = convertedNames.filter(function ({ confidence }) {
+                return confidence !== 'high';
+            }).length;
+            const noun = convertedNames.length === 1 ? 'vardas' : 'vardai';
+            resultStatus.textContent = convertedNames.length + ' ' + noun
+                + (reviewCount ? ' · ' + reviewCount + ' reikia patikrinti' : ' · visi patikimi');
+            formStatus.textContent = reviewCount
+                ? 'Kreipiniai paruošti. Patikrinkite pažymėtas eilutes.'
+                : 'Kreipiniai paruošti.';
             results.hidden = false;
             resultHeading.focus();
         }
 
         form.addEventListener('submit', function (event) {
             event.preventDefault();
-            const names = namesInput.value
-                .split(/\r?\n/)
-                .map(function (name) { return name.trim(); })
-                .filter(Boolean);
+            const convertedNames = toVocativeMany(namesInput.value);
 
-            if (names.length === 0) {
+            if (convertedNames.length === 0) {
                 return;
             }
 
-            renderResults(names);
-            formStatus.textContent = 'Vardai atnaujinti.';
+            renderResults(convertedNames);
         });
 
         namesInput.addEventListener('input', function () {
