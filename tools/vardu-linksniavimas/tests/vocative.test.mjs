@@ -102,12 +102,25 @@ test('the page exposes the issue 2 product copy and browser-only privacy promise
     const projectRoot = fileURLToPath(new URL('..', import.meta.url));
     const page = await readFile(new URL('index.html', `file://${projectRoot}/`), 'utf8');
 
-    assert.match(page, /<div class="title-row">\s*<h1>Vardų linksniavimas į šauksmininką<\/h1>\s*<a class="dago-link/u);
-    assert.match(page, /<h1>Vardų linksniavimas į šauksmininką<\/h1>/u);
+    assert.match(page, /<h1>\s*vardų linksniavimas į šauksmininką\s*<a class="dago-link/u);
     assert.match(page, /kreipin/u);
     assert.match(page, /Vardai apdorojami tik jūsų naršyklėje ir niekur nesiunčiami/u);
     assert.match(page, /Tikslumas ir išimtys/u);
     assert.match(page, /Saugus atsarginis kreipinys/u);
+});
+
+test('the page leaves the base design language to the shared dago stylesheets', async () => {
+    const projectRoot = fileURLToPath(new URL('..', import.meta.url));
+    const page = await readFile(new URL('index.html', `file://${projectRoot}/`), 'utf8');
+    const localCss = page.match(/<style>([\s\S]*?)<\/style>/u)?.[1] ?? '';
+
+    assert.match(page, /assets\/styles\/reset\.css\?v=20260808/u);
+    assert.match(page, /assets\/styles\/dago\.css\?v=20260808/u);
+    assert.doesNotMatch(localCss, /^\s*:root\s*\{/mu);
+    assert.doesNotMatch(localCss, /^\s*(?:html|body)\s*\{/mu);
+    assert.doesNotMatch(localCss, /^\s*h[1-6](?:\s*,|\s*\{)/mu);
+    assert.doesNotMatch(localCss, /^\s*a\s*\{/mu);
+    assert.doesNotMatch(localCss, /font-family\s*:/u);
 });
 
 test('the review workflow provides editable rows, counts, copy, reset, and live feedback', async () => {

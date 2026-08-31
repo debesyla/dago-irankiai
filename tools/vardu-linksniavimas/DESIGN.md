@@ -82,9 +82,10 @@ to paties tipo projektu „Asmens kodai“.
   nepalaikoma diegiamos programos konvencija; tas pats bendras paveikslas
   nurodytas kaip faviconas ir platformos piktograma.
 - Pagrindinis bendras CSS įkeliamas iš `dago.lt`, kaip ir kituose šeimos
-  puslapiuose. Kritiniai spalvų ir formų žetonai pakartoti lokaliame CSS, kad
-  įrankis liktų įskaitomas, jei bendras failas laikinai nepasiekiamas.
+  puslapiuose. Baziniai spalvų, tipografijos, antraščių, nuorodų, lentelių ir
+  puslapio tarpų stiliai paliekami bendriems `reset.css` ir `dago.css` failams;
+  lokalus CSS aprašo tik šio įrankio komponentus.
 - Užduotis #2 atskirai valdo eilučių redagavimą, rezultatų kopijavimą ir
   išsamesnes rezultatų būsenas. Dabartinis konvertavimas pateikiamas šeimos
-  dizainą atitinkančioje saugioje dviejų stulpelių lentelėje; atskirai pridėti
+  dizainą atitinkančioje saugioje trijų stulpelių lentelėje; atskirai pridėti
   naudotojo paprašyti LLM / AI, JavaScript ir PHP pavyzdžiai.

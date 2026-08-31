@@ -25,69 +25,20 @@
     <link rel="stylesheet" href="https://dago.lt/assets/styles/dago.css?v=20260808">
     <title>Vardų linksniavimas – šauksmininkas kreipiniams // dago</title>
     <style>
-        :root {
-            --theme: 45 100% 50%;
-            --black: 0 0% 13%;
-            --border: hsl(var(--theme) / 0.35);
-            --border-soft: hsl(var(--theme) / 0.2);
-            --muted: hsl(var(--theme) / 0.68);
-        }
-
-        html {
-            background: hsl(var(--black));
-            color-scheme: dark;
-        }
-
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-        }
-
-        body {
-            accent-color: hsl(var(--theme));
-            background: hsl(var(--black));
-            color: hsl(var(--theme));
-            font-family: monospace, "Courier New", Courier, sans-serif;
-            font-size: 16px;
-            line-height: 1.5;
-            margin: 0 auto 0 0;
-            min-height: 100svh;
-            padding: 2em 1em;
-        }
-
-        h1,
-        h2 {
-            color: inherit;
-            font-family: inherit;
-            line-height: 1.25;
-        }
-
-        a {
-            color: inherit;
-            text-decoration-color: hsl(var(--theme) / 0.5);
-            text-decoration-thickness: 0.125em;
-            text-underline-offset: 0.125em;
-        }
-
-        a:hover,
-        a:focus {
-            text-decoration-style: dashed;
-        }
-
         button,
         input,
         textarea {
             border-radius: 0;
-            font: inherit;
         }
 
         button {
+            border: 0;
             color: inherit;
             cursor: pointer;
         }
 
-        button:disabled {
+        button:disabled,
+        input:disabled {
             cursor: not-allowed;
             opacity: 0.4;
         }
@@ -128,30 +79,18 @@
             margin-top: 0.5rem;
         }
 
-        .title-row {
-            align-items: baseline;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0 0.5rem;
-        }
-
-        .title-row h1 {
-            margin: 0;
-        }
-
         .dago-link {
             opacity: 0.2;
             text-decoration: none;
             white-space: nowrap;
         }
 
-        .dago-link:hover,
-        .dago-link:focus-visible {
+        .dago-link:hover {
             opacity: 1;
         }
 
         .tool-card {
-            border: 1px solid var(--border);
+            border: 1px solid hsl(var(--theme) / 0.35);
         }
 
         .tool-content {
@@ -166,9 +105,9 @@
         }
 
         .privacy-note {
-            color: var(--muted);
             font-size: 0.8rem;
             margin: -0.35rem 0 0;
+            opacity: 0.7;
         }
 
         textarea {
@@ -197,7 +136,6 @@
 
         .primary-button {
             background: hsl(var(--theme));
-            border: 0;
             color: hsl(var(--black));
             justify-self: start;
             padding: 0.7rem 1rem;
@@ -210,15 +148,18 @@
         }
 
         .form-status {
-            color: var(--muted);
+            font-size: 0.8rem;
             margin: -0.25rem 0 0;
             min-height: 1.5em;
-            font-size: 0.8rem;
+            opacity: 0.7;
         }
 
         details {
-            border: 1px solid var(--border);
-            margin-top: 0.75rem;
+            border: 1px solid hsl(var(--theme) / 0.35);
+        }
+
+        .tool-card + details {
+            margin-top: 1rem;
         }
 
         summary {
@@ -228,7 +169,7 @@
         }
 
         details[open] summary {
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid hsl(var(--theme) / 0.35);
         }
 
         .example-list {
@@ -265,27 +206,24 @@
         }
 
         .example-actions p {
-            color: var(--muted);
             font-size: 0.8rem;
             margin: 0;
+            opacity: 0.7;
         }
 
         .text-button {
             background: transparent;
-            border: 0;
-            color: inherit;
             padding: 0;
             text-decoration: underline;
             text-decoration-color: hsl(var(--theme) / 0.5);
-            text-decoration-thickness: 0.125em;
             text-underline-offset: 0.125em;
         }
 
         .copy-status {
-            color: var(--muted);
             font-size: 0.8rem;
             margin: 0;
             min-height: 1.5em;
+            opacity: 0.7;
             padding: 0 0.85rem 0.5rem;
         }
 
@@ -311,8 +249,8 @@
         }
 
         .results-header p {
-            color: var(--muted);
             font-size: 0.8rem;
+            opacity: 0.7;
         }
 
         .table-wrap {
@@ -320,27 +258,23 @@
             overflow-x: auto;
         }
 
-        table {
-            border-collapse: collapse;
+        .results table {
             min-width: 28rem;
-            width: 100%;
         }
 
-        th,
-        td {
-            border: 1px solid var(--border);
-            padding: 0.55rem 0.75rem;
+        .results th,
+        .results td {
             overflow-wrap: anywhere;
             width: 40%;
         }
 
-        th:last-child,
-        td:last-child {
+        .results th:last-child,
+        .results td:last-child {
             width: 20%;
         }
 
         .review-status {
-            color: var(--muted);
+            opacity: 0.7;
         }
 
         .result-input {
@@ -357,10 +291,10 @@
         }
 
         .result-action-status {
-            color: var(--muted);
             font-size: 0.8rem;
             margin: 0;
             min-height: 1.5em;
+            opacity: 0.7;
         }
 
         .guidance-section {
@@ -395,12 +329,12 @@
             width: 1px;
         }
 
-        tbody tr + tr td {
-            border-top-color: var(--border-soft);
+        .results tbody tr + tr td {
+            border-top-color: hsl(var(--theme) / 0.2);
         }
 
         .contact-section {
-            border-top: 1px solid var(--border);
+            border-top: 1px solid hsl(var(--theme) / 0.35);
             margin-top: clamp(3.5rem, 9vw, 6rem);
             padding: 1.5rem 0 3rem;
         }
@@ -413,11 +347,7 @@
             display: block;
         }
 
-        [hidden] {
-            display: none !important;
-        }
-
-        @media (max-width: 40rem) {
+        @media (max-width: 32rem) {
             .results-header {
                 align-items: flex-start;
                 flex-direction: column;
@@ -428,17 +358,17 @@
                 overflow-x: visible;
             }
 
-            table,
-            tbody,
-            tr,
-            td,
-            td:last-child {
+            .results table,
+            .results tbody,
+            .results tr,
+            .results td,
+            .results td:last-child {
                 display: block;
                 min-width: 0;
                 width: 100%;
             }
 
-            thead {
+            .results thead {
                 border: 0;
                 clip: rect(0 0 0 0);
                 clip-path: inset(50%);
@@ -451,33 +381,31 @@
                 width: 1px;
             }
 
-            tbody {
+            .results tbody {
                 display: grid;
                 gap: 1rem;
             }
 
-            tbody tr {
-                border: 1px solid var(--border);
+            .results tbody tr {
+                border: 1px solid hsl(var(--theme) / 0.35);
             }
 
-            tbody tr + tr td,
-            td {
+            .results tbody tr + tr td,
+            .results td {
                 border: 0;
                 display: grid;
                 gap: 0.25rem;
                 padding: 0.55rem 0.75rem;
             }
 
-            td + td {
-                border-top: 1px solid var(--border-soft);
+            .results td + td {
+                border-top: 1px solid hsl(var(--theme) / 0.2);
             }
 
-            td::before {
-                color: var(--muted);
+            .results td::before {
                 content: attr(data-label);
-                font-size: 0.72rem;
                 font-weight: 700;
-                text-transform: uppercase;
+                opacity: 0.7;
             }
         }
 
@@ -486,7 +414,6 @@
             *::before,
             *::after {
                 scroll-behavior: auto !important;
-                transition-duration: 0.01ms !important;
             }
         }
     </style>
@@ -497,11 +424,11 @@
 
     <main class="tool-page" id="main-content">
         <header class="site-header">
-            <div class="title-row">
-                <h1>Vardų linksniavimas į šauksmininką</h1>
+            <h1>
+                vardų linksniavimas į šauksmininką
                 <a class="dago-link print-a-no-link" href="https://dago.lt" target="_blank" rel="noopener">// dago</a>
-            </div>
-            <p>Įklijuokite vardus, patikrinkite šauksmininko formas ir nukopijuokite kreipinius.</p>
+            </h1>
+            <p>Įklijuokite vardus, patikrinkite formas ir nukopijuokite kreipinius.</p>
         </header>
 
         <form id="namesForm" class="tool-card">
