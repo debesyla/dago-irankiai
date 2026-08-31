@@ -392,22 +392,30 @@
             <details>
                 <summary>LLM / AI</summary>
                 <div class="example-actions">
-                    <p>Promptą papildykite savo vardų sąrašu.</p>
+                    <p>Vietaženklį pakeiskite savo vardų sąrašu.</p>
                     <button class="text-button" type="button" data-copy-target="llm-example"
                         aria-describedby="llm-copy-status">Kopijuoti promptą</button>
                 </div>
-                <pre><code id="llm-example">Paversk šiuos lietuviškus vardus į šauksmininko formą, tinkamą kreipiniams.
+                <pre><code id="llm-example">Užduotis: paversk žemiau pateiktus vardus į lietuvių kalbos šauksmininką.
+
+Šauksmininkas – linksnis, vartojamas tiesiogiai kreipiantis į žmogų. Pavyzdžiui, vardininkas „Jonas“ sakinyje „Jonas atėjo“ tampa šauksmininku „Jonai“ kreipinyje „Labas, Jonai!“.
+
+Dažniausi pavyzdžiai:
+Jonas → Jonai
+Eglė → Egle
+Saulius → Sauliau
+Jurgis → Jurgi
+Stasys → Stasy
 
 Taisyklės:
 1. Išlaikyk vardų eilės tvarką.
 2. Kiekvieną vardą grąžink atskiroje eilutėje.
-3. Nepateik numeracijos ar paaiškinimų.
-4. Jei vardas užsienietiškas, retas ar forma neaiški, palik jį nepakeistą ir pažymėk „[patikrinti]“.
+3. Išlaikyk originalų didžiųjų ir mažųjų raidžių formatą.
+4. Atsakyme pateik tik pakeistus vardus – be numeracijos ir paaiškinimų.
+5. Jei vardas užsienietiškas, retas, sudurtinis arba forma neaiški, nespėliok: palik jį nepakeistą ir pridėk „[patikrinti]“.
 
 Vardai:
-Jonas
-Eglė
-Saulius</code></pre>
+[ČIA ĮKLIJUOKITE VARDUS – PO VIENĄ EILUTĖJE]</code></pre>
                 <p id="llm-copy-status" class="copy-status" role="status" aria-live="polite"></p>
             </details>
 
