@@ -1,5 +1,13 @@
-# Vardų linksniavimo įrankis
+# Vardų šauksmininkas
 
-Renkant klientų el. paštus per prenumeratos laukelius (el. paštas + vardas), dažnai susiduriama su problema – klientai įrašo vardus neteisingu linksniu. Kai siunčiami naujienlaiškiai, vardai gali atrodyti keistai ("Laba diena, Jonas...").
+Prenumeratos formoje klientas vardą teisingai įrašo vardininku, pavyzdžiui,
+„Jonas“. Tačiau naujienlaiškio kreipinyje reikia šauksmininko: „Laba diena,
+Jonai“.
 
-Šis įrankis automatiškai atnaujina vardus pagal lietuvių kalbos linksniavimo taisykles, užtikrindamas teisingą formuluotę naujienlaiškiuose.
+Šis įrankis paverčia lietuviškus vardus į šauksmininko formą, kad juos būtų
+paprasta naudoti naujienlaiškiuose, kvietimuose ir asmeninėse žinutėse.
+
+## Tyrimas ir tolesnė kryptis
+
+Pavadinimo, panašių įrankių, turinio, funkcijų ir būsimos techninės sąsajos
+tyrimas pateiktas faile [RESEARCH.md](RESEARCH.md).
