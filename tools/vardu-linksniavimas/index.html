@@ -4,137 +4,440 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vardų linksniavimo įrankis</title>
+    <meta name="theme-color" content="#212121">
+    <meta name="description" content="Lietuviškų vardų linksniavimo į šauksmininką įrankis.">
+    <meta name="author" content="Dago">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dago.lt/irankiai/vardu-linksniavimas/">
+    <meta property="og:title" content="Vardų linksniavimo įrankis // dago">
+    <meta property="og:description" content="Paverskite lietuviškus vardus į šauksmininko formą.">
+    <meta property="og:image" content="https://dago.lt/assets/img/dago-icon.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Vardų linksniavimo įrankis // dago">
+    <meta name="twitter:description" content="Paverskite lietuviškus vardus į šauksmininko formą.">
+    <meta name="twitter:image" content="https://dago.lt/assets/img/dago-icon.png">
+    <meta name="fediverse:creator" content="@dago@river.group.lt">
+    <link rel="canonical" href="https://dago.lt/irankiai/vardu-linksniavimas/">
+    <link rel="icon" type="image/png" sizes="48x48" href="https://dago.lt/assets/img/dago-icon.png">
+    <link rel="apple-touch-icon" href="https://dago.lt/assets/img/dago-icon.png">
+    <link rel="stylesheet" href="https://dago.lt/assets/styles/reset.css?v=20260808">
+    <link rel="stylesheet" href="https://dago.lt/assets/styles/dago.css?v=20260808">
+    <title>Vardų linksniavimo įrankis // dago</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+        :root {
+            --theme: 45 100% 50%;
+            --black: 0 0% 13%;
+            --border: hsl(var(--theme) / 0.35);
+            --border-soft: hsl(var(--theme) / 0.2);
+            --muted: hsl(var(--theme) / 0.68);
         }
 
-        * {
+        html {
+            background: hsl(var(--black));
+            color-scheme: dark;
+        }
+
+        *,
+        *::before,
+        *::after {
             box-sizing: border-box;
         }
 
-        header {
-            text-align: center;
-            padding: 20px;
-            background-color: #f0f0f0;
-
-            max-width: 800px;
-            margin: 0 auto 3em;
+        body {
+            accent-color: hsl(var(--theme));
+            background: hsl(var(--black));
+            color: hsl(var(--theme));
+            font-family: monospace, "Courier New", Courier, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0 auto 0 0;
+            min-height: 100svh;
+            padding: 2em 1em;
         }
 
-        header p {
-            max-width: 35em;
-            margin: 1em auto;
+        h1,
+        h2 {
+            color: inherit;
+            font-family: inherit;
+            line-height: 1.25;
         }
 
-        main {
-            max-width: 800px;
-            margin: 0 auto;
+        a {
+            color: inherit;
+            text-decoration-color: hsl(var(--theme) / 0.5);
+            text-decoration-thickness: 0.125em;
+            text-underline-offset: 0.125em;
         }
 
-        form {
-            margin-bottom: 20px;
+        a:hover,
+        a:focus {
+            text-decoration-style: dashed;
         }
 
-        label {
-            display: block;
-            margin-bottom: 0.5em;
-        }
-
+        button,
         textarea {
-            width: 100%;
-            padding: 0.25em;
+            border-radius: 0;
+            font: inherit;
         }
 
         button {
-            padding: 10px;
-            font-size: 16px;
+            color: inherit;
+            cursor: pointer;
         }
 
-        #result {
-            margin-top: 20px;
+        button:disabled {
+            cursor: not-allowed;
+            opacity: 0.4;
         }
 
-        h2 {
-            margin-top: 2em;
+        textarea:focus-visible,
+        button:focus-visible,
+        a:focus-visible,
+        summary:focus-visible {
+            outline: 2px solid currentColor;
+            outline-offset: 3px;
+        }
+
+        .skip-link {
+            background: hsl(var(--theme));
+            color: hsl(var(--black));
+            left: 1rem;
+            padding: 0.55rem 0.75rem;
+            position: absolute;
+            top: 1rem;
+            transform: translateY(-200%);
+            z-index: 10;
+        }
+
+        .skip-link:focus {
+            transform: translateY(0);
+        }
+
+        .tool-page {
+            width: min(100%, 75ch);
+        }
+
+        .site-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .site-header p {
+            margin-top: 0.5rem;
+        }
+
+        .dago-link {
+            opacity: 0.2;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .dago-link:hover,
+        .dago-link:focus-visible {
+            opacity: 1;
+        }
+
+        .intro {
+            margin-bottom: 2rem;
+        }
+
+        .intro p + p {
+            margin-top: 1.25rem;
+        }
+
+        .tool-card {
+            border: 1px solid var(--border);
+        }
+
+        .tool-content {
+            display: grid;
+            gap: 1rem;
+            padding: clamp(1rem, 4vw, 2rem);
+        }
+
+        .field-label {
+            display: block;
+            font-weight: 700;
+        }
+
+        textarea {
+            background: hsl(var(--black) / 0.6);
+            border: 1px solid hsl(var(--theme) / 0.55);
+            color: inherit;
+            display: block;
+            min-height: 13rem;
+            padding: 0.75rem;
+            resize: vertical;
+            width: 100%;
+        }
+
+        textarea::placeholder {
+            color: hsl(var(--theme) / 0.45);
+            opacity: 1;
+        }
+
+        .primary-button {
+            background: hsl(var(--theme));
+            border: 0;
+            color: hsl(var(--black));
+            justify-self: start;
+            padding: 0.7rem 1rem;
+            font-weight: 700;
+        }
+
+        .primary-button:hover,
+        .primary-button:focus-visible {
+            background: hsl(var(--theme) / 0.82);
+        }
+
+        .form-status {
+            color: var(--muted);
+            margin: -0.25rem 0 0;
+            min-height: 1.5em;
+            font-size: 0.8rem;
+        }
+
+        details {
+            border: 1px solid var(--border);
+            margin-top: 0.75rem;
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: 700;
+            padding: 0.7rem 0.85rem;
+        }
+
+        details[open] summary {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .example-list {
+            margin: 0;
+            padding: 0.8rem 0.85rem 0.8rem 2.4rem;
+        }
+
+        .results {
+            margin-top: clamp(3.5rem, 9vw, 6rem);
+        }
+
+        .results-header {
+            align-items: baseline;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .results-header h2,
+        .results-header p {
+            margin: 0;
+        }
+
+        .results-header h2:focus {
+            outline: 2px solid currentColor;
+            outline-offset: 3px;
+        }
+
+        .results-header p {
+            color: var(--muted);
+            font-size: 0.8rem;
+        }
+
+        .table-wrap {
+            margin-top: 1rem;
+            overflow-x: auto;
+        }
+
+        table {
+            border-collapse: collapse;
+            min-width: 28rem;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid var(--border);
+            padding: 0.55rem 0.75rem;
+            overflow-wrap: anywhere;
+            width: 50%;
+        }
+
+        tbody tr + tr td {
+            border-top-color: var(--border-soft);
+        }
+
+        .site-footer {
+            border-top: 1px solid var(--border);
+            margin-top: clamp(3.5rem, 9vw, 6rem);
+            padding: 1.5rem 0 3rem;
+        }
+
+        .site-footer p {
+            margin: 0;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        @media (max-width: 32rem) {
+            .results-header {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 0.35rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
 
 <body>
+    <a class="skip-link" href="#main-content">Pereiti prie įrankio</a>
 
-    <header>
-        <h1>Vardų linksniavimo įrankis</h1>
-        <p>Renkant klientų el. paštus per prenumeratos laukelius (el. paštas + vardas), dažnai susiduriama su problema –
-            klientai įrašo vardus neteisingu linksniu. Kai siunčiami naujienlaiškiai, vardai gali atrodyti keistai
-            ("Laba diena, Jonas...").</p>
-        <p>
-            Šis įrankis <strong>automatiškai atnaujina vardus</strong> pagal lietuvių kalbos linksniavimo taisykles,
-            užtikrindamas teisingą formuluotę naujienlaiškiuose.
-        </p>
-    </header>
+    <main class="tool-page" id="main-content">
+        <header class="site-header">
+            <h1>
+                vardų linksniavimo įrankis
+                <a class="dago-link print-a-no-link" href="https://dago.lt" target="_blank" rel="noopener">// dago</a>
+            </h1>
+            <p>Lietuviškų vardų linksniavimo į šauksmininką įrankis.</p>
+        </header>
 
-    <main>
-        <form id="namesForm">
-            <label for="names">Rašykite arba copy-paste vardus, vienas vardas eilutėje:</label>
-            <textarea id="names" rows="10" cols="50" placeholder='Pavyzdžiui "Jonas"' required></textarea>
-            <br>
-            <button id="submitButton" type="button" onclick="updateNames()" disabled>Pakeisti linksnius</button>
+        <section class="intro" aria-labelledby="intro-title">
+            <h2 id="intro-title">Taisyklingiems kreipiniams</h2>
+            <p>
+                Renkant klientų el. paštus per prenumeratos laukelius, dažnai prireikia vardininku įrašytą vardą
+                paversti šauksmininku — pavyzdžiui, „Jonas“ turi tapti „Jonai“.
+            </p>
+            <p>
+                Šis įrankis automatiškai pakeičia vardų galūnes pagal dažniausias lietuvių kalbos taisykles.
+            </p>
+        </section>
+
+        <form id="namesForm" class="tool-card">
+            <div class="tool-content">
+                <label class="field-label" for="names">Rašykite arba įklijuokite vardus — po vieną eilutėje:</label>
+                <textarea id="names" name="names" rows="10" placeholder="Jonas&#10;Eglė&#10;Saulius" required></textarea>
+                <button id="submitButton" class="primary-button" type="submit" disabled>Pakeisti linksnius</button>
+                <p id="formStatus" class="form-status" role="status" aria-live="polite">Įveskite bent vieną vardą.</p>
+            </div>
         </form>
 
         <details>
-            <summary>Pavyzdys kaip rašyti</summary>
-            <div>
-                Jonas<br>
-                Jurgis<br>
-                Danielius<br>
-                Merkurijus<br>
-                Eglė<br>
-                Kristina<br>
-                John
-            </div>
+            <summary>Pavyzdys, kaip rašyti</summary>
+            <ul class="example-list">
+                <li>Jonas</li>
+                <li>Jurgis</li>
+                <li>Danielius</li>
+                <li>Merkurijus</li>
+                <li>Eglė</li>
+                <li>Kristina</li>
+                <li>John</li>
+            </ul>
         </details>
 
-        <h2 id="result__header" style="display: none;">Atnaujinti vardai:</h2>
-        <div id="result"></div>
+        <section id="results" class="results" aria-labelledby="resultHeading" hidden>
+            <div class="results-header">
+                <h2 id="resultHeading" tabindex="-1">Atnaujinti vardai</h2>
+                <p id="resultStatus" role="status" aria-live="polite"></p>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Įvestas vardas</th>
+                            <th scope="col">Atnaujintas vardas</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer class="site-footer">
+            <p>
+                <a href="https://dago.lt/irankiai/">daugiau dago įrankių ↗</a>
+            </p>
+        </footer>
     </main>
 
     <script>
-        function updateNames() {
-            var namesInput = document.getElementById('names');
-            var resultContainer = document.getElementById('result');
-            var resultHeader = document.getElementById('result__header');
-            var names = namesInput.value.split(/\r?\n/);
+        const form = document.getElementById('namesForm');
+        const namesInput = document.getElementById('names');
+        const submitButton = document.getElementById('submitButton');
+        const formStatus = document.getElementById('formStatus');
+        const results = document.getElementById('results');
+        const resultHeading = document.getElementById('resultHeading');
+        const resultStatus = document.getElementById('resultStatus');
+        const resultBody = document.getElementById('resultBody');
 
-            var updatedNames = names.map(function (name) {
-                if (name.endsWith('as')) {
-                    return name.slice(0, -2) + 'ai';
-                } else if (name.endsWith('ius')) {
-                    return name.slice(0, -3) + 'iau';
-                } else if (name.endsWith('ė')) {
-                    return name.slice(0, -1) + 'e';
-                } else if (name.endsWith('is')) {
-                    return name.slice(0, -2) + 'i';
-                } else if (name.endsWith('us')) {
-                    return name.slice(0, -2) + 'au';
-                } else {
-                    return name;
-                }
-            });
-
-            resultContainer.innerHTML = updatedNames.join('<br>');
-            resultHeader.style.display = "block";
+        function updateName(name) {
+            if (name.endsWith('as')) {
+                return name.slice(0, -2) + 'ai';
+            }
+            if (name.endsWith('ius')) {
+                return name.slice(0, -3) + 'iau';
+            }
+            if (name.endsWith('ė')) {
+                return name.slice(0, -1) + 'e';
+            }
+            if (name.endsWith('is')) {
+                return name.slice(0, -2) + 'i';
+            }
+            if (name.endsWith('us')) {
+                return name.slice(0, -2) + 'au';
+            }
+            return name;
         }
 
-        // Enable the submit button when there is content in the textarea
-        document.getElementById('names').addEventListener('input', function () {
-            var submitButton = document.getElementById('submitButton');
-            submitButton.disabled = this.value.trim() === '';
+        function renderResults(names) {
+            resultBody.replaceChildren();
+
+            names.forEach(function (name) {
+                const row = document.createElement('tr');
+                const inputCell = document.createElement('td');
+                const resultCell = document.createElement('td');
+
+                inputCell.textContent = name;
+                resultCell.textContent = updateName(name);
+                row.append(inputCell, resultCell);
+                resultBody.append(row);
+            });
+
+            const noun = names.length === 1 ? 'vardas' : 'vardai';
+            resultStatus.textContent = names.length + ' ' + noun;
+            results.hidden = false;
+            resultHeading.focus();
+        }
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const names = namesInput.value
+                .split(/\r?\n/)
+                .map(function (name) { return name.trim(); })
+                .filter(Boolean);
+
+            if (names.length === 0) {
+                return;
+            }
+
+            renderResults(names);
+            formStatus.textContent = 'Vardai atnaujinti.';
+        });
+
+        namesInput.addEventListener('input', function () {
+            const hasNames = namesInput.value.trim() !== '';
+            submitButton.disabled = !hasNames;
+            formStatus.textContent = hasNames ? '' : 'Įveskite bent vieną vardą.';
         });
     </script>
-
 </body>
 
 </html>

@@ -11,3 +11,8 @@ paprasta naudoti naujienlaiškiuose, kvietimuose ir asmeninėse žinutėse.
 
 Pavadinimo, panašių įrankių, turinio, funkcijų ir būsimos techninės sąsajos
 tyrimas pateiktas faile [RESEARCH.md](RESEARCH.md).
+
+## Dizaino sistema
+
+`dago.lt` šeimos vizualinių žetonų, komponentų, šaltinių ir sąmoningų
+skirtumų auditas pateiktas faile [DESIGN.md](DESIGN.md).
