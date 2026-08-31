@@ -97,3 +97,31 @@ test('the browser renderer does not use innerHTML for user-controlled results', 
     assert.match(page, /\.textContent\s*=/u);
     assert.match(page, /\.replaceChildren\(/u);
 });
+
+test('the page exposes the issue 2 product copy and browser-only privacy promise', async () => {
+    const projectRoot = fileURLToPath(new URL('..', import.meta.url));
+    const page = await readFile(new URL('index.html', `file://${projectRoot}/`), 'utf8');
+
+    assert.match(page, /<p class="product-name">\s*Vardų linksniavimas/u);
+    assert.match(page, /<h1>Vardų linksniavimas į šauksmininką<\/h1>/u);
+    assert.match(page, /kreipin/u);
+    assert.match(page, /Vardai apdorojami tik jūsų naršyklėje ir niekur nesiunčiami/u);
+    assert.match(page, /Tikslumas ir išimtys/u);
+    assert.match(page, /Saugus atsarginis kreipinys/u);
+});
+
+test('the review workflow provides editable rows, counts, copy, reset, and live feedback', async () => {
+    const projectRoot = fileURLToPath(new URL('..', import.meta.url));
+    const page = await readFile(new URL('index.html', `file://${projectRoot}/`), 'utf8');
+
+    assert.match(page, /<th scope="col">Įvestas vardas<\/th>/u);
+    assert.match(page, /<th scope="col">Kreipinys<\/th>/u);
+    assert.match(page, /<th scope="col">Būsena<\/th>/u);
+    assert.match(page, /resultInput\.type = 'text'/u);
+    assert.match(page, /resultInput\.addEventListener\('input'/u);
+    assert.match(page, /id="copyVocatives"/u);
+    assert.match(page, /id="resetButton"/u);
+    assert.match(page, /id="resetResults"/u);
+    assert.match(page, /id="resultActionStatus"[^>]+role="status"[^>]+aria-live="polite"/u);
+    assert.match(page, /updateResultSummary\(\)/u);
+});
