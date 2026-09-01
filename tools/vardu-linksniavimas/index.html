@@ -22,36 +22,9 @@
     <link rel="icon" type="image/png" sizes="48x48" href="https://dago.lt/assets/img/dago-icon.png">
     <link rel="apple-touch-icon" href="https://dago.lt/assets/img/dago-icon.png">
     <link rel="stylesheet" href="https://dago.lt/assets/styles/reset.css?v=20260808">
-    <link rel="stylesheet" href="https://dago.lt/assets/styles/dago.css?v=20260808">
+    <link rel="stylesheet" href="https://dago.lt/assets/styles/dago.css?v=20260901">
     <title>Vardų linksniavimas – šauksmininkas kreipiniams // dago</title>
     <style>
-        button,
-        input,
-        textarea {
-            border-radius: 0;
-        }
-
-        button {
-            border: 0;
-            color: inherit;
-            cursor: pointer;
-        }
-
-        button:disabled,
-        input:disabled {
-            cursor: not-allowed;
-            opacity: 0.4;
-        }
-
-        input:focus-visible,
-        textarea:focus-visible,
-        button:focus-visible,
-        a:focus-visible,
-        summary:focus-visible {
-            outline: 2px solid currentColor;
-            outline-offset: 3px;
-        }
-
         .skip-link {
             background: hsl(var(--theme));
             color: hsl(var(--black));
@@ -134,19 +107,6 @@
             gap: 0.75rem 1rem;
         }
 
-        .primary-button {
-            background: hsl(var(--theme));
-            color: hsl(var(--black));
-            justify-self: start;
-            padding: 0.7rem 1rem;
-            font-weight: 700;
-        }
-
-        .primary-button:hover,
-        .primary-button:focus-visible {
-            background: hsl(var(--theme) / 0.82);
-        }
-
         .form-status {
             font-size: 0.8rem;
             margin: -0.25rem 0 0;
@@ -154,22 +114,8 @@
             opacity: 0.7;
         }
 
-        details {
-            border: 1px solid hsl(var(--theme) / 0.35);
-        }
-
         .tool-card + details {
             margin-top: 1rem;
-        }
-
-        summary {
-            cursor: pointer;
-            font-weight: 700;
-            padding: 0.7rem 0.85rem;
-        }
-
-        details[open] summary {
-            border-bottom: 1px solid hsl(var(--theme) / 0.35);
         }
 
         .example-list {
@@ -185,15 +131,8 @@
             margin-top: 1rem;
         }
 
-        .examples-section details + details {
-            margin-top: 0.75rem;
-        }
-
         .examples-section pre {
-            border: 0;
             font-size: 0.78rem;
-            margin: 0;
-            max-height: 28rem;
             overflow: auto;
         }
 
@@ -209,14 +148,6 @@
             font-size: 0.8rem;
             margin: 0;
             opacity: 0.7;
-        }
-
-        .text-button {
-            background: transparent;
-            padding: 0;
-            text-decoration: underline;
-            text-decoration-color: hsl(var(--theme) / 0.5);
-            text-underline-offset: 0.125em;
         }
 
         .copy-status {
@@ -316,19 +247,6 @@
             padding: 0.8rem 0.85rem;
         }
 
-        .visually-hidden {
-            border: 0;
-            clip: rect(0 0 0 0);
-            clip-path: inset(50%);
-            height: 1px;
-            margin: -1px;
-            overflow: hidden;
-            padding: 0;
-            position: absolute;
-            white-space: nowrap;
-            width: 1px;
-        }
-
         .results tbody tr + tr td {
             border-top-color: hsl(var(--theme) / 0.2);
         }
@@ -409,13 +327,6 @@
             }
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                scroll-behavior: auto !important;
-            }
-        }
     </style>
 </head>
 
@@ -465,7 +376,7 @@
             <p>Prieš kopijuodami peržiūrėkite pažymėtas eilutes. Kiekvieną kreipinį galite pataisyti lentelėje.</p>
             <div class="table-wrap">
                 <table>
-                    <caption class="visually-hidden">Įvestų vardų, redaguojamų kreipinių ir jų patikimumo būsenų lentelė</caption>
+                    <caption class="sr-only">Įvestų vardų, redaguojamų kreipinių ir jų patikimumo būsenų lentelė</caption>
                     <thead>
                         <tr>
                             <th scope="col">Įvestas vardas</th>
@@ -715,7 +626,7 @@ $sauksmininkai = array_map('iSauksmininka', $vardai);
                 inputCell.dataset.label = 'Įvestas vardas';
                 inputCell.textContent = result.input;
                 resultCell.dataset.label = 'Kreipinys';
-                resultLabel.className = 'visually-hidden';
+                resultLabel.className = 'sr-only';
                 resultLabel.htmlFor = inputId;
                 resultLabel.textContent = 'Kreipinys vardui ' + result.input;
                 resultInput.className = 'result-input';
@@ -779,7 +690,7 @@ $sauksmininkai = array_map('iSauksmininka', $vardai);
             const helper = document.createElement('textarea');
             helper.value = text;
             helper.setAttribute('readonly', '');
-            helper.className = 'visually-hidden';
+            helper.className = 'sr-only';
             document.body.append(helper);
             helper.select();
             const copied = document.execCommand('copy');

@@ -115,12 +115,16 @@ test('the page leaves the base design language to the shared dago stylesheets', 
     const localCss = page.match(/<style>([\s\S]*?)<\/style>/u)?.[1] ?? '';
 
     assert.match(page, /assets\/styles\/reset\.css\?v=20260808/u);
-    assert.match(page, /assets\/styles\/dago\.css\?v=20260808/u);
+    assert.match(page, /assets\/styles\/dago\.css\?v=20260901/u);
     assert.doesNotMatch(localCss, /^\s*:root\s*\{/mu);
     assert.doesNotMatch(localCss, /^\s*(?:html|body)\s*\{/mu);
     assert.doesNotMatch(localCss, /^\s*h[1-6](?:\s*,|\s*\{)/mu);
     assert.doesNotMatch(localCss, /^\s*a\s*\{/mu);
     assert.doesNotMatch(localCss, /font-family\s*:/u);
+    assert.doesNotMatch(localCss, /^\s*(?:button|details|summary)(?:\s*,|\s*\{)/mu);
+    assert.doesNotMatch(localCss, /^\s*\.(?:primary-button|text-button|sr-only)\s*\{/mu);
+    assert.doesNotMatch(localCss, /:focus-visible|prefers-reduced-motion/u);
+    assert.match(page, /class="sr-only"/u);
 });
 
 test('the review workflow provides editable rows, counts, copy, reset, and live feedback', async () => {
