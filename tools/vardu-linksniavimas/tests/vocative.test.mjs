@@ -142,3 +142,31 @@ test('the review workflow provides editable rows, counts, copy, reset, and live 
     assert.match(page, /id="resultActionStatus"[^>]+role="status"[^>]+aria-live="polite"/u);
     assert.match(page, /updateResultSummary\(\)/u);
 });
+
+test('the page provides CSV upload, column mapping, review filters, and UTF-8 download', async () => {
+    const projectRoot = fileURLToPath(new URL('..', import.meta.url));
+    const page = await readFile(new URL('index.html', `file://${projectRoot}/`), 'utf8');
+
+    assert.match(page, /id="csvFile"[^>]+accept="\.csv,text\/csv"/u);
+    assert.match(page, /id="csvNameColumn"/u);
+    assert.match(page, /id="processCsv"/u);
+    assert.match(page, /id="resultFilter"/u);
+    assert.match(page, /value="review"/u);
+    assert.match(page, /value="unchanged"/u);
+    assert.match(page, /id="downloadCsv"/u);
+    assert.match(page, /appendColumn\(csvDocument/u);
+    assert.match(page, /serializeCsv\(\{/u);
+    assert.match(page, /bom: true/u);
+});
+
+test('the page documents Mailchimp, Brevo, and Klaviyo field mappings', async () => {
+    const projectRoot = fileURLToPath(new URL('..', import.meta.url));
+    const page = await readFile(new URL('index.html', `file://${projectRoot}/`), 'utf8');
+
+    assert.match(page, /Mailchimp: KREIPINYS lauko susiejimas/u);
+    assert.match(page, /Brevo: KREIPINYS atributo susiejimas/u);
+    assert.match(page, /Klaviyo: KREIPINYS profilio savybės susiejimas/u);
+    assert.match(page, /\*\|KREIP\|\*/u);
+    assert.match(page, /\{\{ contact\.KREIPINYS \}\}/u);
+    assert.match(page, /\{\{ person\.KREIPINYS \}\}/u);
+});

@@ -21,6 +21,26 @@ Branduolio regresijos testai paleidžiami su Node.js:
 node --test tests/vocative.test.mjs
 ```
 
+## CSV importas ir eksportas
+
+Puslapyje galima pasirinkti UTF-8 CSV failą ir nurodyti stulpelį, kuriame
+yra vardai. Įrankis atpažįsta kablelio, kabliataškio ir tabuliacijos skirtukus,
+išsaugo visas pradines eilutes bei stulpelius ir prie jų prideda
+`KREIPINYS` stulpelį. Jei toks pavadinimas jau yra, parenkamas naujas
+nepasikartojantis pavadinimas, pavyzdžiui, `KREIPINYS_2`, todėl esami duomenys
+neperrašomi.
+
+Abejotinus arba nepakeistus vardus galima atfiltruoti ir pataisyti prieš
+atsisiunčiant. Galutinis failas pateikiamas UTF-8 su BOM koduote, išlaikant
+pradinį skirtuką, kad jį būtų patogu importuoti į skaičiuokles, Mailchimp,
+Brevo ar Klaviyo. Failas apdorojamas tik naršyklėje.
+
+CSV logikos regresijos testai:
+
+```sh
+node --test tests/csv.test.mjs
+```
+
 ## Tyrimas ir tolesnė kryptis
 
 Pavadinimo, panašių įrankių, turinio, funkcijų ir būsimos techninės sąsajos
