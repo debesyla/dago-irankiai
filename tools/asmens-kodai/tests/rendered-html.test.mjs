@@ -38,7 +38,7 @@ test("renders the finished tool at the root and intended dago.lt path", async ()
     assert.match(html, />LLM \/ AI</);
     assert.match(html, /Kopijuoti promptą/);
     assert.match(html, /KIEKIS:/);
-    assert.match(html, /https:\/\/dago\.lt\/assets\/styles\/dago\.css/);
+    assert.match(html, /https:\/\/dago\.lt\/assets\/styles\/dago\.css\?v=20260901/);
     assert.match(html, /<a[^>]+target="_blank"[^>]+rel="noopener"[^>]+class="opacity-20 text-nowrap hover:opacity-100 no-underline">\/\/ dago<\/a>/);
     assert.match(html, /<h2 class="sr-only">Sugeneruotas kodas<\/h2>/);
     assert.doesNotMatch(html, /<h2>Patikrinti asmens kodą<\/h2>/);
@@ -62,7 +62,7 @@ test("keeps the shared dago base separate from project styles", async () => {
   ]);
 
   assert.match(layout, /dago\.lt\/assets\/styles\/reset\.css/);
-  assert.match(layout, /dago\.lt\/assets\/styles\/dago\.css/);
+  assert.match(layout, /dago\.lt\/assets\/styles\/dago\.css\?v=20260901/);
   assert.match(layout, /dago\.lt\/assets\/img\/dago-icon\.png/);
   assert.match(component, /<label className="sr-only" htmlFor="personal-code">Asmens kodas<\/label>/);
   for (const entry of [rootPage, toolPage, staticEntry]) {
@@ -76,6 +76,11 @@ test("keeps the shared dago base separate from project styles", async () => {
   assert.match(projectCss, /\.hover\\:opacity-100:hover\s*\{[^}]*opacity:\s*100%;/s);
   assert.match(projectCss, /#validate-tab\.active,[^}]*border-left-color:/s);
   assert.doesNotMatch(projectCss, /\.filters legend\s*\{/);
+  assert.doesNotMatch(projectCss, /(^|\n)\.sr-only\s*\{/);
+  assert.doesNotMatch(projectCss, /(^|\n)\.text-button\s*[,{]/);
+  assert.doesNotMatch(projectCss, /(^|\n)details\s*\{/);
+  assert.doesNotMatch(projectCss, /prefers-reduced-motion/);
+  assert.match(component, /className="text-button copy-button"/);
   assert.match(component, /<output className="code-output">\{copyStatus\?\.area === "generator" && copyStatus\.target === code \? copyStatus\.message : code\}<\/output>/);
   assert.match(component, /setCopyStatus\(\{ area, message: "Nukopijuota", target \}\)/);
   assert.doesNotMatch(projectCss, /\.generator-copy-status\s*\{/);

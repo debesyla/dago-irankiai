@@ -158,7 +158,7 @@ export function PersonalCodeTool({ initialCode }: { initialCode: string }) {
                 {codes.map((code) => (
                   <div className="code-row" key={code}>
                     <output className="code-output">{copyStatus?.area === "generator" && copyStatus.target === code ? copyStatus.message : code}</output>
-                    <button className="copy-button" onClick={() => copy(code, "generator", code)} aria-label={`Kopijuoti ${code}`}>kopijuoti</button>
+                    <button className="text-button copy-button" onClick={() => copy(code, "generator", code)} aria-label={`Kopijuoti ${code}`}>kopijuoti</button>
                   </div>
                 ))}
               </div>
