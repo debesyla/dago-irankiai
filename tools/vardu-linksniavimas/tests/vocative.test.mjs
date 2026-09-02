@@ -98,12 +98,14 @@ test('the browser renderer does not use innerHTML for user-controlled results', 
     assert.match(page, /\.replaceChildren\(/u);
 });
 
-test('the page exposes the issue 2 product copy and browser-only privacy promise', async () => {
+test('the page explains name conversion and vocative generation in simple Lithuanian', async () => {
     const projectRoot = fileURLToPath(new URL('..', import.meta.url));
     const page = await readFile(new URL('index.html', `file://${projectRoot}/`), 'utf8');
 
-    assert.match(page, /<h1>\s*vardų linksniavimas į šauksmininką\s*<a class="dago-link/u);
-    assert.match(page, /kreipin/u);
+    assert.match(page, /<h1>\s*vardų linksniavimas\s*<a class="dago-link/u);
+    assert.match(page, /pakeisti lietuviškus vardus į šauksmininką/u);
+    assert.match(page, /vardų keitimas/u);
+    assert.match(page, /kreipinių generavimas/u);
     assert.match(page, /Vardai apdorojami tik jūsų naršyklėje ir niekur nesiunčiami/u);
     assert.match(page, /Tikslumas ir išimtys/u);
     assert.match(page, /Saugus atsarginis kreipinys/u);
@@ -159,14 +161,20 @@ test('the page provides CSV upload, column mapping, review filters, and UTF-8 do
     assert.match(page, /bom: true/u);
 });
 
-test('the page documents Mailchimp, Brevo, and Klaviyo field mappings', async () => {
+test('the page documents five email-platform mappings in the requested order', async () => {
     const projectRoot = fileURLToPath(new URL('..', import.meta.url));
     const page = await readFile(new URL('index.html', `file://${projectRoot}/`), 'utf8');
 
+    assert.match(page, /MailerLite: KREIPINYS lauko susiejimas/u);
+    assert.match(page, /Omnisend: KREIPINYS savybės susiejimas/u);
     assert.match(page, /Mailchimp: KREIPINYS lauko susiejimas/u);
     assert.match(page, /Brevo: KREIPINYS atributo susiejimas/u);
     assert.match(page, /Klaviyo: KREIPINYS profilio savybės susiejimas/u);
+    assert.match(page, /\{\$kreipinys\|default\(''\)\}/u);
+    assert.match(page, /\[\[contact\.custom_properties\.KREIPINYS \| default: ""\]\]/u);
     assert.match(page, /\*\|KREIP\|\*/u);
     assert.match(page, /\{\{ contact\.KREIPINYS \}\}/u);
     assert.match(page, /\{\{ person\.KREIPINYS \}\}/u);
+    assert.ok(page.indexOf('MailerLite:') < page.indexOf('Omnisend:'));
+    assert.ok(page.indexOf('Omnisend:') < page.indexOf('Mailchimp:'));
 });

@@ -32,8 +32,8 @@ neperrašomi.
 
 Abejotinus arba nepakeistus vardus galima atfiltruoti ir pataisyti prieš
 atsisiunčiant. Galutinis failas pateikiamas UTF-8 su BOM koduote, išlaikant
-pradinį skirtuką, kad jį būtų patogu importuoti į skaičiuokles, Mailchimp,
-Brevo ar Klaviyo. Failas apdorojamas tik naršyklėje.
+pradinį skirtuką, kad jį būtų patogu importuoti į skaičiuokles, MailerLite,
+Omnisend, Mailchimp, Brevo ar Klaviyo. Failas apdorojamas tik naršyklėje.
 
 CSV logikos regresijos testai:
 

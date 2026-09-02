@@ -297,6 +297,12 @@
             padding: 0.8rem 0.85rem;
         }
 
+        .guidance-grid code {
+            overflow-wrap: anywhere;
+            white-space: normal;
+            word-break: break-word;
+        }
+
         .results tbody tr + tr td {
             border-top-color: hsl(var(--theme) / 0.2);
         }
@@ -386,10 +392,18 @@
     <main class="tool-page" id="main-content">
         <header class="site-header">
             <h1>
-                vardų linksniavimas į šauksmininką
+                vardų linksniavimas
                 <a class="dago-link print-a-no-link" href="https://dago.lt" target="_blank" rel="noopener">// dago</a>
             </h1>
-            <p>Įklijuokite vardus, patikrinkite formas ir nukopijuokite kreipinius.</p>
+            <p>
+                Šis įrankis padeda pakeisti lietuviškus vardus į šauksmininką — formą, kurią vartojame
+                kreipdamiesi į žmogų. Pavyzdžiui, „Jonas“ tampa „Jonai“, o „Eglė“ — „Egle“.
+            </p>
+            <p>
+                Įklijuokite vardų sąrašą arba įkelkite CSV failą. Įrankis sugeneruos kreipinius, pažymės
+                abejotinas formas ir leis jas pataisyti, nukopijuoti arba atsisiųsti. Taip vardų keitimas ir
+                kreipinių generavimas naujienlaiškiams, kvietimams ar asmeninėms žinutėms tampa paprastesnis.
+            </p>
         </header>
 
         <form id="namesForm" class="tool-card">
@@ -492,6 +506,34 @@
                         Įvesti vardai, CSV failai ir rankiniai pataisymai apdorojami tik šiame naršyklės lange. Jie
                         nesiunčiami į serverį ir neišsaugomi. Uždarius ar atnaujinus puslapį rezultatai dingsta.
                     </p>
+                </details>
+                <details>
+                    <summary>MailerLite: KREIPINYS lauko susiejimas</summary>
+                    <div>
+                        <ol>
+                            <li>Atverkite „Subscribers → Fields“, sukurkite teksto lauką „Kreipinys“ ir pasižiūrėkite, kokią žymą jam suteikė MailerLite.</li>
+                            <li>Pasirinkite „Subscribers → Add subscribers“, importuokite atsisiųstą CSV ir stulpelį <code>KREIPINYS</code> susiekite su nauju lauku.</li>
+                            <li>Jei lauko žyma yra <code>kreipinys</code>, šablone naudokite <code>Laba diena, {$kreipinys|default('')}</code>. Prieš siųsdami patikrinkite laišką su tikro gavėjo duomenimis.</li>
+                        </ol>
+                        <p>
+                            <a href="https://www.mailerlite.com/help/how-to-import-subscribers" target="_blank" rel="noopener">Oficialios MailerLite importo gairės</a>
+                            · <a href="https://www.mailerlite.com/help/how-to-use-variables-in-mailerlite" target="_blank" rel="noopener">kintamųjų gairės</a>
+                        </p>
+                    </div>
+                </details>
+                <details>
+                    <summary>Omnisend: KREIPINYS savybės susiejimas</summary>
+                    <div>
+                        <ol>
+                            <li>Atverkite „Audience → Contacts → Add or update contacts“ ir pasirinkite kontaktų importą iš failo.</li>
+                            <li>„Map Properties“ žingsnyje stulpelį <code>KREIPINYS</code> susiekite su nauja „Custom Property“ tipo savybe <code>KREIPINYS</code>.</li>
+                            <li>Šablone naudokite <code>Laba diena, [[contact.custom_properties.KREIPINYS | default: ""]]</code>. Personalizaciją peržiūrėkite pasirinkę tikrą kontaktą.</li>
+                        </ol>
+                        <p>
+                            <a href="https://support.omnisend.com/en/articles/3838659-import-contacts-from-a-file" target="_blank" rel="noopener">Oficialios Omnisend importo gairės</a>
+                            · <a href="https://support.omnisend.com/en/articles/1061845-use-personalization-in-omnisend" target="_blank" rel="noopener">personalizavimo gairės</a>
+                        </p>
+                    </div>
                 </details>
                 <details>
                     <summary>Mailchimp: KREIPINYS lauko susiejimas</summary>
