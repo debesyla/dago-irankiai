@@ -20,7 +20,7 @@ const structuredData = {
     priceCurrency: "EUR",
   },
   license: "https://www.gnu.org/licenses/old-licenses/gpl-2.0.html",
-  codeRepository: "https://github.com/debesyla/asmens-kodai",
+  codeRepository: "https://github.com/debesyla/dago-irankiai/tree/main/tools/asmens-kodai",
   image: "https://dago.lt/irankiai/asmens-kodai/og.png",
   author: {
     "@type": "Person",

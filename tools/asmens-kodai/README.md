@@ -23,26 +23,34 @@ ir rezultatą patikrino žmogus.
 
 ## Vietinis paleidimas
 
+Priklausomybės diegiamos monorepo šaknyje, komandos – su `-w` arba iš šio
+katalogo:
+
 ```sh
 npm ci
-npm run dev
+npm run dev -w tools/asmens-kodai
 ```
 
 Patikrinimas:
 
 ```sh
-npm test
-npm run lint
+npm test -w tools/asmens-kodai
+npm run lint -w tools/asmens-kodai
 ```
+
+`npm run build` sukuria statinį `build/` katalogą, kurį bendra diegimo darbo
+eiga įkelia į `https://dago.lt/irankiai/asmens-kodai/`. `npm run build:worker`
+surenka `vinext` (Cloudflare Worker) variantą, naudojamą testams ir vietinei
+peržiūrai.
 
 ## Diegimas
 
-Pakeitimai `main` šakoje automatiškai patikrinami ir per SSH įdiegiami į
-`https://dago.lt/irankiai/asmens-kodai/`. Saugos žymeklis, GitHub paslaptys ir
-patikros trumpai aprašytos faile [`docs/deployment.md`](docs/deployment.md).
+Įrankis diegiamas kartu su kitais `dago.lt/irankiai/` įrankiais per bendrą
+monorepo darbo eigą `.github/workflows/deploy.yml`. Žr.
+[`docs/deployment.md`](../../docs/deployment.md).
 
 ## Licencija
 
 Projektas yra atvirojo kodo. Jį galima kopijuoti, keisti ir naudoti pagal
 `GPL-2.0-or-later` licencijos sąlygas. Visas licencijos tekstas yra faile
-[`LICENSE`](LICENSE).
+[`LICENSE`](../../LICENSE) repo šaknyje.

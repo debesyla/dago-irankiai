@@ -28,7 +28,7 @@ test("renders the finished tool at the root and intended dago.lt path", async ()
     assert.equal(structuredData["@type"], "WebApplication");
     assert.equal(structuredData.url, "https://dago.lt/irankiai/asmens-kodai/");
     assert.equal(structuredData.isAccessibleForFree, true);
-    assert.equal(structuredData.codeRepository, "https://github.com/debesyla/asmens-kodai");
+    assert.equal(structuredData.codeRepository, "https://github.com/debesyla/dago-irankiai/tree/main/tools/asmens-kodai");
     assert.match(html, /Lietuviško asmens kodo generatorius ir validatorius/);
     assert.match(html, /Generavimo nustatymai/);
     assert.match(html, /Kaip veikia asmens kodas/);
