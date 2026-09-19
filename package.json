@@ -1,0 +1,28 @@
+{
+  "name": "dago-irankiai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "dago.lt įrankių monorepo: https://dago.lt/irankiai/",
+  "license": "GPL-2.0-or-later",
+  "author": "Danielius Goriunovas",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/debesyla/dago-irankiai.git"
+  },
+  "homepage": "https://dago.lt/irankiai/",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "type": "module",
+  "workspaces": [
+    "tools/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present && node scripts/assemble.mjs",
+    "test": "npm test --workspaces --if-present",
+    "test:artifact": "node --test tests/*.test.mjs",
+    "lint": "npm run lint --workspaces --if-present",
+    "verify": "npm run lint && npm test && npm run build && npm run test:artifact",
+    "smoke": "node scripts/smoke.mjs"
+  }
+}

@@ -1,0 +1,20 @@
+# dependencies
+node_modules/
+
+# build outputs (per tool) and the assembled deploy tree (repo root)
+build/
+dist/
+_deploy/
+
+# tool-local caches
+.next/
+.vinext/
+.wrangler/
+coverage/
+
+# environment
+.env*
+
+# OS / editor
+.DS_Store
+*.log
