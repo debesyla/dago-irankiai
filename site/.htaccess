@@ -1,0 +1,28 @@
+# https://dago.lt/irankiai/ — deployed from the dago-irankiai monorepo.
+# Every tool lives in its own subdirectory and ships its own .htaccess with
+# tool-specific caching rules; this file sets the shared defaults.
+
+Options -Indexes -MultiViews
+DirectoryIndex index.html
+AddDefaultCharset utf-8
+
+# Browsers refuse ES module scripts without a JavaScript MIME type, and the
+# host's default type map is not guaranteed to know .mjs.
+AddType text/javascript .mjs
+
+<IfModule mod_headers.c>
+  # HTML always revalidates so a fresh deploy reaches returning visitors.
+  <FilesMatch "\.html$">
+    Header always set Cache-Control "no-cache"
+  </FilesMatch>
+
+  # The deploy's BUILD stamp must never be cached, or the smoke test reads a
+  # stale SHA from an edge cache and passes a deploy that never landed.
+  <Files "BUILD">
+    Header always set Cache-Control "no-store"
+  </Files>
+
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "DENY"
+</IfModule>

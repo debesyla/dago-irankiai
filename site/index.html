@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="lt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#212121">
+    <meta name="description" content="Nemokami dago.lt įrankiai, veikiantys tiesiog naršyklėje.">
+    <meta name="author" content="Danielius Goriunovas">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dago.lt/irankiai/">
+    <meta property="og:title" content="Įrankiai // dago">
+    <meta property="og:description" content="Nemokami dago.lt įrankiai, veikiantys tiesiog naršyklėje.">
+    <meta property="og:image" content="https://dago.lt/assets/img/dago-icon.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Įrankiai // dago">
+    <meta name="twitter:description" content="Nemokami dago.lt įrankiai, veikiantys tiesiog naršyklėje.">
+    <meta name="twitter:image" content="https://dago.lt/assets/img/dago-icon.png">
+    <meta name="fediverse:creator" content="@dago@river.group.lt">
+    <link rel="canonical" href="https://dago.lt/irankiai/">
+    <link rel="icon" type="image/png" sizes="48x48" href="https://dago.lt/assets/img/dago-icon.png">
+    <link rel="apple-touch-icon" href="https://dago.lt/assets/img/dago-icon.png">
+    <link rel="stylesheet" href="https://dago.lt/assets/styles/reset.css?v=20260808">
+    <link rel="stylesheet" href="https://dago.lt/assets/styles/dago.css?v=20260901">
+    <title>Įrankiai // dago</title>
+    <style>
+        .skip-link {
+            background: hsl(var(--theme));
+            color: hsl(var(--black));
+            left: 1rem;
+            padding: 0.55rem 0.75rem;
+            position: absolute;
+            top: 1rem;
+            transform: translateY(-200%);
+            z-index: 10;
+        }
+
+        .skip-link:focus {
+            transform: translateY(0);
+        }
+
+        .tool-page {
+            width: min(100%, 75ch);
+        }
+
+        .site-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .site-header p {
+            margin-top: 0.5rem;
+        }
+
+        .dago-link {
+            opacity: 0.2;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .dago-link:hover,
+        .dago-link:focus-visible {
+            opacity: 1;
+        }
+
+        .tool-list {
+            display: grid;
+            gap: 1rem;
+            list-style: none;
+            padding: 0;
+        }
+
+        .tool-list li + li {
+            margin-top: 0;
+        }
+
+        .tool-card {
+            border: 1px solid hsl(var(--theme) / 0.35);
+            padding: clamp(1rem, 4vw, 1.5rem);
+        }
+
+        .tool-card h2 {
+            font-size: 1.25em;
+            margin: 0 0 0.5rem;
+        }
+
+        .tool-card p {
+            margin: 0;
+        }
+
+        .contact-section {
+            border-top: 1px solid hsl(var(--theme) / 0.35);
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+        }
+
+        .contact-section p + p {
+            margin-top: 0.75rem;
+        }
+    </style>
+</head>
+
+<body>
+    <a class="skip-link" href="#main-content">Pereiti prie turinio</a>
+
+    <main class="tool-page" id="main-content">
+        <header class="site-header">
+            <h1>
+                įrankiai
+                <a class="dago-link print-a-no-link" href="https://dago.lt" target="_blank" rel="noopener">// dago</a>
+            </h1>
+            <p>Nemokami įrankiai, kurie veikia tiesiog naršyklėje.</p>
+        </header>
+
+        <!-- TOOLS -->
+
+        <footer class="contact-section">
+            <p>
+                Visi įrankiai yra atvirojo kodo (GPL-2.0-or-later):
+                <a href="https://github.com/debesyla/dago-irankiai">github.com/debesyla/dago-irankiai</a>.
+            </p>
+            <p>Trūksta įrankio ar radote klaidą? <strong>labas (sraigė) dago.lt</strong></p>
+        </footer>
+    </main>
+</body>
+
+</html>
