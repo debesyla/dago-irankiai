@@ -50,3 +50,16 @@ tyrimas pateiktas faile [RESEARCH.md](RESEARCH.md).
 
 `dago.lt` šeimos vizualinių žetonų, komponentų, šaltinių ir sąmoningų
 skirtumų auditas pateiktas faile [DESIGN.md](DESIGN.md).
+
+## Vietinis darbas ir diegimas
+
+Įrankis yra `dago-irankiai` monorepo dalis. Priklausomybės diegiamos repo
+šaknyje (`npm ci`); `npm run build -w tools/vardu-linksniavimas` sukuria
+statinį `build/` katalogą, kurį bendra darbo eiga `.github/workflows/deploy.yml`
+įkelia į `https://dago.lt/irankiai/vardu-linksniavimas/`. Žr.
+[`docs/deployment.md`](../../docs/deployment.md).
+
+## Licencija
+
+Projektas yra atvirojo kodo ir platinamas pagal `GPL-2.0-or-later` licenciją.
+Visas licencijos tekstas yra faile [`LICENSE`](../../LICENSE) repo šaknyje.
