@@ -161,6 +161,18 @@ jobs:
       - name: Smoke test
         env:
           EXPECTED_SHA: ${{ github.sha }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
         run: |
+          # Ask the origin, not Cloudflare. The dago.lt zone is proxied by
+          # Cloudflare since 2026-09-23, and it answers every request from
+          # GitHub's runner IPs with a challenge (403, cf-mitigated:
+          # challenge). The SSH host is the Hostinger server that serves this
+          # site, so pin the site's name to it for this job: curl and Node
+          # both read /etc/hosts, and TLS is still verified against the name.
+          server_ip="$(getent ahostsv4 "$SSH_HOST" | awk 'NR == 1 { print $1 }')"
+          test -n "$server_ip" || { echo "::error::cannot resolve SSH_HOST"; exit 1; }
+          host="${SITE#https://}"; host="${host%%/*}"
+          echo "$server_ip $host" | sudo tee -a /etc/hosts >/dev/null
+
           sleep 2
           node scripts/smoke.mjs
