@@ -18,6 +18,13 @@ async function exists(file) {
 
 const tools = await loadTools();
 
+// og:image and twitter:image must be absolute — link-preview crawlers do not
+// resolve relative ones — so a plain "skip absolute URLs" would skip every
+// share card. Those under this site's own prefix are checked like any local
+// reference: only crawlers ever fetch them, so nothing else would notice one
+// missing.
+const SITE_PREFIX = `https://dago.lt${BASE_PATH}`;
+
 test("_deploy/ exists (run npm run build first)", async () => {
   assert.ok(await exists(deployDir), "_deploy/ is missing; run npm run build");
 });
@@ -43,6 +50,16 @@ test("index page lists every tool", async () => {
   }
 });
 
+test("index page's share card is deployed", async () => {
+  const html = await readFile(path.join(deployDir, "index.html"), "utf8");
+  const cards = extractReferences(html).filter((reference) => reference.startsWith(SITE_PREFIX));
+  assert.ok(cards.length > 0, `index has an og:image under ${SITE_PREFIX}`);
+  for (const card of cards) {
+    const file = path.join(deployDir, card.slice(SITE_PREFIX.length).split(/[?#]/)[0]);
+    assert.ok(await exists(file), `${card} resolves to a deployed file`);
+  }
+});
+
 for (const tool of tools) {
   test(`${tool.slug}: build output is complete`, async () => {
     const dir = path.join(deployDir, tool.slug);
@@ -51,8 +68,9 @@ for (const tool of tools) {
     assert.ok(html.includes(`<title>${tool.title}</title>`), `title matches tool.json: ${tool.title}`);
 
     // Every local reference must resolve to a file inside _deploy/.
-    for (const reference of extractReferences(html)) {
-      if (/^[a-z][a-z0-9+.-]*:/i.test(reference) || reference.startsWith("//")) continue; // absolute URL
+    for (let reference of extractReferences(html)) {
+      if (reference.startsWith(SITE_PREFIX)) reference = reference.slice("https://dago.lt".length);
+      else if (/^[a-z][a-z0-9+.-]*:/i.test(reference) || reference.startsWith("//")) continue; // absolute URL
       let file;
       if (reference.startsWith("/")) {
         if (!reference.startsWith(BASE_PATH)) continue; // outside /irankiai/, not ours to check
