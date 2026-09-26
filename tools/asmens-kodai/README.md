@@ -13,13 +13,14 @@ Lietuviško asmens kodo generatorius ir validatorius, skirtas
 - paruoštas LLM promptas kodams generuoti pasirinktame DI įrankyje.
 
 Puslapis tiesiogiai jungia bendrus `dago.lt` bazinius stilius ir favicon.
-Visos tik šiam įrankiui reikalingos taisyklės yra `app/project.css`.
+Visos tik šiam įrankiui reikalingos taisyklės yra `static-site/project.css`.
 
 ## Kaip projektas sukurtas?
 
 Projektas sukurtas padedant dirbtinio intelekto įrankiams, daugiausia „OpenAI
 Codex“. DI padėjo rašyti kodą, tekstus ir testus. Galutinius sprendimus priėmė
-ir rezultatą patikrino žmogus.
+ir rezultatą patikrino žmogus. Pradinis Next.js / vinext karkasas nuo
+2026-09-26 pašalintas: liko tik statinis Vite puslapis, kuris ir diegiamas.
 
 ## Vietinis paleidimas
 
@@ -31,6 +32,8 @@ npm ci
 npm run dev -w tools/asmens-kodai
 ```
 
+Kūrimo serveris atidaro `http://localhost:5173/irankiai/asmens-kodai/`.
+
 Patikrinimas:
 
 ```sh
@@ -38,10 +41,9 @@ npm test -w tools/asmens-kodai
 npm run lint -w tools/asmens-kodai
 ```
 
-`npm run build` sukuria statinį `build/` katalogą, kurį bendra diegimo darbo
-eiga įkelia į `https://dago.lt/irankiai/asmens-kodai/`. `npm run build:worker`
-surenka `vinext` (Cloudflare Worker) variantą, naudojamą testams ir vietinei
-peržiūrai.
+`npm run build` sukuria statinį `build/` katalogą (`static-site/` šaltiniai,
+`public/` failai, `.htaccess`), kurį bendra diegimo darbo eiga įkelia į
+`https://dago.lt/irankiai/asmens-kodai/`.
 
 ## Diegimas
 
