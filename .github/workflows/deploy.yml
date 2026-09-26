@@ -158,9 +158,26 @@ jobs:
             -e "ssh -F $HOME/.ssh/config" \
             _deploy/ "deploy-target:$REMOTE_DIR/"
 
+      # Independent of any CDN: the BUILD stamp on disk must be this commit.
+      - name: Verify upload
+        env:
+          REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
+        run: |
+          set -euo pipefail
+          deployed="$(ssh deploy-target "cat '$REMOTE_DIR/BUILD'")"
+          test "$deployed" = "$GITHUB_SHA" \
+            || { echo "::error::BUILD on the server is $deployed, expected $GITHUB_SHA"; exit 1; }
+          echo "Server holds BUILD $deployed"
+
+      # dago.lt is behind Cloudflare, whose bot protection answers 403 to
+      # GitHub-hosted runners. The smoke test therefore talks to the origin
+      # server (the same host the deploy used) with SNI and Host still set to
+      # dago.lt. Cloudflare does not cache HTML, BUILD or .mjs by default, so
+      # what the origin serves is what visitors get.
       - name: Smoke test
         env:
           EXPECTED_SHA: ${{ github.sha }}
+          SMOKE_ORIGIN_IP: ${{ secrets.SSH_HOST }}
         run: |
           sleep 2
           node scripts/smoke.mjs

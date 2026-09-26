@@ -62,10 +62,14 @@ archyvuotuose repozitoriumuose.
 - [x] Perkeltos atviros užduotys.
 - [x] Senų repozitoriumų README rodo į monorepo; senoji `asmens-kodai` diegimo
       darbo eiga išjungta.
-- [ ] Į `production` aplinką įrašytos paslaptys (`REMOTE_DIR` baigiasi `/irankiai`).
-- [ ] Hostinger `/irankiai/` katalogas išvalytas, jame sukurtas
-      `.deploy-marker-irankiai`.
-- [ ] Pirmas diegimas praėjo, abu įrankiai ir `/irankiai/` pasiekiami.
-- [ ] `vardu-linksniavimas` GitHub Pages `index.html` pakeistas nukreipimu į
+- [x] Į `production` aplinką įrašytos paslaptys (`REMOTE_DIR` baigiasi `/irankiai`).
+- [x] Hostinger `/irankiai/` katalogas išvalytas 2026-09-26, jame sukurtas
+      `.deploy-marker-irankiai`. Senasis `/irankiai/.htaccess` su 302 į pradinį
+      puslapį dingo kartu su juo.
+- [x] Pirmas diegimas 2026-09-26 (run 36232333940): failai įkelti, abu įrankiai
+      ir `/irankiai/` pasiekiami. Smoke testas tame paleidime krito dėl
+      Cloudflare 403 GitHub vykdytojui; nuo tada testas eina tiesiai į kilmės
+      serverį, o įkėlimą papildomai patikrina SSH žingsnis.
+- [x] `vardu-linksniavimas` GitHub Pages `index.html` pakeistas nukreipimu į
       `https://dago.lt/irankiai/vardu-linksniavimas/`.
-- [ ] Abu seni repozitoriumai archyvuoti.
+- [x] Abu seni repozitoriumai archyvuoti 2026-09-26.

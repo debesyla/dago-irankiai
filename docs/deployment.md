@@ -13,9 +13,14 @@ Diegimo metu:
    `.deploy-marker-irankiai`;
 3. parodomas `rsync --delete` dry-run, tada `_deploy/` sinchronizuojamas į
    `/irankiai/` (žymeklis ir `.well-known/` neliečiami);
-4. `scripts/smoke.mjs` gyvame puslapyje patikrina `BUILD` žymą, pradinį puslapį
+4. per SSH patikrinama, kad serverio `BUILD` failas atitinka commit SHA;
+5. `scripts/smoke.mjs` gyvame puslapyje patikrina `BUILD` žymą, pradinį puslapį
    ir kiekvieno įrankio `<title>` bei visus jo vietinius failus (JavaScript
-   failai privalo grįžti su JavaScript MIME tipu).
+   failai privalo grįžti su JavaScript MIME tipu). Kadangi `dago.lt` yra už
+   Cloudflare, kurio botų apsauga GitHub vykdytojams atsako 403, testas
+   jungiasi tiesiai į kilmės serverį (`SMOKE_ORIGIN_IP` = `SSH_HOST`), SNI ir
+   `Host` antraštę palikdamas `dago.lt`. Vietoje: `npm run smoke` tikrina per
+   viešą DNS, `SMOKE_ORIGIN_IP=<ip> npm run smoke` – tiesiai kilmės serverį.
 
 `rsync --delete` reiškia, kad serverio `/irankiai/` katalogas visada tiksliai
 atkartoja `_deploy/`. Failai, kurių nėra repozitoriume, po diegimo dings.
