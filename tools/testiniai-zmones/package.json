@@ -1,0 +1,11 @@
+{
+  "name": "testiniai-zmones",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "license": "GPL-2.0-or-later",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test tests/*.test.mjs"
+  }
+}

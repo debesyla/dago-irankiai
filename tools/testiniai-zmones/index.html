@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#212121">
+  <meta name="description" content="Vienu paspaudimu sugeneruokite fiktyvaus žmogaus duomenis testavimui. Lietuviški vardai, adresai, amžius, testinis ID ir JSON.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Testiniai žmonės – fiktyvių duomenų generatorius // dago">
+  <meta property="og:description" content="Lietuviški žmonių duomenys formų, maketų ir programų testavimui.">
+  <meta property="og:url" content="https://dago.lt/irankiai/testiniai-zmones/">
+  <meta property="og:image" content="https://dago.lt/irankiai/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://dago.lt/irankiai/og.png">
+  <link rel="canonical" href="https://dago.lt/irankiai/testiniai-zmones/">
+  <link rel="icon" href="https://dago.lt/assets/img/dago-icon.png">
+  <link rel="stylesheet" href="https://dago.lt/assets/styles/reset.css?v=20260808">
+  <link rel="stylesheet" href="https://dago.lt/assets/styles/dago.css?v=20260901">
+  <title>Testiniai žmonės – fiktyvių duomenų generatorius // dago</title>
+  <style>
+    .tool-page { width: min(100%, 75ch); }
+    .site-header { margin-bottom: 2.5rem; }
+    .site-header p { margin-top: .75rem; }
+    .dago-link { opacity: .2; text-decoration: none; white-space: nowrap; }
+    .dago-link:hover, .dago-link:focus-visible { opacity: 1; }
+    .tool-card { border: 1px solid hsl(var(--theme) / .35); padding: clamp(1rem, 4vw, 2rem); }
+    .actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; }
+    .note, .status { font-size: .8rem; opacity: .75; }
+    .note { margin-top: 1rem; }
+    .status { min-height: 1.5em; margin-top: .75rem; }
+    .person { margin-top: 2rem; }
+    .person h2 { margin: 0 0 1rem; overflow-wrap: anywhere; }
+    .person dl { display: grid; grid-template-columns: 9rem 1fr; margin: 0 0 1.5rem; }
+    .person dt, .person dd { padding: .65rem 0; border-bottom: 1px solid hsl(var(--theme) / .2); }
+    .person dt { opacity: .75; }
+    .person dd { margin: 0; overflow-wrap: anywhere; }
+    section + section { margin-top: 3.5rem; }
+    details { margin-top: 1rem; }
+    details > :not(summary) { margin: 0; padding: .85rem; }
+    pre { overflow-x: auto; font-size: .78rem; }
+    details p + p { padding-top: 0; }
+    .contact-section { border-top: 1px solid hsl(var(--theme) / .35); margin-top: 3.5rem; padding: 1.5rem 0 3rem; }
+    .contact-section p + p { margin-top: .75rem; }
+    .skip-link { position: absolute; top: 1rem; left: 1rem; transform: translateY(-200%); }
+    .skip-link:focus { transform: translateY(0); }
+    button:disabled { opacity: .5; cursor: not-allowed; }
+    [hidden] { display: none !important; }
+    @media (max-width: 32rem) {
+      .person dl { grid-template-columns: 1fr; }
+      .person dt { padding-bottom: 0; border-bottom: 0; font-size: .8rem; }
+      .person dd { padding-top: .2rem; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Pereiti prie įrankio</a>
+  <main id="main-content" class="tool-page">
+    <header class="site-header">
+      <h1>testiniai žmonės <a class="dago-link print-a-no-link" href="https://dago.lt" target="_blank" rel="noopener">// dago</a></h1>
+      <p>Reikia žmogaus formai, maketui ar programos testui? Vienas paspaudimas – ir turite išgalvotus duomenis.</p>
+      <p><a href="/irankiai/">← Visi įrankiai</a></p>
+    </header>
+    <section class="tool-card" aria-label="Fiktyvaus žmogaus generatorius">
+      <div class="actions">
+        <button id="generate" class="primary-button" type="button" disabled>Sugeneruoti žmogų</button>
+      </div>
+      <p class="note">Viskas generuojama jūsų naršyklėje. Vardai gali sutapti su tikrais, tačiau duomenys nesusieti su jokiu tikru žmogumi. Adresas, telefonas ir pašto kodas – testiniai.</p>
+      <noscript><p>Generavimui įjunkite JavaScript arba atsisiųskite <a href="person.v1.json">JSON pavyzdį</a>.</p></noscript>
+      <div id="person" class="person" hidden>
+        <h2 id="person-name"></h2>
+        <dl id="person-fields"></dl>
+        <div class="actions">
+          <button id="copy" class="primary-button" type="button">Kopijuoti JSON</button>
+          <button id="download" class="text-button" type="button">Atsisiųsti JSON</button>
+        </div>
+        <details>
+          <summary>Peržiūrėti JSON</summary>
+          <pre><code id="person-json"></code></pre>
+        </details>
+      </div>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </section>
+    <section aria-labelledby="about-heading">
+      <h2 id="about-heading">Kas sugeneruojama?</h2>
+      <p>Vardas, pavardė, lytis, gimimo data, amžius (18–80 metų), adresas Lietuvoje, el. paštas, testinis telefonas, profesija, įmonė ir ID su <code>TEST-</code> pradžia.</p>
+      <p class="note">ID nėra asmens kodas. Jei testuojate asmens kodo tikrinimą, naudokite <a href="/irankiai/asmens-kodai/">asmens kodų įrankį</a>. El. paštas naudoja <code>example.com</code>; telefonas ir <code>LT-00000</code> netinka realių kontaktų ar adresų validavimui.</p>
+    </section>
+    <section aria-labelledby="examples-heading">
+      <h2 id="examples-heading">LLM ir kitoms programoms</h2>
+      <p>Duomenis galima pasiimti tiesiogiai arba naudoti tą patį generatorių savo projekte. Be registracijos ir API rakto.</p>
+      <details>
+        <summary>Gauti JSON iš šio puslapio</summary>
+        <p><a href="person.v1.json">Vienas žmogus (JSON)</a> · <a href="people.v1.json">100 žmonių (JSON)</a> · <a href="llms.txt">Instrukcijos LLM</a></p>
+        <p>Tai pastovūs v1 pavyzdžiai, ne dinaminis API. Amžius apskaičiuotas <code>2026-01-01</code> dienai; kiekvienas įrašas turi <code>referenceDate</code>. Pakartotinės užklausos grąžina tuos pačius duomenis.</p>
+        <pre><code>curl https://dago.lt/irankiai/testiniai-zmones/person.v1.json</code></pre>
+        <pre><code>const people = await fetch(
+  'https://dago.lt/irankiai/testiniai-zmones/people.v1.json'
+).then(response =&gt; {
+  if (!response.ok) throw new Error('Nepavyko gauti duomenų');
+  return response.json();
+});</code></pre>
+      </details>
+      <details>
+        <summary>Generuoti savo programoje (JavaScript / Node.js)</summary>
+        <p>Atsisiųskite <a href="src/generator.v1.mjs">generator.v1.mjs</a> ir importuokite savo projekte. Priklausomybių nereikia. Ta pati <code>seed</code>, <code>referenceDate</code> ir generatoriaus versija duoda tą patį rezultatą.</p>
+        <pre><code>import { generatePeople } from './generator.v1.mjs';
+
+const people = generatePeople({
+  count: 10,                 // nuo 1 iki 1000
+  seed: 'mano-testas',       // praleidus – atsitiktinis rinkinys
+  referenceDate: '2026-01-01' // praleidus – šiandien (UTC)
+});
+console.log(JSON.stringify(people, null, 2));</code></pre>
+        <p>Galima importuoti tiesiogiai ir naršyklėje:</p>
+        <pre><code>import { generatePerson } from
+  'https://dago.lt/irankiai/testiniai-zmones/src/generator.v1.mjs';
+
+console.log(generatePerson());</code></pre>
+        <p>ID skirtas testavimui; garantuoto unikalumo ir kriptografinio atsitiktinumo nežadame. Vienodi nustatymai atkuria vienodus ID.</p>
+      </details>
+      <details>
+        <summary>Promptas: pasiimti duomenis su LLM</summary>
+        <div class="actions"><button class="text-button" id="copy-prompt" type="button">Kopijuoti promptą</button></div>
+        <pre><code id="llm-prompt">Man reikia fiktyvių lietuviškų žmonių duomenų programos testavimui.
+Perskaityk https://dago.lt/irankiai/testiniai-zmones/llms.txt.
+Paimk https://dago.lt/irankiai/testiniai-zmones/people.v1.json ir grąžink pirmus 5 įrašus kaip JSON masyvą, nekeisdamas laukų ar reikšmių.
+Tai pastovus v1 rinkinys, ne naujai sugeneruoti duomenys. Išlaikyk referenceDate ir isTestData.
+Jei negali atverti nuorodų, pasakyk tai; netvirtink, kad gavai duomenis.</code></pre>
+      </details>
+      <details>
+        <summary>Promptas: sukurti savo generatorių</summary>
+        <pre><code>Sukurk fiktyvių lietuviškų žmonių generatorių mano projekte.
+Grąžink JSON su schemaVersion: 1, isTestData: true, referenceDate,
+id (TEST- pradžia), firstName, lastName, fullName, gender, birthDate
+(YYYY-MM-DD), age, email, phone, address (street, city, postalCode,
+country, countryCode), occupation ir company.
+Naudok lietuviškus vardus ir su jais suderintas pavardes.
+Amžius turi būti 18–80 metų ir tiksliai atitikti gimimo datą bei referenceDate.
+Duomenys turi būti išgalvoti. El. paštui naudok example.com,
+telefonui +370 000 XXXXX, pašto kodui LT-00000, adresui testines gatves.
+Negeneruok tikro asmens kodo. Palaikyk count (1–1000), seed ir
+referenceDate: tie patys nustatymai turi atkurti tą patį rinkinį.
+Pridėk gimimo datos, amžiaus, pakartojamumo ir netinkamų įvesčių testus.
+Pavyzdys ir atvirasis kodas (GPL-2.0-or-later):
+https://dago.lt/irankiai/testiniai-zmones/</code></pre>
+      </details>
+      <p id="prompt-status" class="status" role="status" aria-live="polite"></p>
+    </section>
+    <footer class="contact-section">
+      <p>Atvirasis kodas (GPL-2.0-or-later): <a href="https://github.com/debesyla/dago-irankiai/tree/main/tools/testiniai-zmones">GitHub</a>.</p>
+      <p>Radote klaidą ar turite idėją? <strong>labas (sraigė) dago.lt</strong></p>
+    </footer>
+  </main>
+  <script type="module" src="./src/ui.mjs"></script>
+</body>
+</html>

@@ -9,6 +9,7 @@ Vienas repozitoriumas (monorepo), iš kurio diegiami visi
 | --- | --- | --- |
 | [Asmens kodai](tools/asmens-kodai/) | <https://dago.lt/irankiai/asmens-kodai/> | Lietuviško asmens kodo generatorius ir validatorius. |
 | [Vardų linksniavimas](tools/vardu-linksniavimas/) | <https://dago.lt/irankiai/vardu-linksniavimas/> | Lietuviškų vardų šauksmininkas kreipiniams. |
+| [Testiniai žmonės](tools/testiniai-zmones/) | <https://dago.lt/irankiai/testiniai-zmones/> | Fiktyvūs žmonių duomenys testavimui, JSON ir pakartojamas generatorius. |
 
 ## Struktūra
 

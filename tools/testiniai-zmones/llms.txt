@@ -1,0 +1,41 @@
+# Testiniai žmonės // dago
+
+Synthetic Lithuanian person data for testing. No real-person records.
+Base URL: https://dago.lt/irankiai/testiniai-zmones/
+
+## Fetch without JavaScript
+- person.v1.json: one person object, schemaVersion 1.
+- people.v1.json: array of 100 person objects, schemaVersion 1.
+These are STATIC fixtures. Every request returns the same data.
+Seed: dago-testiniai-zmones-v1. referenceDate: 2026-01-01.
+Age is relative to referenceDate, NOT the current date.
+Query parameters do not generate new people. No dynamic API exists.
+Use ordinary HTTP GET. Public JSON and generator support CORS.
+
+## Generate fresh or reproducible data
+Download src/generator.v1.mjs and import it locally in Node.js 22+,
+or import its absolute HTTPS URL in a browser ES module.
+Exports: generatePerson(options), generatePeople(options), SCHEMA_VERSION.
+Options: count (integer 1..1000, default 1; generatePeople only),
+seed (string 1..200 characters, default random UUID),
+referenceDate (valid YYYY-MM-DD from 1900, default current UTC date).
+For reproducible results specify both seed and referenceDate.
+Version 1 returns the same values for the same options.
+IDs use seeded randomness and are not guaranteed globally unique.
+
+## Schema
+schemaVersion: 1; isTestData: true; referenceDate: YYYY-MM-DD;
+id: TEST- followed by 32 hexadecimal characters (not a national ID);
+firstName, lastName, fullName, gender (vyras or moteris),
+birthDate (YYYY-MM-DD), age (integer 18..80), email, phone,
+address: {street, city, postalCode, country, countryCode},
+occupation, company.
+Names may coincidentally match real people. Emails use example.com.
+Phone (+370 000 XXXXX), postalCode (LT-00000), street and company
+are test placeholders, unsuitable for real contact/address validation.
+Never claim that these records identify real people.
+If you cannot fetch the URLs, disclose that instead of fabricating a fetch.
+For actual national-ID validation fixtures use the separate asmens-kodai tool.
+
+Source: https://github.com/debesyla/dago-irankiai/tree/main/tools/testiniai-zmones
+License: GPL-2.0-or-later.
