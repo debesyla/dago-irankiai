@@ -6,6 +6,9 @@
   "license": "GPL-2.0-or-later",
   "scripts": {
     "build": "node build.mjs",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --experimental-strip-types --test tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "libphonenumber-js": "^1.13.14"
   }
 }

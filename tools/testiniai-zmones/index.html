@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#212121">
-  <meta name="description" content="Vienu paspaudimu sugeneruokite fiktyvaus žmogaus duomenis testavimui. Lietuviški vardai, adresai, amžius, testinis ID ir JSON.">
+  <meta name="description" content="Vienu paspaudimu sugeneruokite fiktyvaus žmogaus duomenis testavimui. Lietuviški vardai, adresai, amžius, asmens kodas ir JSON.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Testiniai žmonės – fiktyvių duomenų generatorius // dago">
   <meta property="og:description" content="Lietuviški žmonių duomenys formų, maketų ir programų testavimui.">
@@ -64,8 +64,8 @@
       <div class="actions">
         <button id="generate" class="primary-button" type="button" disabled>Sugeneruoti žmogų</button>
       </div>
-      <p class="note">Viskas generuojama jūsų naršyklėje. Vardai gali sutapti su tikrais, tačiau duomenys nesusieti su jokiu tikru žmogumi. Adresas, telefonas ir pašto kodas – testiniai.</p>
-      <noscript><p>Generavimui įjunkite JavaScript arba atsisiųskite <a href="person.v1.json">JSON pavyzdį</a>.</p></noscript>
+      <p class="note">Duomenys generuojami naršyklėje ir nesusieti su tikrais žmonėmis. Adresai ir pašto kodai parenkami iš patikrinto sąrašo.</p>
+      <noscript><p>Generavimui įjunkite JavaScript arba atsisiųskite <a href="person.v2.json">JSON pavyzdį</a>.</p></noscript>
       <div id="person" class="person" hidden>
         <h2 id="person-name"></h2>
         <dl id="person-fields"></dl>
@@ -82,19 +82,25 @@
     </section>
     <section aria-labelledby="about-heading">
       <h2 id="about-heading">Kas sugeneruojama?</h2>
-      <p>Vardas, pavardė, lytis, gimimo data, amžius (18–80 metų), adresas Lietuvoje, el. paštas, testinis telefonas, profesija, įmonė ir ID su <code>TEST-</code> pradžia.</p>
-      <p class="note">ID nėra asmens kodas. Jei testuojate asmens kodo tikrinimą, naudokite <a href="/irankiai/asmens-kodai/">asmens kodų įrankį</a>. El. paštas naudoja <code>example.com</code>; telefonas ir <code>LT-00000</code> netinka realių kontaktų ar adresų validavimui.</p>
+      <p>Vardas, pavardė, lytis, gimimo data, amžius (18–80 metų), adresas Lietuvoje, el. paštas, lietuviško formato telefonas, profesija, įmonė ir asmens kodas.</p>
+      <p class="note">Asmens kodo gimimo data ir lytis sutampa su žmogaus duomenimis, kontrolinis skaitmuo apskaičiuojamas ta pačia logika kaip <a href="/irankiai/asmens-kodai/">asmens kodų įrankyje</a>. Telefonas pateikiamas tarptautiniu formatu <code>+3706XXXXXXX</code>. El. paštas naudoja <code>example.com</code>.</p>
+      <details>
+        <summary>Adresai ir validatorių tikrinimas</summary>
+        <p>Gatvė, namo numeris, miestas ir pašto kodas parenkami kartu iš 7 patikrintų viešų įstaigų adresų. Namo ar buto numeris nekeičiamas. Tai ribotas sąrašas, ne visas Lietuvos adresų registras; adresai gali kartotis.</p>
+        <p>Asmens kodai praeina struktūros ir kontrolinio skaitmens patikrą, telefonai – Lietuvos mobiliojo numerio formato patikrą. Tapatybės patvirtinimas, SMS patvirtinimas ar konkrečios išorinės adresų bazės patikra nėra garantuojami. Sugeneruoti numeriai ir kodai gali sutapti su tikrais; naudokite tik testavimui, nesiųskite SMS ir neskambinkite.</p>
+        <p><a href="https://github.com/debesyla/dago-irankiai/blob/main/tools/testiniai-zmones/ADDRESS-SOURCES.md">Adresų šaltiniai</a> · <a href="https://rrt.lt/veiklos-sritys/elektroniniai-rysiai/rysio-numeriai-domenai-ir-kodai/rysio-numeriai">RRT numeracijos planas</a></p>
+      </details>
     </section>
     <section aria-labelledby="examples-heading">
       <h2 id="examples-heading">LLM ir kitoms programoms</h2>
       <p>Duomenis galima pasiimti tiesiogiai arba naudoti tą patį generatorių savo projekte. Be registracijos ir API rakto.</p>
       <details>
         <summary>Gauti JSON iš šio puslapio</summary>
-        <p><a href="person.v1.json">Vienas žmogus (JSON)</a> · <a href="people.v1.json">100 žmonių (JSON)</a> · <a href="llms.txt">Instrukcijos LLM</a></p>
-        <p>Tai pastovūs v1 pavyzdžiai, ne dinaminis API. Amžius apskaičiuotas <code>2026-01-01</code> dienai; kiekvienas įrašas turi <code>referenceDate</code>. Pakartotinės užklausos grąžina tuos pačius duomenis.</p>
-        <pre><code>curl https://dago.lt/irankiai/testiniai-zmones/person.v1.json</code></pre>
+        <p><a href="person.v2.json">Vienas žmogus (JSON)</a> · <a href="people.v2.json">100 žmonių (JSON)</a> · <a href="llms.txt">Instrukcijos LLM</a></p>
+        <p>Tai pastovūs v2 pavyzdžiai, ne dinaminis API. Amžius apskaičiuotas <code>2026-01-01</code> dienai; kiekvienas įrašas turi <code>referenceDate</code>. Pakartotinės užklausos grąžina tuos pačius duomenis.</p>
+        <pre><code>curl https://dago.lt/irankiai/testiniai-zmones/person.v2.json</code></pre>
         <pre><code>const people = await fetch(
-  'https://dago.lt/irankiai/testiniai-zmones/people.v1.json'
+  'https://dago.lt/irankiai/testiniai-zmones/people.v2.json'
 ).then(response =&gt; {
   if (!response.ok) throw new Error('Nepavyko gauti duomenų');
   return response.json();
@@ -102,8 +108,8 @@
       </details>
       <details>
         <summary>Generuoti savo programoje (JavaScript / Node.js)</summary>
-        <p>Atsisiųskite <a href="src/generator.v1.mjs">generator.v1.mjs</a> ir importuokite savo projekte. Priklausomybių nereikia. Ta pati <code>seed</code>, <code>referenceDate</code> ir generatoriaus versija duoda tą patį rezultatą.</p>
-        <pre><code>import { generatePeople } from './generator.v1.mjs';
+        <p>Atsisiųskite <a href="src/generator.v2.mjs">generator.v2.mjs</a> ir importuokite savo projekte. Priklausomybių nereikia. Ta pati <code>seed</code>, <code>referenceDate</code> ir generatoriaus versija duoda tą patį rezultatą.</p>
+        <pre><code>import { generatePeople } from './generator.v2.mjs';
 
 const people = generatePeople({
   count: 10,                 // nuo 1 iki 1000
@@ -113,32 +119,35 @@ const people = generatePeople({
 console.log(JSON.stringify(people, null, 2));</code></pre>
         <p>Galima importuoti tiesiogiai ir naršyklėje:</p>
         <pre><code>import { generatePerson } from
-  'https://dago.lt/irankiai/testiniai-zmones/src/generator.v1.mjs';
+  'https://dago.lt/irankiai/testiniai-zmones/src/generator.v2.mjs';
 
 console.log(generatePerson());</code></pre>
-        <p>ID skirtas testavimui; garantuoto unikalumo ir kriptografinio atsitiktinumo nežadame. Vienodi nustatymai atkuria vienodus ID.</p>
+        <p>Duomenys skirti testavimui. Garantuoto asmens kodų unikalumo nežadame; vienodi nustatymai atkuria vienodus duomenis.</p>
       </details>
       <details>
         <summary>Promptas: pasiimti duomenis su LLM</summary>
         <div class="actions"><button class="text-button" id="copy-prompt" type="button">Kopijuoti promptą</button></div>
         <pre><code id="llm-prompt">Man reikia fiktyvių lietuviškų žmonių duomenų programos testavimui.
 Perskaityk https://dago.lt/irankiai/testiniai-zmones/llms.txt.
-Paimk https://dago.lt/irankiai/testiniai-zmones/people.v1.json ir grąžink pirmus 5 įrašus kaip JSON masyvą, nekeisdamas laukų ar reikšmių.
-Tai pastovus v1 rinkinys, ne naujai sugeneruoti duomenys. Išlaikyk referenceDate ir isTestData.
+Paimk https://dago.lt/irankiai/testiniai-zmones/people.v2.json ir grąžink pirmus 5 įrašus kaip JSON masyvą, nekeisdamas laukų ar reikšmių.
+Tai pastovus v2 rinkinys, ne naujai sugeneruoti duomenys. Išlaikyk referenceDate ir isTestData.
 Jei negali atverti nuorodų, pasakyk tai; netvirtink, kad gavai duomenis.</code></pre>
       </details>
       <details>
         <summary>Promptas: sukurti savo generatorių</summary>
         <pre><code>Sukurk fiktyvių lietuviškų žmonių generatorių mano projekte.
-Grąžink JSON su schemaVersion: 1, isTestData: true, referenceDate,
-id (TEST- pradžia), firstName, lastName, fullName, gender, birthDate
+Grąžink JSON su schemaVersion: 2, isTestData: true, referenceDate,
+personalCode (11 skaitmenų asmens kodas), firstName, lastName, fullName, gender, birthDate
 (YYYY-MM-DD), age, email, phone, address (street, city, postalCode,
 country, countryCode), occupation ir company.
 Naudok lietuviškus vardus ir su jais suderintas pavardes.
 Amžius turi būti 18–80 metų ir tiksliai atitikti gimimo datą bei referenceDate.
 Duomenys turi būti išgalvoti. El. paštui naudok example.com,
-telefonui +370 000 XXXXX, pašto kodui LT-00000, adresui testines gatves.
-Negeneruok tikro asmens kodo. Palaikyk count (1–1000), seed ir
+telefonui naudok +3706XXXXXXX. Adresus rinkis kaip visus patikrintus gatvės,
+namo, miesto ir pašto kodo derinius iš viešų įstaigų kontaktų; nekurk atsitiktinių namų numerių.
+Asmens kodą sugeneruok pagal gimimo datą, lytį ir Lietuvos kontrolinio skaitmens algoritmą.
+Naudok esamą šio projekto generatorių, o ne kopijuok realių žmonių kodus.
+Palaikyk count (1–1000), seed ir
 referenceDate: tie patys nustatymai turi atkurti tą patį rinkinį.
 Pridėk gimimo datos, amžiaus, pakartojamumo ir netinkamų įvesčių testus.
 Pavyzdys ir atvirasis kodas (GPL-2.0-or-later):

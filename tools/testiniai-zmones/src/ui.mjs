@@ -1,4 +1,4 @@
-import { generatePerson } from './generator.v1.mjs';
+import { generatePerson } from './generator.v2.mjs';
 
 const get = (id) => document.getElementById(id);
 let currentPerson;
@@ -12,10 +12,10 @@ generate.addEventListener('click', () => {
   const p = currentPerson;
   const fields = [
     ['Vardas', p.firstName], ['Pavardė', p.lastName], ['Amžius', `${p.age} m.`],
-    ['Gimimo data', p.birthDate], ['Lytis', p.gender], ['Testinis ID', p.id],
+    ['Gimimo data', p.birthDate], ['Lytis', p.gender], ['Asmens kodas', p.personalCode],
     ['El. paštas', p.email], ['Telefonas', p.phone],
     ['Adresas', `${p.address.street}, ${p.address.postalCode} ${p.address.city}, ${p.address.country}`],
-    ['Profesija', p.occupation], ['Įmonė', p.company], ['Amžius skaičiuotas', p.referenceDate],
+    ['Profesija', p.occupation], ['Įmonė', p.company],
   ];
   get('person-fields').replaceChildren(...fields.flatMap(([label, value]) => {
     const dt = document.createElement('dt');

@@ -11,7 +11,7 @@ AddType application/json .json
   <FilesMatch "\.(html|mjs|json|txt)$">
     Header always set Cache-Control "no-cache"
   </FilesMatch>
-  <FilesMatch "^(person\.v1\.json|people\.v1\.json|generator\.v1\.mjs|llms\.txt)$">
+  <FilesMatch "^(person\.v[12]\.json|people\.v[12]\.json|generator\.v[12]\.mjs|llms\.txt)$">
     Header always set Access-Control-Allow-Origin "*"
   </FilesMatch>
 </IfModule>
