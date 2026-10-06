@@ -25,7 +25,7 @@ async function copy(text, target, success = 'Nukopijuota.') {
     target.textContent = success;
     return true;
   } catch {
-    target.textContent = 'Nepavyko nukopijuoti. Pažymėkite tekstą ir nukopijuokite rankiniu būdu.';
+    target.textContent = 'Nepavyko nukopijuoti. Pažymėk tekstą ir kopijuok ranka.';
     return false;
   }
 }
@@ -100,8 +100,8 @@ function renderPerson() {
 generate.addEventListener('click', () => {
   currentPerson = generatePerson();
   renderPerson();
-  generate.textContent = 'Sugeneruoti kitą';
-  status.textContent = `Sugeneruota: ${currentPerson.fullName}. Paspauskite reikšmę, kad ją nukopijuotumėte.`;
+  generate.textContent = 'Generuoti kitą';
+  status.textContent = `Sugeneruota: ${currentPerson.fullName}.`;
 });
 
 get('copy').addEventListener('click', () => copy(JSON.stringify(currentPerson, null, 2), status));
@@ -116,5 +116,5 @@ get('download').addEventListener('click', () => {
   link.click();
   link.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
-  status.textContent = 'JSON failas paruoštas atsisiųsti.';
+  status.textContent = 'JSON atsisiunčiamas.';
 });
