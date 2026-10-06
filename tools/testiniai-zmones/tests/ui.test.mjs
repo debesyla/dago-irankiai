@@ -16,9 +16,11 @@ test('single-person UI copies exact field values, handles clipboard denial', asy
   try {
     await import('../src/ui.mjs');
     const doc = browser.document;
-    doc.getElementById('generate').click();
     const person = JSON.parse(doc.getElementById('person-json').textContent);
     assert.equal(person.schemaVersion, 3);
+    assert.equal(doc.getElementById('person').hidden, false);
+    assert.equal(doc.getElementById('person-name').textContent, person.fullName);
+    assert.equal(doc.getElementById('generate').textContent, 'Generuoti kitą');
     const clickCopy = async (label) => {
       doc.querySelector(`[aria-label^="Kopijuoti: ${label}:"]`).click();
       await new Promise((resolve) => setImmediate(resolve));

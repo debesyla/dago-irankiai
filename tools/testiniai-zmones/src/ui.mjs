@@ -97,12 +97,14 @@ function renderPerson() {
   get('person').hidden = false;
 }
 
-generate.addEventListener('click', () => {
+function generateNextPerson() {
   currentPerson = generatePerson();
   renderPerson();
   generate.textContent = 'Generuoti kitą';
   status.textContent = '';
-});
+}
+
+generate.addEventListener('click', generateNextPerson);
 
 get('copy').addEventListener('click', () => copy(JSON.stringify(currentPerson, null, 2), status));
 get('copy-prompt').addEventListener('click', () => copy(get('llm-prompt').textContent, get('prompt-status')));
@@ -118,3 +120,5 @@ get('download').addEventListener('click', () => {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
   status.textContent = 'JSON atsisiunčiamas.';
 });
+
+generateNextPerson();
