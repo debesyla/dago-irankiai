@@ -56,8 +56,8 @@ function copyValue(label, value, displayValue = value) {
 
 function renderPerson() {
   const p = currentPerson;
-  get('person-name').replaceChildren(copyValue('Vardas ir pavardė', p.fullName));
-  get('person-name').setAttribute('aria-label', p.fullName);
+  get('person-name').textContent = p.fullName;
+  get('person-name').hidden = false;
   const fields = [
     ['Vardas', p.firstName], ['Pavardė', p.lastName], ['Amžius', p.age, `${p.age} m.`],
     ['Gimimo data', p.birthDate], ['Lytis', p.gender], ['Asmens kodas', p.personalCode],

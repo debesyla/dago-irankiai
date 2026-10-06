@@ -24,11 +24,13 @@
     .dago-link { opacity: .2; text-decoration: none; white-space: nowrap; }
     .dago-link:hover, .dago-link:focus-visible { opacity: 1; }
     .toolbar, .actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; }
+    .toolbar { justify-content: space-between; }
+    .toolbar h2 { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+    .toolbar button { flex-shrink: 0; }
     .tool-card { border: 1px solid hsl(var(--theme) / .35); }
     .tool-content { padding: clamp(1rem, 4vw, 2rem); }
     .note, .status { font-size: .8rem; opacity: .7; }
-    .person { margin-top: 1.5rem; }
-    .person h2 { margin: 0 0 .5rem; overflow-wrap: anywhere; }
+    .person { margin-top: 1rem; }
     .person > .note { margin-bottom: 1rem; }
     .person dl { display: grid; grid-template-columns: 10rem minmax(0, 1fr); gap: 0 2rem; margin: 0; }
     .person dt, .person dd { padding: .5rem 0; border-bottom: 1px solid hsl(var(--theme) / .12); }
@@ -67,11 +69,11 @@
     <section class="tool-card" aria-label="Žmogaus generatorius">
       <div class="tool-content">
         <div class="toolbar">
+          <h2 id="person-name" hidden></h2>
           <button id="generate" class="primary-button" type="button" disabled>Generuoti žmogų</button>
         </div>
         <noscript><p>Įjunk JavaScript arba atsisiųsk <a href="person.v3.json">JSON pavyzdį</a>.</p></noscript>
         <div id="person" class="person" hidden>
-          <h2 id="person-name"></h2>
           <p class="note">Spustelėk reikšmę – nukopijuos.</p>
           <dl id="person-fields"></dl>
           <details>
