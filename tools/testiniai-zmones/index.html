@@ -19,41 +19,36 @@
   <title>Testiniai žmonės – fiktyvių duomenų generatorius // dago</title>
   <style>
     .tool-page { width: min(100%, 75ch); }
-    .site-header { margin-bottom: 2rem; }
-    .site-header p { margin-top: .5rem; opacity: .75; }
-    .dago-link { opacity: .3; text-decoration: none; white-space: nowrap; }
+    .site-header { margin-bottom: 2.5rem; }
+    .site-header p { margin-top: .5rem; }
+    .dago-link { opacity: .2; text-decoration: none; white-space: nowrap; }
     .dago-link:hover, .dago-link:focus-visible { opacity: 1; }
     .toolbar, .actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; }
-    .toolbar { padding-bottom: 1.5rem; border-bottom: 1px solid hsl(var(--theme) / .25); }
-    .note, .status { font-size: .8rem; opacity: .75; }
+    .tool-card { border: 1px solid hsl(var(--theme) / .35); }
+    .tool-content { padding: clamp(1rem, 4vw, 2rem); }
+    .note, .status { font-size: .8rem; opacity: .7; }
     .person { margin-top: 1.5rem; }
     .person h2 { margin: 0 0 .5rem; overflow-wrap: anywhere; }
     .person > .note { margin-bottom: 1rem; }
-    .person dl { display: grid; grid-template-columns: 10rem minmax(0, 1fr); margin: 0; }
+    .person dl { display: grid; grid-template-columns: 10rem minmax(0, 1fr); gap: 0 2rem; margin: 0; }
     .person dt, .person dd { padding: .5rem 0; border-bottom: 1px solid hsl(var(--theme) / .12); }
     .person dt { opacity: .65; }
     .person dd { margin: 0; overflow-wrap: anywhere; }
     .copy-value { background: none; border: 0; border-radius: 0; box-shadow: none; color: inherit; cursor: copy; display: block; font: inherit; line-height: inherit; padding: 0; position: relative; text-align: left; width: 100%; }
     .value-text { overflow-wrap: anywhere; }
     .copy-value:hover { background: hsl(var(--theme) / .12); }
-    .copy-value:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
     .copy-feedback:not(:empty) { background: hsl(var(--black)); border: 1px solid currentColor; font-size: .7rem; padding: .2rem .4rem; position: absolute; right: 0; bottom: 100%; white-space: nowrap; }
-    .disclosure { border: 0; border-top: 1px solid hsl(var(--theme) / .25); margin-top: 1.5rem; padding: 0; }
-    .disclosure > summary { padding: .8rem 0; cursor: pointer; }
-    .disclosure > :not(summary) { margin: 0; padding: .5rem 0 1rem; }
+    .person > details { margin-top: 1.5rem; }
+    .details-content { padding: .85rem; }
     .extra-group + .extra-group { margin-top: 1.5rem; }
-    .extra-group h3 { font-size: .9rem; margin: 0 0 .5rem; }
     .extra-group .note { margin-top: .5rem; }
-    .guide { margin-top: 2rem; }
-    .guide h3 { font-size: 1rem; margin: 1rem 0 .5rem; }
-    .guide p + p, .guide pre { margin-top: .75rem; }
+    .guide { margin-top: clamp(3.5rem, 9vw, 6rem); }
     pre { overflow-x: auto; font-size: .78rem; }
     .status { margin-top: .75rem; }
     .status:empty { display: none; }
-    .contact-section { border-top: 1px solid hsl(var(--theme) / .25); margin-top: 2rem; padding: 1rem 0 2rem; font-size: .8rem; opacity: .75; }
-    .skip-link { position: absolute; top: 1rem; left: 1rem; transform: translateY(-200%); }
+    .contact-section { border-top: 1px solid hsl(var(--theme) / .35); margin-top: clamp(3.5rem, 9vw, 6rem); padding: 1.5rem 0 3rem; }
+    .skip-link { background: hsl(var(--theme)); color: hsl(var(--black)); padding: .55rem .75rem; position: absolute; top: 1rem; left: 1rem; transform: translateY(-200%); z-index: 10; }
     .skip-link:focus { transform: translateY(0); }
-    button:disabled { opacity: .5; cursor: not-allowed; }
     [hidden] { display: none !important; }
     @media (max-width: 32rem) {
       .person dl { grid-template-columns: 1fr; }
@@ -69,49 +64,51 @@
       <h1>testiniai žmonės <a class="dago-link print-a-no-link" href="https://dago.lt" target="_blank" rel="noopener">// dago</a></h1>
       <p>Išgalvoti lietuviški duomenys formoms ir testams.</p>
     </header>
-    <section aria-label="Žmogaus generatorius">
-      <div class="toolbar">
-        <button id="generate" class="primary-button" type="button" disabled>Generuoti žmogų</button>
-      </div>
-      <noscript><p>Įjunk JavaScript arba atsisiųsk <a href="person.v3.json">JSON pavyzdį</a>.</p></noscript>
-      <div id="person" class="person" hidden>
-        <h2 id="person-name"></h2>
-        <p class="note">Spustelėk reikšmę – nukopijuos.</p>
-        <dl id="person-fields"></dl>
-        <details class="disclosure">
-          <summary>Papildomi duomenys</summary>
-          <div>
-            <div class="extra-group"><h3>Paskyra</h3><dl id="account-fields"></dl></div>
-            <div class="extra-group"><h3>Asmeniniai duomenys</h3><dl id="personal-fields"></dl></div>
-            <div class="extra-group"><h3>Vieta ir automobilis</h3><dl id="location-fields"></dl><p class="note">Koordinatės nurodo miestą.</p></div>
-            <div class="extra-group"><h3>Testinė kortelė</h3><dl id="payment-fields"></dl><p class="note">Tik <a href="https://docs.stripe.com/testing">Stripe testavimo režimui</a>.</p></div>
-          </div>
-        </details>
-        <details class="disclosure">
-          <summary>JSON</summary>
-          <div>
-            <div class="actions">
-              <button id="copy" class="text-button" type="button">Kopijuoti JSON</button>
-              <button id="download" class="text-button" type="button">Atsisiųsti JSON</button>
+    <section class="tool-card" aria-label="Žmogaus generatorius">
+      <div class="tool-content">
+        <div class="toolbar">
+          <button id="generate" class="primary-button" type="button" disabled>Generuoti žmogų</button>
+        </div>
+        <noscript><p>Įjunk JavaScript arba atsisiųsk <a href="person.v3.json">JSON pavyzdį</a>.</p></noscript>
+        <div id="person" class="person" hidden>
+          <h2 id="person-name"></h2>
+          <p class="note">Spustelėk reikšmę – nukopijuos.</p>
+          <dl id="person-fields"></dl>
+          <details>
+            <summary>Papildomi duomenys</summary>
+            <div class="details-content">
+              <div class="extra-group"><h3>Paskyra</h3><dl id="account-fields"></dl></div>
+              <div class="extra-group"><h3>Asmeniniai duomenys</h3><dl id="personal-fields"></dl></div>
+              <div class="extra-group"><h3>Vieta ir automobilis</h3><dl id="location-fields"></dl><p class="note">Koordinatės nurodo miestą.</p></div>
+              <div class="extra-group"><h3>Testinė kortelė</h3><dl id="payment-fields"></dl><p class="note">Tik <a href="https://docs.stripe.com/testing">Stripe testavimo režimui</a>.</p></div>
             </div>
-            <pre><code id="person-json"></code></pre>
-          </div>
-        </details>
+          </details>
+          <details>
+            <summary>JSON</summary>
+            <div class="details-content">
+              <div class="actions">
+                <button id="copy" class="text-button" type="button">Kopijuoti JSON</button>
+                <button id="download" class="text-button" type="button">Atsisiųsti JSON</button>
+              </div>
+              <pre><code id="person-json"></code></pre>
+            </div>
+          </details>
+        </div>
+        <p id="status" class="status" role="status" aria-live="polite"></p>
       </div>
-      <p id="status" class="status" role="status" aria-live="polite"></p>
     </section>
     <div class="guide">
-      <details class="disclosure">
+      <details>
         <summary>Apie duomenis</summary>
-        <div>
+        <div class="details-content">
           <p>Asmens kodas atitinka gimimo datą, lytį ir kontrolinį skaitmenį. Telefonas atitinka Lietuvos mobiliojo numerio formatą. El. paštas naudoja example.com.</p>
           <p>Adresai ir pašto kodai parenkami kartu iš <a href="https://github.com/debesyla/dago-irankiai/blob/main/tools/testiniai-zmones/ADDRESS-SOURCES.md">7 viešų įstaigų adresų</a>. Jie gali kartotis.</p>
           <p>Sugeneruoti kodai ir telefonai gali sutapti su tikrais. Jie skirti testams, ne tapatybei ar ryšiui patvirtinti.</p>
         </div>
       </details>
-      <details class="disclosure">
+      <details>
         <summary>LLM ir programoms</summary>
-        <div>
+        <div class="details-content">
           <p><a href="person.v3.json">JSON pavyzdys</a> · <a href="llms.txt">Instrukcijos LLM</a> · <a href="src/generator.v3.mjs">Generatorius</a></p>
           <h3>Pasiimti JSON</h3>
           <pre><code>curl https://dago.lt/irankiai/testiniai-zmones/person.v3.json</code></pre>

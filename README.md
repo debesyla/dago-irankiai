@@ -51,7 +51,8 @@ paleidžiamos iš to įrankio katalogo.
    `index.html`, `.htaccess` ir testais.
 2. Puslapyje naudokite bendrus `https://dago.lt/assets/styles/reset.css` ir
    `dago.css` stilius bei `// dago` antraštės nuorodą, kad įrankis atitiktų
-   šeimos dizainą.
+   šeimos dizainą. Nekurkite atskiro vizualinio stiliaus; vadovaukitės
+   [DAGO dizaino taisyklėmis](AGENTS.md).
 3. `npm run verify` turi praeiti. Pradinis puslapis ir diegimas naują įrankį
    pasiima automatiškai.
 
