@@ -48,6 +48,8 @@
     .status { margin-top: .75rem; }
     .status:empty { display: none; }
     .contact-section { border-top: 1px solid hsl(var(--theme) / .35); margin-top: clamp(3.5rem, 9vw, 6rem); padding: 1.5rem 0 3rem; }
+    .contact-section > * + * { margin-top: 1rem; }
+    .contact-section strong { display: block; }
     .skip-link { background: hsl(var(--theme)); color: hsl(var(--black)); padding: .55rem .75rem; position: absolute; top: 1rem; left: 1rem; transform: translateY(-200%); z-index: 10; }
     .skip-link:focus { transform: translateY(0); }
     [hidden] { display: none !important; }
@@ -110,6 +112,7 @@
         <summary>LLM ir programoms</summary>
         <div class="details-content">
           <p><a href="person.v3.json">JSON pavyzdys</a> · <a href="llms.txt">Instrukcijos LLM</a> · <a href="src/generator.v3.mjs">Generatorius</a></p>
+          <p><a href="https://github.com/debesyla/dago-irankiai/tree/main/tools/testiniai-zmones">Kodas: GitHub</a> · GPL-2.0+</p>
           <h3>Pasiimti JSON</h3>
           <pre><code>curl https://dago.lt/irankiai/testiniai-zmones/person.v3.json</code></pre>
           <p class="note">Pastovus pavyzdys, ne API. Kiekviena užklausa grąžina tą patį žmogų. Amžius apskaičiuotas 2026-01-01 dienai.</p>
@@ -130,7 +133,8 @@ Jei nuorodų atverti negali, pasakyk.</code></pre>
       </details>
     </div>
     <footer class="contact-section">
-      <p><a href="https://github.com/debesyla/dago-irankiai/tree/main/tools/testiniai-zmones">Kodas: GitHub</a> · GPL-2.0+ · labas (sraigė) dago.lt</p>
+      <p>Reikia pagalbos su testinių duomenų integracija? Galiu padėti.</p>
+      <strong>labas (sraigė) dago.lt</strong>
     </footer>
   </main>
   <script type="module" src="./src/ui.mjs"></script>

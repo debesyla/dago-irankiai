@@ -101,7 +101,7 @@ generate.addEventListener('click', () => {
   currentPerson = generatePerson();
   renderPerson();
   generate.textContent = 'Generuoti kitą';
-  status.textContent = `Sugeneruota: ${currentPerson.fullName}.`;
+  status.textContent = '';
 });
 
 get('copy').addEventListener('click', () => copy(JSON.stringify(currentPerson, null, 2), status));
