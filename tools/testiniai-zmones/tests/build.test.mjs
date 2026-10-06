@@ -44,6 +44,5 @@ test('published v3 single-person module and JSON include all extra fields', asyn
   const fixture = JSON.parse(await readFile(new URL('../build/person.v3.json', import.meta.url), 'utf8'));
   assert.deepEqual(fixture, generatePerson(options));
   assert.deepEqual(deployedPerson(options), fixture);
-  assert.deepEqual(deployedPerson({ ...options, includeAvatar: true }), generatePerson({ ...options, includeAvatar: true }));
   assert.doesNotMatch(await readFile(new URL('../build/src/generator.v3.mjs', import.meta.url), 'utf8'), /^import /m);
 });

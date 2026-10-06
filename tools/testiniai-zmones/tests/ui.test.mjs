@@ -3,7 +3,7 @@ import test from 'node:test';
 import { readFile } from 'node:fs/promises';
 import { Window } from 'happy-dom';
 
-test('single-person UI copies exact field values, handles denial and toggles avatar without changing identity', async () => {
+test('single-person UI copies exact field values, handles clipboard denial', async () => {
   const browser = new Window({ settings: { disableCSSFileLoading: true, disableJavaScriptFileLoading: true, disableJavaScriptEvaluation: true } });
   const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
   browser.document.body.innerHTML = html.match(/<body>([\s\S]*)<\/body>/)[1];
@@ -45,17 +45,6 @@ test('single-person UI copies exact field values, handles denial and toggles ava
     assert.match(doc.getElementById('status').textContent, /nukopijuota/);
     assert.equal(doc.querySelector('textarea'), null);
     delete doc.execCommand;
-    const toggle = doc.getElementById('include-avatar');
-    toggle.checked = true;
-    toggle.dispatchEvent(new browser.Event('change'));
-    const illustrated = JSON.parse(doc.getElementById('person-json').textContent);
-    assert.deepEqual({ ...illustrated, avatar: null }, person);
-    assert.equal(doc.getElementById('avatar').hidden, false);
-    assert.ok(illustrated.avatar.startsWith('data:image/svg+xml'));
-    toggle.checked = false;
-    toggle.dispatchEvent(new browser.Event('change'));
-    assert.deepEqual(JSON.parse(doc.getElementById('person-json').textContent), person);
-    assert.equal(doc.getElementById('avatar').hidden, true);
     denied = false;
     doc.getElementById('copy').click();
     await new Promise((resolve) => setImmediate(resolve));

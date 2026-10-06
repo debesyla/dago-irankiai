@@ -8,8 +8,7 @@ const cityCoordinates = {
   'Šiauliai': [55.933, 23.317], 'Panevėžys': [55.732, 24.360], Utena: [55.498, 25.605],
 };
 
-export function generatePerson({ includeAvatar = false, ...options } = {}) {
-  if (typeof includeAvatar !== 'boolean') throw new TypeError('includeAvatar must be a boolean');
+export function generatePerson(options = {}) {
   const person = generateBasePerson(options);
   const token = person.email.split('@')[0].slice(5);
   let state = parseInt(token.slice(0, 8), 16);
@@ -54,15 +53,5 @@ export function generatePerson({ includeAvatar = false, ...options } = {}) {
     // Stripe's documented sandbox card, not a generated live payment card.
     // https://docs.stripe.com/testing
     payment: { provider: 'Stripe', brand: 'Visa', number: '4242424242424242', expiryMonth: String(integer(1, 12)).padStart(2, '0'), expiryYear: year + 3, cvv: String(integer(100, 999)) },
-    avatar: includeAvatar ? avatarForPerson(person) : null,
   };
-}
-
-
-export function avatarForPerson(person) {
-  const token = person.email.split('@')[0].slice(5);
-  const initials = person.firstName[0] + person.lastName[0];
-  const hue = parseInt(token.slice(0, 4), 16) % 360;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128"><rect width="128" height="128" rx="24" fill="hsl(${hue} 35% 25%)"/><text x="64" y="68" text-anchor="middle" dominant-baseline="middle" fill="white" font-family="sans-serif" font-size="48">${initials}</text></svg>`;
-  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }

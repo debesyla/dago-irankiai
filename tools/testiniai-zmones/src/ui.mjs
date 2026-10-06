@@ -1,11 +1,10 @@
-import { generatePerson, avatarForPerson } from './generator.v3.mjs';
+import { generatePerson } from './generator.v3.mjs';
 
 const get = (id) => document.getElementById(id);
 let currentPerson;
 const status = get('status');
 const generate = get('generate');
 generate.disabled = false;
-get('include-avatar').disabled = false;
 
 async function copy(text, target, success = 'Nukopijuota.') {
   try {
@@ -94,34 +93,17 @@ function renderPerson() {
     ['Kortelės tipas', `${p.payment.brand} · ${p.payment.provider}`], ['Kortelės numeris', p.payment.number],
     ['Galioja iki', `${p.payment.expiryMonth}/${p.payment.expiryYear}`], ['CVV', p.payment.cvv],
   ]);
-  const avatar = get('avatar');
-  avatar.hidden = !p.avatar;
-  if (p.avatar) {
-    avatar.src = p.avatar;
-    avatar.alt = `${p.fullName} inicialų avataras`;
-  } else {
-    avatar.removeAttribute('src');
-  }
-  get('copy-avatar').hidden = !p.avatar;
   get('person-json').textContent = JSON.stringify(p, null, 2);
   get('person').hidden = false;
 }
 
 generate.addEventListener('click', () => {
-  currentPerson = generatePerson({ includeAvatar: get('include-avatar').checked });
+  currentPerson = generatePerson();
   renderPerson();
   generate.textContent = 'Sugeneruoti kitą';
   status.textContent = `Sugeneruota: ${currentPerson.fullName}. Paspauskite reikšmę, kad ją nukopijuotumėte.`;
 });
 
-get('include-avatar').addEventListener('change', () => {
-  if (!currentPerson) return;
-  currentPerson.avatar = get('include-avatar').checked ? avatarForPerson(currentPerson) : null;
-  renderPerson();
-  status.textContent = currentPerson.avatar ? 'Avataras pridėtas.' : 'Avataras pašalintas.';
-});
-
-get('copy-avatar').addEventListener('click', () => copy(currentPerson.avatar, status, 'Avataro duomenų URL nukopijuotas.'));
 get('copy').addEventListener('click', () => copy(JSON.stringify(currentPerson, null, 2), status));
 get('copy-prompt').addEventListener('click', () => copy(get('llm-prompt').textContent, get('prompt-status')));
 get('download').addEventListener('click', () => {

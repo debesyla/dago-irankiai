@@ -17,10 +17,9 @@ The current UI generates only one person; there is no CSV export.
 Download src/generator.v3.mjs and import it locally in Node.js 22+,
 or import its absolute HTTPS URL in a browser ES module.
 The published module is self-contained; no extra files or dependencies.
-Exports: generatePerson(options), avatarForPerson(person), SCHEMA_VERSION.
+Exports: generatePerson(options), SCHEMA_VERSION.
 Options: seed (string 1..200 characters, default random UUID),
-referenceDate (valid YYYY-MM-DD from 1900 to 2118, default current UTC date),
-includeAvatar (boolean, default false).
+referenceDate (valid YYYY-MM-DD from 1900 to 2118, default current UTC date).
 For reproducible results specify both seed and referenceDate.
 The same options reproduce the same v3 data. V3 preserves the base v2 identity.
 
@@ -33,8 +32,7 @@ occupation, company, username, password, registeredAt (YYYY-MM-DD), uuid,
 nationality, website, userAgent, mothersMaidenName, heightCm, weightKg,
 bloodType, favoriteColor, vehicle: {make, model, year},
 location: {coordinates: {latitude, longitude, precision: city}, timezone},
-payment: {provider, brand, number, expiryMonth, expiryYear, cvv},
-avatar: local SVG data URL containing initials, or null.
+payment: {provider, brand, number, expiryMonth, expiryYear, cvv}.
 Account creation is between the 18th birthday and referenceDate.
 Passwords are deterministic testing fixtures, not production credentials.
 Coordinates are approximate CITY coordinates, not house coordinates.
@@ -44,7 +42,6 @@ Physical characteristics and vehicle details are fictional test values.
 Payment uses Stripe's documented Visa sandbox card 4242424242424242,
 future expiry and a 3-digit CVV. Only for Stripe test mode.
 Source: https://docs.stripe.com/testing
-Avatar generation makes no external requests and uses no real photos.
 Each displayed value is a keyboard-accessible click-to-copy button.
 Numeric values copy without their displayed units.
 

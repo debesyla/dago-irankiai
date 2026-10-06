@@ -8,7 +8,7 @@ ir atsisiuntimas. Naršyklės generatoriui priklausomybių nereikia.
 
 ```js
 import { generatePerson } from './src/generator.v3.mjs';
-const person = generatePerson({ seed: 'testas', referenceDate: '2026-01-01', includeAvatar: true });
+const person = generatePerson({ seed: 'testas', referenceDate: '2026-01-01' });
 ```
 
 `seed`: 1–200 simbolių eilutė, numatyta atsitiktinė
@@ -28,9 +28,7 @@ nuo 18-o gimtadienio iki referenceDate), `uuid` (v4 formato), `nationality`,
 `mothersMaidenName`, `heightCm`, `weightKg`, `bloodType`, `favoriteColor`,
 `vehicle` (make, model, year), `location` (coordinates su latitude, longitude,
 precision: city, timezone: Europe/Vilnius), `payment` (provider, brand, number,
-expiryMonth, expiryYear, cvv) ir `avatar` (vietinis SVG data URL arba null).
-`includeAvatar` yra boolean, numatyta false; avataras naudoja vardo inicialus,
-nuotraukų ar išorinių užklausų nereikia. Pasirinkimą galima keisti nepakeičiant žmogaus.
+expiryMonth, expiryYear, cvv).
 Slaptažodis yra pakartojamas testinis pavyzdys, ne tikros paskyros slaptažodis.
 
 Paspaudus bet kurią rodomą reikšmę kopijuojamas jos tekstas, o skaitiniams
