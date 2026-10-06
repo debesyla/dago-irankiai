@@ -4,35 +4,49 @@ Synthetic Lithuanian person data for testing. No real-person records.
 Base URL: https://dago.lt/irankiai/testiniai-zmones/
 
 ## Fetch without JavaScript
-- person.v2.json: one person object, schemaVersion 2.
-- people.v2.json: array of 100 person objects, schemaVersion 2.
-These are STATIC fixtures. Every request returns the same data.
-Seed: dago-testiniai-zmones-v2. referenceDate: 2026-01-01.
+- person.v3.json: one person object, schemaVersion 3.
+This is a STATIC fixture. Every request returns the same data.
+Seed: dago-testiniai-zmones-v3. referenceDate: 2026-01-01.
 Age is relative to referenceDate, NOT the current date.
 Query parameters do not generate new people. No dynamic API exists.
 Use ordinary HTTP GET. Public JSON and generator support CORS.
-Legacy v1 JSON and module remain available unchanged, with placeholder
-contacts and TEST- IDs. Use v2 for national IDs and real address/postcode pairs.
+Legacy v1/v2 fixtures and modules remain available unchanged.
+The current UI generates only one person; there is no CSV export.
 
 ## Generate fresh or reproducible data
-Download src/generator.v2.mjs and import it locally in Node.js 22+,
+Download src/generator.v3.mjs and import it locally in Node.js 22+,
 or import its absolute HTTPS URL in a browser ES module.
-The published module includes the shared national-ID core and addresses;
-no additional files or dependencies are required.
-Exports: generatePerson(options), generatePeople(options), SCHEMA_VERSION.
-Options: count (integer 1..1000, default 1; generatePeople only),
-seed (string 1..200 characters, default random UUID),
-referenceDate (valid YYYY-MM-DD from 1900 to 2118, default current UTC date).
+The published module is self-contained; no extra files or dependencies.
+Exports: generatePerson(options), avatarForPerson(person), SCHEMA_VERSION.
+Options: seed (string 1..200 characters, default random UUID),
+referenceDate (valid YYYY-MM-DD from 1900 to 2118, default current UTC date),
+includeAvatar (boolean, default false).
 For reproducible results specify both seed and referenceDate.
-Version 2 returns the same values for the same options.
+The same options reproduce the same v3 data. V3 preserves the base v2 identity.
 
-## Schema 2
-schemaVersion: 2; isTestData: true; referenceDate: YYYY-MM-DD;
+## Schema 3
+schemaVersion: 3; isTestData: true; referenceDate: YYYY-MM-DD;
 personalCode: 11-digit Lithuanian national ID (no separate id field);
-firstName, lastName, fullName, gender (vyras or moteris),
-birthDate (YYYY-MM-DD), age (integer 18..80), email, phone,
-address: {street, city, postalCode, country, countryCode},
-occupation, company.
+firstName, lastName, fullName, gender (vyras or moteris), birthDate (YYYY-MM-DD),
+age (18..80), email, phone, address: {street, city, postalCode, country, countryCode},
+occupation, company, username, password, registeredAt (YYYY-MM-DD), uuid,
+nationality, website, userAgent, mothersMaidenName, heightCm, weightKg,
+bloodType, favoriteColor, vehicle: {make, model, year},
+location: {coordinates: {latitude, longitude, precision: city}, timezone},
+payment: {provider, brand, number, expiryMonth, expiryYear, cvv},
+avatar: local SVG data URL containing initials, or null.
+Account creation is between the 18th birthday and referenceDate.
+Passwords are deterministic testing fixtures, not production credentials.
+Coordinates are approximate CITY coordinates, not house coordinates.
+Source: https://www.geonames.org/LT/largest-cities-in-lithuania.html
+Timezone: Europe/Vilnius. Websites use example.com subdomains.
+Physical characteristics and vehicle details are fictional test values.
+Payment uses Stripe's documented Visa sandbox card 4242424242424242,
+future expiry and a 3-digit CVV. Only for Stripe test mode.
+Source: https://docs.stripe.com/testing
+Avatar generation makes no external requests and uses no real photos.
+Each displayed value is a keyboard-accessible click-to-copy button.
+Numeric values copy without their displayed units.
 
 ## Validation and provenance
 National ID birth date, gender and checksum match the person fields.

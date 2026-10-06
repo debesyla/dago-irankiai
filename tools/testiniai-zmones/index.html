@@ -33,7 +33,19 @@
     .person dl { display: grid; grid-template-columns: 9rem 1fr; margin: 0 0 1.5rem; }
     .person dt, .person dd { padding: .65rem 0; border-bottom: 1px solid hsl(var(--theme) / .2); }
     .person dt { opacity: .75; }
-    .person dd { margin: 0; overflow-wrap: anywhere; }
+    .person dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+    .copy-value { background: none; border: 0; border-radius: 0; box-shadow: none; color: inherit; cursor: copy; display: block; font: inherit; line-height: inherit; padding: 0; position: relative; text-align: left; width: 100%; }
+    .value-text { overflow-wrap: anywhere; }
+    .copy-value:hover .value-text { text-decoration: underline; text-underline-offset: .2em; }
+    .copy-value:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+    .copy-feedback:not(:empty) { background: hsl(var(--black)); border: 1px solid currentColor; font-size: .7rem; padding: .2rem .4rem; position: absolute; right: 0; bottom: 100%; white-space: nowrap; }
+    .avatar-option { cursor: pointer; font-size: .8rem; }
+    .avatar-option input { accent-color: currentColor; }
+    .person-top { align-items: center; display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+    .person-top h2 { flex: 1; margin: 0; }
+    #avatar { border-radius: 1rem; height: 5rem; width: 5rem; }
+    .extra-fields { margin-bottom: 1.5rem; }
+    .extra-fields dl { margin: .5rem 0; }
     section + section { margin-top: 3.5rem; }
     details { margin-top: 1rem; }
     details > :not(summary) { margin: 0; padding: .85rem; }
@@ -63,13 +75,20 @@
     <section class="tool-card" aria-label="Fiktyvaus žmogaus generatorius">
       <div class="actions">
         <button id="generate" class="primary-button" type="button" disabled>Sugeneruoti žmogų</button>
+        <label class="avatar-option"><input id="include-avatar" type="checkbox" disabled> Rodyti avatarą</label>
       </div>
       <p class="note">Duomenys generuojami naršyklėje ir nesusieti su tikrais žmonėmis. Adresai ir pašto kodai parenkami iš patikrinto sąrašo.</p>
-      <noscript><p>Generavimui įjunkite JavaScript arba atsisiųskite <a href="person.v2.json">JSON pavyzdį</a>.</p></noscript>
+      <noscript><p>Generavimui įjunkite JavaScript arba atsisiųskite <a href="person.v3.json">JSON pavyzdį</a>.</p></noscript>
       <div id="person" class="person" hidden>
-        <h2 id="person-name"></h2>
+        <div class="person-top"><img id="avatar" alt="" hidden width="128" height="128"><h2 id="person-name"></h2></div>
+        <p class="note">Paspauskite reikšmę, kad ją nukopijuotumėte.</p>
         <dl id="person-fields"></dl>
+        <details class="extra-fields"><summary>Paskyra ir internetas</summary><dl id="account-fields"></dl></details>
+        <details class="extra-fields"><summary>Asmeniniai duomenys</summary><dl id="personal-fields"></dl></details>
+        <details class="extra-fields"><summary>Vieta ir transportas</summary><dl id="location-fields"></dl><p class="note">Koordinatės nurodo miestą, ne konkretų namą.</p></details>
+        <details class="extra-fields"><summary>Mokėjimo kortelė (Stripe testavimui)</summary><dl id="payment-fields"></dl><p class="note">Tik Stripe testavimo režimui. <a href="https://docs.stripe.com/testing">Oficialios testinių kortelių instrukcijos</a>.</p></details>
         <div class="actions">
+          <button id="copy-avatar" class="text-button" type="button" hidden>Kopijuoti avataro URL</button>
           <button id="copy" class="primary-button" type="button">Kopijuoti JSON</button>
           <button id="download" class="text-button" type="button">Atsisiųsti JSON</button>
         </div>
@@ -82,7 +101,7 @@
     </section>
     <section aria-labelledby="about-heading">
       <h2 id="about-heading">Kas sugeneruojama?</h2>
-      <p>Vardas, pavardė, lytis, gimimo data, amžius (18–80 metų), adresas Lietuvoje, el. paštas, lietuviško formato telefonas, profesija, įmonė ir asmens kodas.</p>
+      <p>Vardas, pavardė, lytis, gimimo data, amžius (18–80 metų), adresas Lietuvoje, el. paštas, lietuviško formato telefonas, profesija, įmonė ir asmens kodas. Išskleidę papildomas skiltis rasite paskyros duomenis, fizines savybes, vietą, transportą ir Stripe testinę kortelę.</p>
       <p class="note">Asmens kodo gimimo data ir lytis sutampa su žmogaus duomenimis, kontrolinis skaitmuo apskaičiuojamas ta pačia logika kaip <a href="/irankiai/asmens-kodai/">asmens kodų įrankyje</a>. Telefonas pateikiamas tarptautiniu formatu <code>+3706XXXXXXX</code>. El. paštas naudoja <code>example.com</code>.</p>
       <details>
         <summary>Adresai ir validatorių tikrinimas</summary>
@@ -96,11 +115,11 @@
       <p>Duomenis galima pasiimti tiesiogiai arba naudoti tą patį generatorių savo projekte. Be registracijos ir API rakto.</p>
       <details>
         <summary>Gauti JSON iš šio puslapio</summary>
-        <p><a href="person.v2.json">Vienas žmogus (JSON)</a> · <a href="people.v2.json">100 žmonių (JSON)</a> · <a href="llms.txt">Instrukcijos LLM</a></p>
-        <p>Tai pastovūs v2 pavyzdžiai, ne dinaminis API. Amžius apskaičiuotas <code>2026-01-01</code> dienai; kiekvienas įrašas turi <code>referenceDate</code>. Pakartotinės užklausos grąžina tuos pačius duomenis.</p>
-        <pre><code>curl https://dago.lt/irankiai/testiniai-zmones/person.v2.json</code></pre>
-        <pre><code>const people = await fetch(
-  'https://dago.lt/irankiai/testiniai-zmones/people.v2.json'
+        <p><a href="person.v3.json">Vienas žmogus (JSON)</a> · <a href="llms.txt">Instrukcijos LLM</a></p>
+        <p>Tai pastovūs v3 pavyzdžiai, ne dinaminis API. Amžius apskaičiuotas <code>2026-01-01</code> dienai; kiekvienas įrašas turi <code>referenceDate</code>. Pakartotinės užklausos grąžina tuos pačius duomenis.</p>
+        <pre><code>curl https://dago.lt/irankiai/testiniai-zmones/person.v3.json</code></pre>
+        <pre><code>const person = await fetch(
+  'https://dago.lt/irankiai/testiniai-zmones/person.v3.json'
 ).then(response =&gt; {
   if (!response.ok) throw new Error('Nepavyko gauti duomenų');
   return response.json();
@@ -108,18 +127,18 @@
       </details>
       <details>
         <summary>Generuoti savo programoje (JavaScript / Node.js)</summary>
-        <p>Atsisiųskite <a href="src/generator.v2.mjs">generator.v2.mjs</a> ir importuokite savo projekte. Priklausomybių nereikia. Ta pati <code>seed</code>, <code>referenceDate</code> ir generatoriaus versija duoda tą patį rezultatą.</p>
-        <pre><code>import { generatePeople } from './generator.v2.mjs';
+        <p>Atsisiųskite <a href="src/generator.v3.mjs">generator.v3.mjs</a> ir importuokite savo projekte. Priklausomybių nereikia. Ta pati <code>seed</code>, <code>referenceDate</code> ir generatoriaus versija duoda tą patį rezultatą.</p>
+        <pre><code>import { generatePerson } from './generator.v3.mjs';
 
-const people = generatePeople({
-  count: 10,                 // nuo 1 iki 1000
+const person = generatePerson({
+  includeAvatar: true,       // pasirenkamas inicialų avataras
   seed: 'mano-testas',       // praleidus – atsitiktinis rinkinys
   referenceDate: '2026-01-01' // praleidus – šiandien (UTC)
 });
-console.log(JSON.stringify(people, null, 2));</code></pre>
+console.log(JSON.stringify(person, null, 2));</code></pre>
         <p>Galima importuoti tiesiogiai ir naršyklėje:</p>
         <pre><code>import { generatePerson } from
-  'https://dago.lt/irankiai/testiniai-zmones/src/generator.v2.mjs';
+  'https://dago.lt/irankiai/testiniai-zmones/src/generator.v3.mjs';
 
 console.log(generatePerson());</code></pre>
         <p>Duomenys skirti testavimui. Garantuoto asmens kodų unikalumo nežadame; vienodi nustatymai atkuria vienodus duomenis.</p>
@@ -129,17 +148,21 @@ console.log(generatePerson());</code></pre>
         <div class="actions"><button class="text-button" id="copy-prompt" type="button">Kopijuoti promptą</button></div>
         <pre><code id="llm-prompt">Man reikia fiktyvių lietuviškų žmonių duomenų programos testavimui.
 Perskaityk https://dago.lt/irankiai/testiniai-zmones/llms.txt.
-Paimk https://dago.lt/irankiai/testiniai-zmones/people.v2.json ir grąžink pirmus 5 įrašus kaip JSON masyvą, nekeisdamas laukų ar reikšmių.
-Tai pastovus v2 rinkinys, ne naujai sugeneruoti duomenys. Išlaikyk referenceDate ir isTestData.
+Paimk https://dago.lt/irankiai/testiniai-zmones/person.v3.json ir grąžink žmogų kaip JSON objektą, nekeisdamas laukų ar reikšmių.
+Tai pastovus v3 rinkinys, ne naujai sugeneruoti duomenys. Išlaikyk referenceDate ir isTestData.
 Jei negali atverti nuorodų, pasakyk tai; netvirtink, kad gavai duomenis.</code></pre>
       </details>
       <details>
         <summary>Promptas: sukurti savo generatorių</summary>
         <pre><code>Sukurk fiktyvių lietuviškų žmonių generatorių mano projekte.
-Grąžink JSON su schemaVersion: 2, isTestData: true, referenceDate,
+Grąžink JSON su schemaVersion: 3, isTestData: true, referenceDate,
 personalCode (11 skaitmenų asmens kodas), firstName, lastName, fullName, gender, birthDate
 (YYYY-MM-DD), age, email, phone, address (street, city, postalCode,
-country, countryCode), occupation ir company.
+country, countryCode), occupation, company, username, password, registeredAt,
+uuid, nationality, website, userAgent, mothersMaidenName, heightCm, weightKg,
+bloodType, favoriteColor, vehicle, location (coordinates su precision: city, timezone),
+payment (provider: Stripe, brand: Visa, number: 4242424242424242, expiryMonth,
+expiryYear, cvv) ir avatar (vietinis SVG data URL arba null).
 Naudok lietuviškus vardus ir su jais suderintas pavardes.
 Amžius turi būti 18–80 metų ir tiksliai atitikti gimimo datą bei referenceDate.
 Duomenys turi būti išgalvoti. El. paštui naudok example.com,
@@ -147,7 +170,7 @@ telefonui naudok +3706XXXXXXX. Adresus rinkis kaip visus patikrintus gatvės,
 namo, miesto ir pašto kodo derinius iš viešų įstaigų kontaktų; nekurk atsitiktinių namų numerių.
 Asmens kodą sugeneruok pagal gimimo datą, lytį ir Lietuvos kontrolinio skaitmens algoritmą.
 Naudok esamą šio projekto generatorių, o ne kopijuok realių žmonių kodus.
-Palaikyk count (1–1000), seed ir
+Generuok vieną žmogų, palaikyk includeAvatar, seed ir
 referenceDate: tie patys nustatymai turi atkurti tą patį rinkinį.
 Pridėk gimimo datos, amžiaus, pakartojamumo ir netinkamų įvesčių testus.
 Pavyzdys ir atvirasis kodas (GPL-2.0-or-later):
