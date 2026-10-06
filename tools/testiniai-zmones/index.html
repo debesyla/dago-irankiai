@@ -31,7 +31,6 @@
     .tool-content { padding: clamp(1rem, 4vw, 2rem); }
     .note, .status { font-size: .8rem; opacity: .7; }
     .person { margin-top: 1rem; }
-    .person > .note { margin-bottom: 1rem; }
     .person dl { display: grid; grid-template-columns: 10rem minmax(0, 1fr); gap: 0 2rem; margin: 0; }
     .person dt, .person dd { padding: .5rem 0; border-bottom: 1px solid hsl(var(--theme) / .12); }
     .person dt { opacity: .65; }
@@ -74,7 +73,6 @@
         </div>
         <noscript><p>Įjunk JavaScript arba atsisiųsk <a href="person.v3.json">JSON pavyzdį</a>.</p></noscript>
         <div id="person" class="person" hidden>
-          <p class="note">Spustelėk reikšmę – nukopijuos.</p>
           <dl id="person-fields"></dl>
           <details>
             <summary>Papildomi duomenys</summary>
