@@ -48,8 +48,6 @@
     .status { margin-top: .75rem; }
     .status:empty { display: none; }
     .contact-section { border-top: 1px solid hsl(var(--theme) / .35); margin-top: clamp(3.5rem, 9vw, 6rem); padding: 1.5rem 0 3rem; }
-    .contact-section > * + * { margin-top: 1rem; }
-    .contact-section strong { display: block; }
     .skip-link { background: hsl(var(--theme)); color: hsl(var(--black)); padding: .55rem .75rem; position: absolute; top: 1rem; left: 1rem; transform: translateY(-200%); z-index: 10; }
     .skip-link:focus { transform: translateY(0); }
     [hidden] { display: none !important; }
@@ -64,7 +62,7 @@
   <a class="skip-link" href="#main-content">Pereiti prie įrankio</a>
   <main id="main-content" class="tool-page">
     <header class="site-header">
-      <h1>testiniai žmonės <a class="dago-link print-a-no-link" href="https://dago.lt" target="_blank" rel="noopener">// dago</a></h1>
+      <h1>testiniai žmonės <a class="dago-link print-a-no-link" href="https://dago.lt">// dago</a></h1>
       <p>Išgalvoti lietuviški duomenys formoms ir testams.</p>
     </header>
     <section class="tool-card" aria-label="Žmogaus generatorius">
@@ -133,8 +131,7 @@ Jei nuorodų atverti negali, pasakyk.</code></pre>
       </details>
     </div>
     <footer class="contact-section">
-      <p>Reikia pagalbos su testinių duomenų integracija? Galiu padėti.</p>
-      <strong>labas (sraigė) dago.lt</strong>
+      <p>Reikia pagalbos su testinių duomenų integracija? Galiu padėti. <strong>labas (sraigė) dago.lt</strong></p>
     </footer>
   </main>
   <script type="module" src="./src/ui.mjs"></script>
