@@ -1,0 +1,68 @@
+# Testiniai žmonės // dago
+
+Synthetic Lithuanian person data for testing. No real-person records.
+Base URL: https://dago.lt/irankiai/testiniai-zmones/
+
+## Fetch without JavaScript
+- person.v3.json: one person object, schemaVersion 3.
+This is a STATIC fixture. Every request returns the same data.
+Seed: dago-testiniai-zmones-v3. referenceDate: 2026-01-01.
+Age is relative to referenceDate, NOT the current date.
+Query parameters do not generate new people. No dynamic API exists.
+Use ordinary HTTP GET. Public JSON and generator support CORS.
+Legacy v1/v2 fixtures and modules remain available unchanged.
+The current UI generates only one person; there is no CSV export.
+
+## Generate fresh or reproducible data
+Download src/generator.v3.mjs and import it locally in Node.js 22+,
+or import its absolute HTTPS URL in a browser ES module.
+The published module is self-contained; no extra files or dependencies.
+Exports: generatePerson(options), SCHEMA_VERSION.
+Options: seed (string 1..200 characters, default random UUID),
+referenceDate (valid YYYY-MM-DD from 1900 to 2118, default current UTC date).
+For reproducible results specify both seed and referenceDate.
+The same options reproduce the same v3 data. V3 preserves the base v2 identity.
+
+## Schema 3
+schemaVersion: 3; isTestData: true; referenceDate: YYYY-MM-DD;
+personalCode: 11-digit Lithuanian national ID (no separate id field);
+firstName, lastName, fullName, gender (vyras or moteris), birthDate (YYYY-MM-DD),
+age (18..80), email, phone, address: {street, city, postalCode, country, countryCode},
+occupation, company, username, password, registeredAt (YYYY-MM-DD), uuid,
+nationality, website, userAgent, mothersMaidenName, heightCm, weightKg,
+bloodType, favoriteColor, vehicle: {make, model, year},
+location: {coordinates: {latitude, longitude, precision: city}, timezone},
+payment: {provider, brand, number, expiryMonth, expiryYear, cvv}.
+Account creation is between the 18th birthday and referenceDate.
+Passwords are deterministic testing fixtures, not production credentials.
+Coordinates are approximate CITY coordinates, not house coordinates.
+Source: https://www.geonames.org/LT/largest-cities-in-lithuania.html
+Timezone: Europe/Vilnius. Websites use example.com subdomains.
+Physical characteristics and vehicle details are fictional test values.
+Payment uses Stripe's documented Visa sandbox card 4242424242424242,
+future expiry and a 3-digit CVV. Only for Stripe test mode.
+Source: https://docs.stripe.com/testing
+Each displayed value is a keyboard-accessible click-to-copy button.
+Numeric values copy without their displayed units.
+
+## Validation and provenance
+National ID birth date, gender and checksum match the person fields.
+Uses the same core as the project's asmens-kodai tool.
+National IDs are generated, not sourced from individuals, but may coincide
+with issued IDs and are not guaranteed globally unique.
+Phone: E.164 +3706XXXXXXX, verified as valid LT mobile format with
+libphonenumber-js. Does not verify assignment, activation or SMS delivery.
+Do not send messages or place calls in tests.
+Address: one of 7 real public-institution street/house/city/postcode pairs.
+Whole pairs are selected; house numbers are never invented or changed.
+Source list checked 2026-10-06:
+https://github.com/debesyla/dago-irankiai/blob/main/tools/testiniai-zmones/ADDRESS-SOURCES.md
+This is a limited offline list, not a national address database or live lookup.
+A particular external validator may have different or outdated data.
+Names may coincidentally match real people. Emails use example.com.
+Company names are fictional. No claim is made that the person lives at
+that real address or owns the generated number or national ID.
+If you cannot fetch the URLs, disclose that instead of fabricating a fetch.
+
+Source: https://github.com/debesyla/dago-irankiai/tree/main/tools/testiniai-zmones
+License: GPL-2.0-or-later.

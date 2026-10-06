@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#212121">
+  <meta name="description" content="Vienu paspaudimu sugeneruokite fiktyvaus žmogaus duomenis testavimui. Lietuviški vardai, adresai, amžius, asmens kodas ir JSON.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Testiniai žmonės – fiktyvių duomenų generatorius // dago">
+  <meta property="og:description" content="Lietuviški žmonių duomenys formų, maketų ir programų testavimui.">
+  <meta property="og:url" content="https://dago.lt/irankiai/testiniai-zmones/">
+  <meta property="og:image" content="https://dago.lt/irankiai/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://dago.lt/irankiai/og.png">
+  <link rel="canonical" href="https://dago.lt/irankiai/testiniai-zmones/">
+  <link rel="icon" href="https://dago.lt/assets/img/dago-icon.png">
+  <link rel="stylesheet" href="https://dago.lt/assets/styles/reset.css?v=20260808">
+  <link rel="stylesheet" href="https://dago.lt/assets/styles/dago.css?v=20260901">
+  <title>Testiniai žmonės – fiktyvių duomenų generatorius // dago</title>
+  <style>
+    .tool-page { width: min(100%, 75ch); }
+    .site-header { margin-bottom: 2.5rem; }
+    .site-header p { margin-top: .5rem; }
+    .dago-link { opacity: .2; text-decoration: none; white-space: nowrap; }
+    .dago-link:hover, .dago-link:focus-visible { opacity: 1; }
+    .toolbar, .actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; }
+    .toolbar { justify-content: space-between; }
+    .toolbar h2 { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+    .toolbar button { flex-shrink: 0; }
+    .tool-card { border: 1px solid hsl(var(--theme) / .35); }
+    .tool-content { padding: clamp(1rem, 4vw, 2rem); }
+    .note, .status { font-size: .8rem; opacity: .7; }
+    .person { margin-top: 1rem; }
+    .person dl { display: grid; grid-template-columns: 10rem minmax(0, 1fr); gap: 0 2rem; margin: 0; }
+    .person dt, .person dd { padding: .5rem 0; border-bottom: 1px solid hsl(var(--theme) / .12); }
+    .person dt { opacity: .65; }
+    .person dd { margin: 0; overflow-wrap: anywhere; }
+    .copy-value { background: none; border: 0; border-radius: 0; box-shadow: none; color: inherit; cursor: copy; display: block; font: inherit; line-height: inherit; padding: 0; position: relative; text-align: left; width: 100%; }
+    .value-text { overflow-wrap: anywhere; }
+    .copy-value:hover { background: hsl(var(--theme) / .12); }
+    .copy-feedback:not(:empty) { background: hsl(var(--black)); border: 1px solid currentColor; font-size: .7rem; padding: .2rem .4rem; position: absolute; right: 0; bottom: 100%; white-space: nowrap; }
+    .person > details { margin-top: 1.5rem; }
+    .details-content { padding: .85rem; }
+    .extra-group + .extra-group { margin-top: 1.5rem; }
+    .extra-group .note { margin-top: .5rem; }
+    .guide { margin-top: clamp(3.5rem, 9vw, 6rem); }
+    pre { overflow-x: auto; font-size: .78rem; }
+    .status { margin-top: .75rem; }
+    .status:empty { display: none; }
+    .contact-section { border-top: 1px solid hsl(var(--theme) / .35); margin-top: clamp(3.5rem, 9vw, 6rem); padding: 1.5rem 0 3rem; }
+    .skip-link { background: hsl(var(--theme)); color: hsl(var(--black)); padding: .55rem .75rem; position: absolute; top: 1rem; left: 1rem; transform: translateY(-200%); z-index: 10; }
+    .skip-link:focus { transform: translateY(0); }
+    [hidden] { display: none !important; }
+    @media (max-width: 32rem) {
+      .person dl { grid-template-columns: 1fr; }
+      .person dt { padding-bottom: 0; border-bottom: 0; font-size: .8rem; }
+      .person dd { padding-top: .15rem; padding-bottom: .65rem; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Pereiti prie įrankio</a>
+  <main id="main-content" class="tool-page">
+    <header class="site-header">
+      <h1>testiniai žmonės <a class="dago-link print-a-no-link" href="https://dago.lt">// dago</a></h1>
+      <p>Išgalvoti lietuviški duomenys formoms ir testams.</p>
+    </header>
+    <section class="tool-card" aria-label="Žmogaus generatorius">
+      <div class="tool-content">
+        <div class="toolbar">
+          <h2 id="person-name" hidden></h2>
+          <button id="generate" class="primary-button" type="button" disabled>Generuoti žmogų</button>
+        </div>
+        <noscript><p>Įjunk JavaScript arba atsisiųsk <a href="person.v3.json">JSON pavyzdį</a>.</p></noscript>
+        <div id="person" class="person" hidden>
+          <dl id="person-fields"></dl>
+          <details>
+            <summary>Papildomi duomenys</summary>
+            <div class="details-content">
+              <div class="extra-group"><h3>Paskyra</h3><dl id="account-fields"></dl></div>
+              <div class="extra-group"><h3>Asmeniniai duomenys</h3><dl id="personal-fields"></dl></div>
+              <div class="extra-group"><h3>Vieta ir automobilis</h3><dl id="location-fields"></dl><p class="note">Koordinatės nurodo miestą.</p></div>
+              <div class="extra-group"><h3>Testinė kortelė</h3><dl id="payment-fields"></dl><p class="note">Tik <a href="https://docs.stripe.com/testing">Stripe testavimo režimui</a>.</p></div>
+            </div>
+          </details>
+          <details>
+            <summary>JSON</summary>
+            <div class="details-content">
+              <div class="actions">
+                <button id="copy" class="text-button" type="button">Kopijuoti JSON</button>
+                <button id="download" class="text-button" type="button">Atsisiųsti JSON</button>
+              </div>
+              <pre><code id="person-json"></code></pre>
+            </div>
+          </details>
+        </div>
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+    <div class="guide">
+      <details>
+        <summary>Apie duomenis</summary>
+        <div class="details-content">
+          <p>Asmens kodas atitinka gimimo datą, lytį ir kontrolinį skaitmenį. Telefonas atitinka Lietuvos mobiliojo numerio formatą. El. paštas naudoja example.com.</p>
+          <p>Adresai ir pašto kodai parenkami kartu iš <a href="https://github.com/debesyla/dago-irankiai/blob/main/tools/testiniai-zmones/ADDRESS-SOURCES.md">7 viešų įstaigų adresų</a>. Jie gali kartotis.</p>
+          <p>Sugeneruoti kodai ir telefonai gali sutapti su tikrais. Jie skirti testams, ne tapatybei ar ryšiui patvirtinti.</p>
+        </div>
+      </details>
+      <details>
+        <summary>LLM ir programoms</summary>
+        <div class="details-content">
+          <p><a href="person.v3.json">JSON pavyzdys</a> · <a href="llms.txt">Instrukcijos LLM</a> · <a href="src/generator.v3.mjs">Generatorius</a></p>
+          <p><a href="https://github.com/debesyla/dago-irankiai/tree/main/tools/testiniai-zmones">Kodas: GitHub</a> · GPL-2.0+</p>
+          <h3>Pasiimti JSON</h3>
+          <pre><code>curl https://dago.lt/irankiai/testiniai-zmones/person.v3.json</code></pre>
+          <p class="note">Pastovus pavyzdys, ne API. Kiekviena užklausa grąžina tą patį žmogų. Amžius apskaičiuotas 2026-01-01 dienai.</p>
+          <h3>Generuoti savo projekte</h3>
+          <p>Atsisiųsk generatorių. Veikia be priklausomybių naršyklėje ir Node.js 22+.</p>
+          <pre><code>import { generatePerson } from './generator.v3.mjs';
+
+const person = generatePerson();</code></pre>
+          <p class="note">Pakartojamiems duomenims perduok <code>seed</code> ir <code>referenceDate</code> (YYYY-MM-DD).</p>
+          <h3>Užduotis LLM</h3>
+          <pre><code id="llm-prompt">Perskaityk https://dago.lt/irankiai/testiniai-zmones/llms.txt.
+Paimk https://dago.lt/irankiai/testiniai-zmones/person.v3.json ir grąžink JSON nekeisdamas laukų.
+Jei reikia naujų duomenų arba savo generatoriaus, naudok ten aprašytą generator.v3.mjs.
+Jei nuorodų atverti negali, pasakyk.</code></pre>
+          <button class="text-button" id="copy-prompt" type="button">Kopijuoti užduotį</button>
+          <p id="prompt-status" class="status" role="status" aria-live="polite"></p>
+        </div>
+      </details>
+    </div>
+    <footer class="contact-section">
+      <p>Reikia pagalbos su testinių duomenų integracija? Galiu padėti. <strong>labas (sraigė) dago.lt</strong></p>
+    </footer>
+  </main>
+  <script type="module" src="./src/ui.mjs"></script>
+</body>
+</html>

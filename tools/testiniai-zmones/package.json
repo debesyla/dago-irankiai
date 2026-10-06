@@ -1,0 +1,15 @@
+{
+  "name": "testiniai-zmones",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "license": "GPL-2.0-or-later",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --experimental-strip-types --test tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "happy-dom": "^20.14.5",
+    "libphonenumber-js": "^1.13.14"
+  }
+}

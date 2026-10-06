@@ -9,6 +9,7 @@ Vienas repozitoriumas (monorepo), iš kurio diegiami visi
 | --- | --- | --- |
 | [Asmens kodai](tools/asmens-kodai/) | <https://dago.lt/irankiai/asmens-kodai/> | Lietuviško asmens kodo generatorius ir validatorius. |
 | [Vardų linksniavimas](tools/vardu-linksniavimas/) | <https://dago.lt/irankiai/vardu-linksniavimas/> | Lietuviškų vardų šauksmininkas kreipiniams. |
+| [Testiniai žmonės](tools/testiniai-zmones/) | <https://dago.lt/irankiai/testiniai-zmones/> | Fiktyvūs žmonių duomenys testavimui, JSON ir pakartojamas generatorius. |
 
 ## Struktūra
 
@@ -50,7 +51,8 @@ paleidžiamos iš to įrankio katalogo.
    `index.html`, `.htaccess` ir testais.
 2. Puslapyje naudokite bendrus `https://dago.lt/assets/styles/reset.css` ir
    `dago.css` stilius bei `// dago` antraštės nuorodą, kad įrankis atitiktų
-   šeimos dizainą.
+   šeimos dizainą. Nekurkite atskiro vizualinio stiliaus; vadovaukitės
+   [DAGO dizaino taisyklėmis](AGENTS.md).
 3. `npm run verify` turi praeiti. Pradinis puslapis ir diegimas naują įrankį
    pasiima automatiškai.
 

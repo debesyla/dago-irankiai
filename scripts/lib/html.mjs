@@ -9,11 +9,18 @@ const SKIP_SCHEMES = /^(?:#|mailto:|tel:|data:|javascript:)/i;
 /** Returns every distinct reference found in the HTML, unresolved. */
 export function extractReferences(html) {
   const found = new Set();
-  for (const pattern of [ATTRIBUTE_PATTERN, META_CONTENT_PATTERN, IMPORT_PATTERN]) {
+  for (const pattern of [ATTRIBUTE_PATTERN, META_CONTENT_PATTERN]) {
     for (const match of html.matchAll(pattern)) {
       const value = match[1].trim();
       if (value === "" || SKIP_SCHEMES.test(value)) continue;
       found.add(value);
+    }
+  }
+  // Documentation snippets can contain imports for a reader's own project.
+  // Only executable inline scripts are dependencies of this page.
+  for (const script of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script\s*>/gi)) {
+    for (const match of script[1].matchAll(IMPORT_PATTERN)) {
+      found.add(match[1].trim());
     }
   }
   return [...found];

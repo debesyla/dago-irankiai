@@ -1,3 +1,6 @@
+import { calculateChecksum, createPersonalCode } from "./personal-code-core.mjs";
+export { calculateChecksum, createPersonalCode } from "./personal-code-core.mjs";
+
 export const PENSION_AGE = 65;
 
 export type Sex = "male" | "female";
@@ -25,8 +28,6 @@ export interface InvalidPersonalCode {
 
 export type PersonalCodeResult = PersonalCodeDetails | InvalidPersonalCode;
 
-const firstPass = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1] as const;
-const secondPass = [3, 4, 5, 6, 7, 8, 9, 1, 2, 3] as const;
 const dayInMilliseconds = 86_400_000;
 
 function startOfDay(value: Date) {
@@ -83,42 +84,6 @@ export function formatIsoDate(value: Date) {
     String(value.getMonth() + 1).padStart(2, "0"),
     String(value.getDate()).padStart(2, "0"),
   ].join("-");
-}
-
-export function calculateChecksum(firstTenDigits: string) {
-  if (!/^\d{10}$/.test(firstTenDigits)) {
-    throw new Error("Kontroliniam skaitmeniui reikia 10 skaitmenų.");
-  }
-
-  const digits = firstTenDigits.split("").map(Number);
-  let remainder = digits.reduce((sum, digit, index) => sum + digit * firstPass[index], 0) % 11;
-
-  if (remainder === 10) {
-    remainder = digits.reduce((sum, digit, index) => sum + digit * secondPass[index], 0) % 11;
-  }
-
-  return remainder === 10 ? 0 : remainder;
-}
-
-export function createPersonalCode(birthDate: Date, sex: Sex, sequence: number) {
-  const year = birthDate.getFullYear();
-  const centuryStart = Math.floor(year / 100) * 100;
-  const centuryDigit = centuryStart === 1800 ? 1 : centuryStart === 1900 ? 3 : centuryStart === 2000 ? 5 : null;
-
-  if (centuryDigit === null) throw new Error("Galimos gimimo datos nuo 1800 iki 2099 metų.");
-  if (!Number.isInteger(sequence) || sequence < 1 || sequence > 999) {
-    throw new Error("Eilės numeris turi būti nuo 001 iki 999.");
-  }
-
-  const firstDigit = centuryDigit + (sex === "female" ? 1 : 0);
-  const datePart = [
-    String(year).slice(-2),
-    String(birthDate.getMonth() + 1).padStart(2, "0"),
-    String(birthDate.getDate()).padStart(2, "0"),
-  ].join("");
-  const firstTen = `${firstDigit}${datePart}${String(sequence).padStart(3, "0")}`;
-
-  return `${firstTen}${calculateChecksum(firstTen)}`;
 }
 
 export function parsePersonalCode(rawCode: string, referenceDate = new Date()): PersonalCodeResult {
