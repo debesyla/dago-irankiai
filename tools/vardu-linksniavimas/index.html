@@ -83,6 +83,7 @@
 .csv-upload { margin-top: 0; }
         .csv-upload-body { display: grid; gap: 0.75rem; padding: 1rem; min-width: 0; }
         .csv-upload input[type="file"] { max-width: 100%; }
+        .csv-privacy { font-size: 0.875rem; color: hsl(var(--theme) / 0.72); }
 
         .csv-options {
             display: grid;
@@ -247,6 +248,7 @@ Petras</pre>
                     <div class="csv-upload-body">
                     <label class="field-label" for="csvFile">Pasirinkite UTF-8 CSV failą:</label>
                     <input id="csvFile" name="csvFile" type="file" accept=".csv,text/csv">
+                    <p class="csv-privacy">Duomenys niekur nesaugomi ir nepalieka jūsų naršyklės — viskas apdorojama lokaliai.</p>
                     <div id="csvOptions" class="csv-options" hidden>
                         <label class="field-label" for="csvNameColumn">Kuriame stulpelyje yra vardas?</label>
                         <select id="csvNameColumn"></select>
