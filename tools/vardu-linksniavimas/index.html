@@ -49,8 +49,10 @@
         }
 
         .site-header {
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
+
+        .site-header h1 { margin-bottom: 1rem; }
 
         .site-header p {
             margin-top: 0.5rem;
@@ -62,18 +64,15 @@
             white-space: nowrap;
         }
 
-        .dago-link:hover {
+        .dago-link:hover,
+        .dago-link:focus-visible {
             opacity: 1;
-        }
-
-        .tool-card {
-            border: 1px solid hsl(var(--theme) / 0.35);
         }
 
         .tool-content {
             display: grid;
             gap: 1rem;
-            padding: clamp(1rem, 4vw, 2rem);
+            min-width: 0;
         }
 
         .field-label {
@@ -81,25 +80,10 @@
             font-weight: 700;
         }
 
-        .privacy-note {
-            font-size: 0.8rem;
-            margin: -0.35rem 0 0;
-            opacity: 0.7;
-        }
-
-        .csv-upload {
-            border: 0;
-            border-top: 1px solid hsl(var(--theme) / 0.35);
-            display: grid;
-            gap: 0.75rem;
-            margin: 0.5rem 0 0;
-            padding: 1.25rem 0 0;
-        }
-
-        .csv-upload legend {
-            font-weight: 700;
-            padding: 0 0.5rem 0 0;
-        }
+.csv-upload { margin-top: 0; }
+        .csv-upload-body { display: grid; gap: 0.75rem; padding: 1rem; min-width: 0; }
+        .csv-upload input[type="file"] { max-width: 100%; }
+        .csv-privacy { font-size: 0.875rem; color: hsl(var(--theme) / 0.72); }
 
         .csv-options {
             display: grid;
@@ -111,20 +95,14 @@
         }
 
         .csv-options select,
-        .result-controls select {
-            background: hsl(var(--black) / 0.6);
-            border: 1px solid hsl(var(--theme) / 0.55);
-            color: inherit;
-            max-width: 100%;
-            padding: 0.45rem 0.55rem;
-        }
+        .result-controls select { max-width: 100%; }
 
         textarea {
             background: hsl(var(--black) / 0.6);
             border: 1px solid hsl(var(--theme) / 0.55);
             color: inherit;
             display: block;
-            min-height: 13rem;
+            min-height: 8rem;
             padding: 0.75rem;
             resize: vertical;
             width: 100%;
@@ -144,23 +122,19 @@
         }
 
         .form-status {
-            font-size: 0.8rem;
+            font-size: 0.875rem;
             margin: -0.25rem 0 0;
             min-height: 1.5em;
-            opacity: 0.7;
+            opacity: 0.72;
         }
 
-        .tool-card + details {
-            margin-top: 1rem;
-        }
-
-        .example-list {
+.example-list {
             margin: 0;
             padding: 0.8rem 0.85rem 0.8rem 2.4rem;
         }
 
         .examples-section {
-            margin-top: clamp(3.5rem, 9vw, 6rem);
+            margin-top: 3rem;
         }
 
         .examples-section > * + * {
@@ -181,109 +155,21 @@
         }
 
         .example-actions p {
-            font-size: 0.8rem;
+            font-size: 0.875rem;
             margin: 0;
-            opacity: 0.7;
+            opacity: 0.72;
         }
 
         .copy-status {
-            font-size: 0.8rem;
+            font-size: 0.875rem;
             margin: 0;
             min-height: 1.5em;
-            opacity: 0.7;
+            opacity: 0.72;
             padding: 0 0.85rem 0.5rem;
         }
 
-        .results {
-            margin-top: clamp(3.5rem, 9vw, 6rem);
-        }
-
-        .results-header {
-            align-items: baseline;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-
-        .results-header h2,
-        .results-header p {
-            margin: 0;
-        }
-
-        .results-header h2:focus {
-            outline: 2px solid currentColor;
-            outline-offset: 3px;
-        }
-
-        .results-header p {
-            font-size: 0.8rem;
-            opacity: 0.7;
-        }
-
-        .table-wrap {
-            margin-top: 1rem;
-            overflow-x: auto;
-        }
-
-        .results table {
-            min-width: 28rem;
-        }
-
-        .results th,
-        .results td {
-            overflow-wrap: anywhere;
-            width: 40%;
-        }
-
-        .results th:last-child,
-        .results td:last-child {
-            width: 20%;
-        }
-
-        .review-status {
-            opacity: 0.7;
-        }
-
-        .result-input {
-            background: hsl(var(--black) / 0.6);
-            border: 1px solid hsl(var(--theme) / 0.55);
-            color: inherit;
-            min-width: 10rem;
-            padding: 0.45rem 0.55rem;
-            width: 100%;
-        }
-
-        .result-actions {
-            margin-top: 1rem;
-        }
-
-        .result-controls {
-            align-items: center;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem 0.75rem;
-            margin-top: 1rem;
-        }
-
-        .result-controls label {
-            font-weight: 700;
-        }
-
-        .filter-status {
-            font-size: 0.8rem;
-            margin: 0;
-            opacity: 0.7;
-        }
-
-        .result-action-status {
-            font-size: 0.8rem;
-            margin: 0;
-            min-height: 1.5em;
-            opacity: 0.7;
-        }
-
         .guidance-section {
-            margin-top: clamp(3.5rem, 9vw, 6rem);
+            margin-top: 3rem;
         }
 
         .guidance-grid {
@@ -307,86 +193,23 @@
             word-break: break-word;
         }
 
-        .results tbody tr + tr td {
-            border-top-color: hsl(var(--theme) / 0.2);
-        }
-
-        .contact-section {
+.contact-section {
             border-top: 1px solid hsl(var(--theme) / 0.35);
-            margin-top: clamp(3.5rem, 9vw, 6rem);
-            padding: 1.5rem 0 3rem;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
         }
 
         .contact-section > * + * {
             margin-top: 1rem;
         }
 
-        .contact-section strong {
-            display: block;
-        }
-
-        @media (max-width: 32rem) {
-            .results-header {
-                align-items: flex-start;
-                flex-direction: column;
-                gap: 0.35rem;
-            }
-
-            .table-wrap {
-                overflow-x: visible;
-            }
-
-            .results table,
-            .results tbody,
-            .results tr,
-            .results td,
-            .results td:last-child {
-                display: block;
-                min-width: 0;
-                width: 100%;
-            }
-
-            .results thead {
-                border: 0;
-                clip: rect(0 0 0 0);
-                clip-path: inset(50%);
-                height: 1px;
-                margin: -1px;
-                overflow: hidden;
-                padding: 0;
-                position: absolute;
-                white-space: nowrap;
-                width: 1px;
-            }
-
-            .results tbody {
-                display: grid;
-                gap: 1rem;
-            }
-
-            .results tbody tr {
-                border: 1px solid hsl(var(--theme) / 0.35);
-            }
-
-            .results tbody tr + tr td,
-            .results td {
-                border: 0;
-                display: grid;
-                gap: 0.25rem;
-                padding: 0.55rem 0.75rem;
-            }
-
-            .results td + td {
-                border-top: 1px solid hsl(var(--theme) / 0.2);
-            }
-
-            .results td::before {
-                content: attr(data-label);
-                font-weight: 700;
-                opacity: 0.7;
-            }
-        }
-
+        .input-help { display: grid; gap: 0.75rem; }
+        .input-help details + details { margin-top: 0; }
+        #copyVocatives { opacity: 0.2; }
+        #copyVocatives:hover, #copyVocatives:focus-visible { opacity: 1; }
+        #csvStatus:empty { display: none; }
+        .site-footer { margin-top: 3rem; }
+        .contact-section > .site-footer { margin-top: 3rem; }
     </style>
 </head>
 
@@ -397,33 +220,35 @@
         <header class="site-header">
             <h1>
                 vardų linksniavimas
-                <a class="dago-link print-a-no-link" href="https://dago.lt" target="_blank" rel="noopener">// dago</a>
+                <a class="dago-link print-a-no-link" href="https://dago.lt">// dago</a>
             </h1>
-            <p>
-                Šis įrankis padeda pakeisti lietuviškus vardus į šauksmininką — formą, kurią vartojame
-                kreipdamiesi į žmogų. Pavyzdžiui, „Jonas“ tampa „Jonai“, o „Eglė“ — „Egle“.
-            </p>
-            <p>
-                Įklijuokite vardų sąrašą arba įkelkite CSV failą. Įrankis sugeneruos kreipinius, pažymės
-                abejotinas formas ir leis jas pataisyti, nukopijuoti arba atsisiųsti. Taip vardų keitimas ir
-                kreipinių generavimas naujienlaiškiams, kvietimams ar asmeninėms žinutėms tampa paprastesnis.
-            </p>
+            <p>Paverskite vardus į šauksmininką: Jonas → Jonai, Eglė → Egle.</p>
         </header>
 
         <form id="namesForm" class="tool-card">
             <div class="tool-content">
-                <label class="field-label" for="names">Rašykite arba įklijuokite vardus — po vieną eilutėje:</label>
-                <textarea id="names" name="names" rows="10" placeholder="Jonas&#10;Eglė&#10;Saulius" required></textarea>
-                <p class="privacy-note">Vardai apdorojami tik jūsų naršyklėje ir niekur nesiunčiami.</p>
+                <label id="namesLabel" class="field-label" for="names">Vardai, po vieną eilutėje:</label>
+                <textarea id="names" name="names" rows="5" placeholder="Jonas&#10;Eglė&#10;Saulius" required></textarea>
+
                 <div class="form-actions">
                     <button id="submitButton" class="primary-button" type="submit" disabled>Paversti į kreipinius</button>
-                    <button id="resetButton" class="text-button" type="button" disabled>Pradėti iš naujo</button>
+                    <button id="copyVocatives" class="text-button" type="button" hidden>Kopijuoti</button>
+                    <button id="downloadCsv" class="text-button" type="button" hidden>Atsisiųsti CSV</button>
                 </div>
-                <p id="formStatus" class="form-status" role="status" aria-live="polite">0 vardų · įveskite bent vieną vardą.</p>
-                <fieldset class="csv-upload">
-                    <legend>Arba apdorokite CSV failą</legend>
+                <p id="actionStatus" class="form-status" role="status" aria-live="polite" hidden></p>
+                <div class="input-help">
+<details>
+            <summary>Pavyzdys, kaip rašyti</summary>
+            <pre>Jonas
+Eglė
+Petras</pre>
+        </details>
+                <details class="csv-upload">
+                    <summary>Įkelti CSV failą</summary>
+                    <div class="csv-upload-body">
                     <label class="field-label" for="csvFile">Pasirinkite UTF-8 CSV failą:</label>
                     <input id="csvFile" name="csvFile" type="file" accept=".csv,text/csv">
+                    <p class="csv-privacy">Duomenys niekur nesaugomi ir nesiunčiami — viskas vyksta tik jūsų naršyklėje.</p>
                     <div id="csvOptions" class="csv-options" hidden>
                         <label class="field-label" for="csvNameColumn">Kuriame stulpelyje yra vardas?</label>
                         <select id="csvNameColumn"></select>
@@ -431,88 +256,20 @@
                             <button id="processCsv" class="primary-button" type="button">Paruošti CSV kreipinius</button>
                         </div>
                     </div>
-                    <p id="csvStatus" class="form-status" role="status" aria-live="polite">Failas lieka jūsų naršyklėje.</p>
-                </fieldset>
+                    <p id="csvStatus" class="form-status" role="status" aria-live="polite"></p>
+                    </div>
+                </details>
+                </div>
             </div>
         </form>
 
-        <details>
-            <summary>Pavyzdys, kaip rašyti</summary>
-            <ul class="example-list">
-                <li>Jonas</li>
-                <li>Jurgis</li>
-                <li>Danielius</li>
-                <li>Merkurijus</li>
-                <li>Eglė</li>
-                <li>Kristina</li>
-                <li>John</li>
-            </ul>
-        </details>
 
-        <section id="results" class="results" aria-labelledby="resultHeading" hidden>
-            <div class="results-header">
-                <h2 id="resultHeading" tabindex="-1">Paruošti kreipiniai</h2>
-                <p id="resultStatus" role="status" aria-live="polite"></p>
-            </div>
-            <p>Prieš kopijuodami peržiūrėkite pažymėtas eilutes. Kiekvieną kreipinį galite pataisyti lentelėje.</p>
-            <div id="resultControls" class="result-controls">
-                <label for="resultFilter">Rodyti:</label>
-                <select id="resultFilter">
-                    <option value="all">Visus vardus</option>
-                    <option value="review">Tik tuos, kuriuos reikia patikrinti</option>
-                    <option value="unchanged">Tik nepakeistus</option>
-                </select>
-                <p id="filterStatus" class="filter-status" role="status" aria-live="polite"></p>
-            </div>
-            <div class="table-wrap">
-                <table>
-                    <caption class="sr-only">Įvestų vardų, redaguojamų kreipinių ir jų patikimumo būsenų lentelė</caption>
-                    <thead>
-                        <tr>
-                            <th scope="col">Įvestas vardas</th>
-                            <th scope="col">Kreipinys</th>
-                            <th scope="col">Būsena</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resultBody"></tbody>
-                </table>
-            </div>
-            <div class="result-actions">
-                <button id="copyVocatives" class="primary-button" type="button">Kopijuoti kreipinius</button>
-                <button id="downloadCsv" class="primary-button" type="button" hidden>Atsisiųsti CSV</button>
-                <button id="resetResults" class="text-button" type="button">Pradėti iš naujo</button>
-                <p id="resultActionStatus" class="result-action-status" role="status" aria-live="polite"></p>
-            </div>
-        </section>
 
         <section class="guidance-section" aria-labelledby="guidance-heading">
-            <h2 id="guidance-heading">Kaip saugiai naudoti rezultatus?</h2>
+            <h2 id="guidance-heading">Naudojimas naujienlaiškiuose</h2>
             <div class="guidance-grid">
                 <details>
-                    <summary>Tikslumas ir išimtys</summary>
-                    <p>
-                        Įrankis naudoja patikrintų vardų sąrašą, dažniausias galūnių taisykles ir žinomas išimtis.
-                        Reti, užsienietiški, sudurtiniai ar neatpažinti vardai gali būti palikti nepakeisti arba pažymėti
-                        „Patikrinkite“. Konkretaus tikslumo procento nežadame — prieš siųsdami žinutę peržiūrėkite
-                        pažymėtas formas ir prireikus jas pataisykite.
-                    </p>
-                </details>
-                <details>
-                    <summary>Saugus atsarginis kreipinys</summary>
-                    <p>
-                        Jei forma abejotina ir negalite jos patikrinti, vardo nenaudokite. Saugus neutralus variantas:
-                        <strong>„Laba diena,“</strong>. Jis patikimesnis už netaisyklingą asmeninį kreipinį.
-                    </p>
-                </details>
-                <details>
-                    <summary>Privatumas</summary>
-                    <p>
-                        Įvesti vardai, CSV failai ir rankiniai pataisymai apdorojami tik šiame naršyklės lange. Jie
-                        nesiunčiami į serverį ir neišsaugomi. Uždarius ar atnaujinus puslapį rezultatai dingsta.
-                    </p>
-                </details>
-                <details>
-                    <summary>MailerLite: KREIPINYS lauko susiejimas</summary>
+                    <summary>MailerLite</summary>
                     <div>
                         <ol>
                             <li>Atverkite „Subscribers → Fields“, sukurkite teksto lauką „Kreipinys“ ir pasižiūrėkite, kokią žymą jam suteikė MailerLite.</li>
@@ -526,7 +283,7 @@
                     </div>
                 </details>
                 <details>
-                    <summary>Omnisend: KREIPINYS savybės susiejimas</summary>
+                    <summary>Omnisend</summary>
                     <div>
                         <ol>
                             <li>Atverkite „Audience → Contacts → Add or update contacts“ ir pasirinkite kontaktų importą iš failo.</li>
@@ -540,7 +297,7 @@
                     </div>
                 </details>
                 <details>
-                    <summary>Mailchimp: KREIPINYS lauko susiejimas</summary>
+                    <summary>Mailchimp</summary>
                     <div>
                         <ol>
                             <li>Auditorijos nustatymuose sukurkite teksto lauką „Kreipinys“ ir priskirkite jam trumpą žymą, pavyzdžiui, <code>KREIP</code>.</li>
@@ -551,7 +308,7 @@
                     </div>
                 </details>
                 <details>
-                    <summary>Brevo: KREIPINYS atributo susiejimas</summary>
+                    <summary>Brevo</summary>
                     <div>
                         <ol>
                             <li>Importuokite CSV į kontaktų sąrašą.</li>
@@ -562,7 +319,7 @@
                     </div>
                 </details>
                 <details>
-                    <summary>Klaviyo: KREIPINYS profilio savybės susiejimas</summary>
+                    <summary>Klaviyo</summary>
                     <div>
                         <ol>
                             <li>Atverkite „Audience → Lists &amp; Segments“, pasirinkite sąrašą ir importuokite atsisiųstą CSV.</li>
@@ -665,8 +422,12 @@ $sauksmininkai = array_map('iSauksmininka', $vardai);
         </section>
 
         <footer class="contact-section">
-            <p>Reikia pagalbos su vardų linksniavimu ar jo integracija? Galiu padėti.</p>
-            <strong>labas (sraigė) dago.lt</strong>
+            <p>Reikia pagalbos su vardų linksniavimu ar jo integracija? Galiu padėti. <strong>labas (sraigė) dago.lt</strong></p>
+            <div class="site-footer">
+                <a href="https://weblog.dago.lt/mano-ai-di-politika" target="_blank" rel="noopener" class="print-a-no-link">
+                    <img src="https://dago.lt/assets/img/byai.png" srcset="https://dago.lt/assets/img/byai.png 1x, https://dago.lt/assets/img/byai@2x.png 2x" alt="Sukūrė DI, ne žmogus" width="132" height="43" loading="lazy">
+                </a>
+            </div>
         </footer>
 
     </main>
@@ -677,426 +438,132 @@ $sauksmininkai = array_map('iSauksmininka', $vardai);
 
         const form = document.getElementById('namesForm');
         const namesInput = document.getElementById('names');
+        const namesLabel = document.getElementById('namesLabel');
         const submitButton = document.getElementById('submitButton');
-        const resetButton = document.getElementById('resetButton');
-        const formStatus = document.getElementById('formStatus');
+        const copyButton = document.getElementById('copyVocatives');
+        const downloadButton = document.getElementById('downloadCsv');
+        const actionStatus = document.getElementById('actionStatus');
         const csvFile = document.getElementById('csvFile');
         const csvOptions = document.getElementById('csvOptions');
         const csvNameColumn = document.getElementById('csvNameColumn');
         const processCsv = document.getElementById('processCsv');
         const csvStatus = document.getElementById('csvStatus');
-        const results = document.getElementById('results');
-        const resultHeading = document.getElementById('resultHeading');
-        const resultStatus = document.getElementById('resultStatus');
-        const resultBody = document.getElementById('resultBody');
-        const resultFilter = document.getElementById('resultFilter');
-        const filterStatus = document.getElementById('filterStatus');
-        const copyVocatives = document.getElementById('copyVocatives');
-        const downloadCsv = document.getElementById('downloadCsv');
-        const resetResults = document.getElementById('resetResults');
-        const resultActionStatus = document.getElementById('resultActionStatus');
-        let currentResults = [];
-        let currentMode = 'text';
         let csvDocument = null;
+        let csvOutput = false;
+        let hasConverted = false;
+        let requestId = 0;
 
-        function pluralForm(count, singular, plural, genitive) {
-            const lastTwo = count % 100;
-            const last = count % 10;
-
-            if (lastTwo >= 11 && lastTwo <= 19) {
-                return genitive;
-            }
-            if (last === 1) {
-                return singular;
-            }
-            if (last >= 2 && last <= 9) {
-                return plural;
-            }
-            return genitive;
+        function status(text) {
+            actionStatus.textContent = text;
+            actionStatus.hidden = !text;
         }
 
-        function inputCount() {
-            return namesInput.value
-                .split(/\r\n?|\n/u)
-                .filter(function (name) { return name.trim() !== ''; })
-                .length;
-        }
-
-        function inputCountText(count) {
-            return count + ' ' + pluralForm(count, 'vardas', 'vardai', 'vardų');
-        }
-
-        function vocativeCountText(count) {
-            return count + ' ' + pluralForm(count, 'kreipinys nukopijuotas', 'kreipiniai nukopijuoti', 'kreipinių nukopijuota');
-        }
-
-        function rowCountText(count) {
-            return count + ' ' + pluralForm(count, 'duomenų eilutė', 'duomenų eilutės', 'duomenų eilučių');
-        }
-
-        function statusLabel(result) {
-            if (result.edited) {
-                return 'Pataisyta ranka';
-            }
-            if (result.confidence === 'high') {
-                return result.changed ? 'Patikima taisyklė' : 'Patikima · nekinta';
-            }
-            if (result.changed) {
-                return 'Patikrinkite';
-            }
-            return 'Patikrinkite · nepakeista';
-        }
-
-        function updateResultSummary() {
-            const changedCount = currentResults.filter(function ({ input, value }) {
-                return input !== value;
-            }).length;
-            const reviewCount = currentResults.filter(function ({ confidence, edited }) {
-                return confidence !== 'high' && !edited;
-            }).length;
-            const editedCount = currentResults.filter(function ({ edited }) {
-                return edited;
-            }).length;
-            const summaryParts = [
-                currentMode === 'csv' ? rowCountText(currentResults.length) : inputCountText(currentResults.length),
-                changedCount + ' ' + pluralForm(changedCount, 'pakeistas', 'pakeisti', 'pakeista'),
-                reviewCount + ' reikia patikrinti',
-            ];
-
-            if (editedCount) {
-                summaryParts.push(editedCount + ' ' + pluralForm(editedCount, 'pataisytas ranka', 'pataisyti ranka', 'pataisyta ranka'));
-            }
-            resultStatus.textContent = summaryParts.join(' · ');
-        }
-
-        function resultMatchesFilter(result) {
-            if (resultFilter.value === 'review') {
-                return result.confidence !== 'high' && !result.edited;
-            }
-            if (resultFilter.value === 'unchanged') {
-                return result.input === result.value;
-            }
-            return true;
-        }
-
-        function updateResultFilter() {
-            let visibleCount = 0;
-
-            currentResults.forEach(function (result) {
-                const visible = resultMatchesFilter(result);
-                result.row.hidden = !visible;
-                visibleCount += visible ? 1 : 0;
-            });
-
-            filterStatus.textContent = resultFilter.value === 'all'
-                ? ''
-                : 'Rodoma ' + visibleCount + ' iš ' + currentResults.length + '.';
-        }
-
-        function updateRowStatus(result, statusCell) {
-            statusCell.textContent = statusLabel(result);
-            statusCell.classList.toggle('review-status', result.confidence !== 'high' && !result.edited);
-        }
-
-        function renderResults(convertedNames, mode = 'text') {
-            resultBody.replaceChildren();
-            currentMode = mode;
-            currentResults = convertedNames.map(function (result) {
-                return { ...result, generatedValue: result.value, edited: false };
-            });
-
-            currentResults.forEach(function (result, index) {
-                const row = document.createElement('tr');
-                const inputCell = document.createElement('td');
-                const resultCell = document.createElement('td');
-                const statusCell = document.createElement('td');
-                const resultLabel = document.createElement('label');
-                const resultInput = document.createElement('input');
-                const inputId = 'vocative-' + index;
-                const statusId = 'vocative-status-' + index;
-
-                result.row = row;
-
-                inputCell.dataset.label = 'Įvestas vardas';
-                inputCell.textContent = result.input;
-                resultCell.dataset.label = 'Kreipinys';
-                resultLabel.className = 'sr-only';
-                resultLabel.htmlFor = inputId;
-                resultLabel.textContent = result.input
-                    ? 'Kreipinys vardui ' + result.input
-                    : 'Kreipinys tuščiai vardo reikšmei';
-                resultInput.className = 'result-input';
-                resultInput.id = inputId;
-                resultInput.type = 'text';
-                resultInput.value = result.value;
-                resultInput.setAttribute('aria-describedby', statusId);
-                resultInput.addEventListener('input', function () {
-                    result.value = resultInput.value;
-                    result.edited = result.value !== result.generatedValue;
-                    updateRowStatus(result, statusCell);
-                    updateResultSummary();
-                    updateResultFilter();
-                    resultActionStatus.textContent = result.edited
-                        ? 'Pataisymas įtrauktas į galutinį rezultatą.'
-                        : '';
-                });
-                resultCell.append(resultLabel, resultInput);
-                statusCell.dataset.label = 'Būsena';
-                statusCell.id = statusId;
-                updateRowStatus(result, statusCell);
-                row.append(inputCell, resultCell, statusCell);
-                resultBody.append(row);
-            });
-
-            const reviewCount = currentResults.filter(function ({ confidence }) {
-                return confidence !== 'high';
-            }).length;
-            updateResultSummary();
-            resultFilter.value = 'all';
-            updateResultFilter();
-            formStatus.textContent = reviewCount
-                ? 'Kreipiniai paruošti. Patikrinkite pažymėtas eilutes.'
-                : 'Kreipiniai paruošti ir parengti kopijuoti.';
-            resultActionStatus.textContent = '';
-            downloadCsv.hidden = mode !== 'csv';
-            results.hidden = false;
-            resetButton.disabled = false;
-            resultHeading.focus();
-        }
-
-        function clearResults() {
-            currentResults = [];
-            currentMode = 'text';
-            resultBody.replaceChildren();
-            resultStatus.textContent = '';
-            filterStatus.textContent = '';
-            resultFilter.value = 'all';
-            resultActionStatus.textContent = '';
-            downloadCsv.hidden = true;
-            results.hidden = true;
-        }
-
-        function resetTool() {
-            form.reset();
-            clearResults();
-            csvDocument = null;
-            csvNameColumn.replaceChildren();
-            csvOptions.hidden = true;
-            csvStatus.textContent = 'Failas lieka jūsų naršyklėje.';
+        function showConverted(converted, fromCsv = false) {
+            namesInput.value = converted.map(item => item.value).join('\n');
+            namesLabel.textContent = 'Kreipiniai, po vieną eilutėje:';
+            copyButton.hidden = false;
+            hasConverted = true;
             submitButton.disabled = true;
-            resetButton.disabled = true;
-            formStatus.textContent = '0 vardų · įveskite bent vieną vardą.';
+            csvOutput = fromCsv;
+            downloadButton.hidden = !fromCsv;
+            downloadButton.disabled = false;
+            status('');
             namesInput.focus();
         }
 
-        async function writeToClipboard(text) {
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                await navigator.clipboard.writeText(text);
-                return;
+        form.addEventListener('submit', event => {
+            event.preventDefault();
+            const converted = toVocativeMany(namesInput.value);
+            if (converted.length) showConverted(converted);
+        });
+
+        namesInput.addEventListener('input', () => {
+            const hasText = namesInput.value.trim() !== '';
+            submitButton.disabled = !hasText;
+            copyButton.hidden = !hasText || !hasConverted;
+            if (!hasText) hasConverted = false;
+            status('');
+            if (!hasText) namesLabel.textContent = 'Vardai, po vieną eilutėje:';
+            if (csvOutput && csvDocument) {
+                const matches = namesInput.value.split(/\r\n?|\n/u).length === csvDocument.rows.length;
+                downloadButton.disabled = !matches;
+                if (!matches) status('CSV reikia ' + csvDocument.rows.length + ' eilučių — nekeiskite jų skaičiaus ar tvarkos.');
             }
+        });
 
-            const helper = document.createElement('textarea');
-            helper.value = text;
-            helper.setAttribute('readonly', '');
-            helper.className = 'sr-only';
-            document.body.append(helper);
-            helper.select();
-            const copied = document.execCommand('copy');
-            helper.remove();
-
-            if (!copied) {
-                throw new Error('Copy command failed');
+        async function copy(text) {
+            await navigator.clipboard.writeText(text);
+        }
+        copyButton.addEventListener('click', async () => {
+            try {
+                await copy(namesInput.value);
+                status('Nukopijuota.');
+            } catch {
+                status('Nepavyko nukopijuoti. Pažymėkite tekstą lauke.');
             }
-        }
+        });
 
-        function suggestedColumnIndex(headers) {
-            const priorities = ['firstname', 'vardas', 'name'];
-            const normalizedHeaders = headers.map(function (header) {
-                return header.trim().toLocaleLowerCase('lt-LT').replace(/[\s_-]+/gu, '');
-            });
-
-            for (const candidate of priorities) {
-                const index = normalizedHeaders.indexOf(candidate);
-                if (index !== -1) {
-                    return index;
-                }
+        csvFile.addEventListener('change', async () => {
+            const file = csvFile.files?.[0];
+            const id = ++requestId;
+            csvDocument = null;
+            csvOutput = false;
+            csvOptions.hidden = true;
+            downloadButton.hidden = true;
+            if (!file) { csvStatus.textContent = ''; return; }
+            csvStatus.textContent = 'Skaitomas failas…';
+            try {
+                const parsed = parseCsv(await file.text());
+                if (id !== requestId) return;
+                if (!parsed.rows.length) throw new Error('CSV faile nėra duomenų eilučių.');
+                csvDocument = { ...parsed, filename: file.name };
+                csvNameColumn.replaceChildren();
+                parsed.headers.forEach((header, index) => {
+                    const option = document.createElement('option');
+                    option.value = String(index);
+                    option.textContent = (header.trim() || 'Stulpelis') + ' (' + (index + 1) + ')';
+                    csvNameColumn.append(option);
+                });
+                const normalized = parsed.headers.map(header => header.trim().toLocaleLowerCase('lt-LT').replace(/[\s_-]+/gu, ''));
+                const index = ['firstname', 'vardas', 'name'].map(name => normalized.indexOf(name)).find(index => index !== -1);
+                csvNameColumn.value = String(index ?? 0);
+                csvOptions.hidden = false;
+                csvStatus.textContent = parsed.rows.length + ' eilutės · ' + parsed.headers.length + ' stulpeliai.';
+            } catch (error) {
+                if (id !== requestId) return;
+                csvStatus.textContent = error instanceof Error ? error.message : 'Nepavyko perskaityti CSV failo.';
             }
-            return 0;
-        }
-
-        function populateColumnOptions(headers) {
-            const occurrences = new Map();
-            csvNameColumn.replaceChildren();
-
-            headers.forEach(function (header, index) {
-                const label = header.trim() || (index + 1) + ' stulpelis (be pavadinimo)';
-                const count = (occurrences.get(label) || 0) + 1;
-                const option = document.createElement('option');
-
-                occurrences.set(label, count);
-                option.value = String(index);
-                option.textContent = count > 1 ? label + ' (' + count + ')' : label;
-                csvNameColumn.append(option);
-            });
-
-            csvNameColumn.value = String(suggestedColumnIndex(headers));
-        }
-
-        function delimiterLabel(delimiter) {
-            if (delimiter === ';') return 'kabliataškis';
-            if (delimiter === '\t') return 'tabuliacija';
-            return 'kablelis';
-        }
-
-        function downloadText(text, filename) {
-            const blob = new Blob([text], { type: 'text/csv;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
+        });
+        processCsv.addEventListener('click', () => {
+            if (!csvDocument) return;
+            const column = Number(csvNameColumn.value);
+            showConverted(csvDocument.rows.map(row => toVocative(row[column] ?? '')), true);
+            csvStatus.textContent = 'Kreipiniai paruošti. CSV eilutes išlaikykite ta pačia tvarka.';
+        });
+        downloadButton.addEventListener('click', () => {
+            if (!csvOutput || !csvDocument) return;
+            const values = namesInput.value.split(/\r\n?|\n/u);
+            if (values.length !== csvDocument.rows.length) return;
+            const output = appendColumn(csvDocument, values);
+            const text = serializeCsv({ ...output, delimiter: csvDocument.delimiter, bom: true });
+            const url = URL.createObjectURL(new Blob([text], { type: 'text/csv;charset=utf-8' }));
             const link = document.createElement('a');
-
             link.href = url;
-            link.download = filename;
+            link.download = (csvDocument.filename.replace(/\.csv$/iu, '') || 'kontaktai') + '-su-kreipiniais.csv';
             document.body.append(link);
             link.click();
             link.remove();
-            window.setTimeout(function () { URL.revokeObjectURL(url); }, 0);
-        }
-
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-            const convertedNames = toVocativeMany(namesInput.value);
-
-            if (convertedNames.length === 0) {
-                return;
-            }
-
-            renderResults(convertedNames);
+            window.setTimeout(() => URL.revokeObjectURL(url), 0);
+            status('CSV atsisiųstas.');
         });
-
-        namesInput.addEventListener('input', function () {
-            const count = inputCount();
-
-            if (currentResults.length) {
-                clearResults();
-            }
-            submitButton.disabled = count === 0;
-            resetButton.disabled = count === 0 && !csvDocument;
-            formStatus.textContent = inputCountText(count)
-                + (count ? ' · galite paruošti kreipinius.' : ' · įveskite bent vieną vardą.');
-        });
-
-        csvFile.addEventListener('change', async function () {
-            const file = csvFile.files && csvFile.files[0];
-
-            csvDocument = null;
-            csvOptions.hidden = true;
-            csvNameColumn.replaceChildren();
-            clearResults();
-
-            if (!file) {
-                csvStatus.textContent = 'Failas lieka jūsų naršyklėje.';
-                resetButton.disabled = inputCount() === 0;
-                return;
-            }
-
-            resetButton.disabled = false;
-            csvStatus.textContent = 'Skaitomas failas…';
-
-            try {
-                const parsed = parseCsv(await file.text());
-
-                if (csvFile.files[0] !== file) {
-                    return;
-                }
-                if (parsed.rows.length === 0) {
-                    throw new Error('CSV faile yra antraštės, bet nėra duomenų eilučių.');
-                }
-
-                csvDocument = {
-                    headers: parsed.headers,
-                    rows: parsed.rows,
-                    delimiter: parsed.delimiter,
-                    filename: file.name,
-                };
-                populateColumnOptions(parsed.headers);
-                csvOptions.hidden = false;
-                resetButton.disabled = false;
-                csvStatus.textContent = rowCountText(parsed.rows.length)
-                    + ' · ' + parsed.headers.length + ' stulp.'
-                    + ' · skirtukas: ' + delimiterLabel(parsed.delimiter) + '.';
-            } catch (error) {
-                if (csvFile.files[0] !== file) {
-                    return;
-                }
-                csvDocument = null;
-                csvStatus.textContent = error instanceof Error
-                    ? error.message
-                    : 'Nepavyko perskaityti CSV failo.';
-            }
-        });
-
-        processCsv.addEventListener('click', function () {
-            if (!csvDocument) {
-                return;
-            }
-
-            const columnIndex = Number(csvNameColumn.value);
-            const convertedNames = csvDocument.rows.map(function (row) {
-                return toVocative(row[columnIndex] ?? '');
-            });
-
-            csvDocument.columnIndex = columnIndex;
-            renderResults(convertedNames, 'csv');
-            csvStatus.textContent = rowCountText(csvDocument.rows.length)
-                + ' paruošta. Atsisiunčiant bus pridėtas naujas kreipinio stulpelis.';
-        });
-
-        resetButton.addEventListener('click', resetTool);
-        resetResults.addEventListener('click', resetTool);
-        resultFilter.addEventListener('change', updateResultFilter);
-
-        copyVocatives.addEventListener('click', async function () {
-            const text = currentResults.map(function ({ value }) { return value; }).join('\n');
-
-            try {
-                await writeToClipboard(text);
-                resultActionStatus.textContent = vocativeCountText(currentResults.length) + '.';
-            } catch (error) {
-                resultActionStatus.textContent = 'Nepavyko nukopijuoti. Pažymėkite kreipinius lentelėje rankiniu būdu.';
-            }
-        });
-
-        downloadCsv.addEventListener('click', function () {
-            if (currentMode !== 'csv' || !csvDocument) {
-                return;
-            }
-
-            const output = appendColumn(csvDocument, currentResults.map(function ({ value }) { return value; }));
-            const text = serializeCsv({
-                headers: output.headers,
-                rows: output.rows,
-                delimiter: csvDocument.delimiter,
-                bom: true,
-            });
-            const basename = csvDocument.filename.replace(/\.csv$/iu, '') || 'kontaktai';
-
-            downloadText(text, basename + '-su-kreipiniais.csv');
-            resultActionStatus.textContent = 'CSV atsisiųstas UTF-8 formatu · pridėtas „' + output.columnName + '“ stulpelis.';
-        });
-
-        document.querySelectorAll('[data-copy-target]').forEach(function (button) {
-            button.addEventListener('click', async function () {
+        document.querySelectorAll('[data-copy-target]').forEach(button => {
+            button.addEventListener('click', async () => {
                 const target = document.getElementById(button.dataset.copyTarget);
-                const status = document.getElementById(button.getAttribute('aria-describedby'));
-
-                try {
-                    await writeToClipboard(target.textContent);
-                    status.textContent = 'Promptas nukopijuotas.';
-                } catch (error) {
-                    status.textContent = 'Nepavyko nukopijuoti. Pažymėkite tekstą rankiniu būdu.';
-                }
+                const message = document.getElementById(button.getAttribute('aria-describedby'));
+                try { await copy(target.textContent); message.textContent = 'Nukopijuota.'; }
+                catch { message.textContent = 'Nepavyko nukopijuoti. Pažymėkite tekstą rankiniu būdu.'; }
             });
         });
     </script>
 </body>
-
 </html>
