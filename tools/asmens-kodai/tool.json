@@ -2,5 +2,5 @@
   "slug": "asmens-kodai",
   "name": "Asmens kodai",
   "title": "Asmens kodai // dago",
-  "description": "Lietuviško asmens kodo generatorius ir validatorius: generavimas testavimui, struktūros ir kontrolinio skaitmens tikrinimas, JavaScript ir PHP pavyzdžiai."
+  "description": "Generuokite ir tikrinkite lietuviškus asmens kodus."
 }

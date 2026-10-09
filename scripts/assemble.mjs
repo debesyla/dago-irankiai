@@ -27,8 +27,8 @@ function buildStamp() {
 
 function renderToolList(tools) {
   const items = tools.map(
-    (tool) => `            <li class="tool-card">
-                <h2><a href="${escapeHtml(tool.urlPath)}">${escapeHtml(tool.name)}</a></h2>
+    (tool) => `            <li>
+                <a href="${escapeHtml(tool.urlPath)}"><strong>${escapeHtml(tool.name)}</strong></a>
                 <p>${escapeHtml(tool.description)}</p>
             </li>`,
   );

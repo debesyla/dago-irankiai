@@ -2,5 +2,5 @@
   "slug": "testiniai-zmones",
   "name": "Testiniai žmonės",
   "title": "Testiniai žmonės – fiktyvių duomenų generatorius // dago",
-  "description": "Fiktyvūs lietuviški žmonių duomenys formų, maketų ir programų testavimui: vardas, adresas, amžius, asmens kodas ir JSON eksportas."
+  "description": "Fiktyvūs lietuviški duomenys formoms ir programoms testuoti."
 }
