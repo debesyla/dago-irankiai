@@ -48,7 +48,11 @@
         }
 
         .site-header {
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .site-header h1 {
+            margin-bottom: 1rem;
         }
 
         .site-header p {
@@ -68,27 +72,19 @@
 
         .tool-list {
             display: grid;
-            gap: 1rem;
-            list-style: none;
-            padding: 0;
+            gap: 1.5rem;
         }
 
         .tool-list li + li {
             margin-top: 0;
         }
 
-        .tool-card {
-            border: 1px solid hsl(var(--theme) / 0.35);
-            padding: clamp(1rem, 4vw, 1.5rem);
+        .tool-list p {
+            margin-top: 0.25rem;
         }
 
-        .tool-card h2 {
-            font-size: 1.25em;
-            margin: 0 0 0.5rem;
-        }
-
-        .tool-card p {
-            margin: 0;
+        .site-footer {
+            margin-top: 3rem;
         }
 
         .contact-section {
@@ -110,9 +106,9 @@
         <header class="site-header">
             <h1>
                 įrankiai
-                <a class="dago-link print-a-no-link" href="https://dago.lt" target="_blank" rel="noopener">// dago</a>
+                <a class="dago-link print-a-no-link" href="https://dago.lt">// dago</a>
             </h1>
-            <p>Nemokami įrankiai, kurie veikia tiesiog naršyklėje.</p>
+            <p>Nemokami įrankiai, veikiantys tiesiai naršyklėje.</p>
         </header>
 
         <!-- TOOLS -->
@@ -123,6 +119,13 @@
                 <a href="https://github.com/debesyla/dago-irankiai">github.com/debesyla/dago-irankiai</a>.
             </p>
             <p>Trūksta įrankio ar radote klaidą? <strong>labas (sraigė) dago.lt</strong></p>
+            <div class="site-footer">
+                <a href="https://weblog.dago.lt/mano-ai-di-politika" target="_blank" rel="noopener" class="print-a-no-link">
+                    <img src="https://dago.lt/assets/img/byai.png"
+                        srcset="https://dago.lt/assets/img/byai.png 1x, https://dago.lt/assets/img/byai@2x.png 2x"
+                        alt="Sukūrė DI, ne žmogus" width="132" height="43" loading="lazy">
+                </a>
+            </div>
         </footer>
     </main>
 </body>
