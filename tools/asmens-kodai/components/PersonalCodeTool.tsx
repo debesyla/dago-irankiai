@@ -244,8 +244,7 @@ export function PersonalCodeTool({ initialCode }: { initialCode: string }) {
       </section>
 
       <footer className="contact-section">
-        <p>Reikia pagalbos su API jungtimis ar validatoriaus kūrimu? Galiu padėti.</p>
-        <strong>labas (sraigė) dago.lt</strong>
+        <p>Reikia pagalbos su API jungtimis ar validatoriaus kūrimu? Galiu padėti. <strong>labas (sraigė) dago.lt</strong></p>
         <div className="site-footer">
           <a href="https://weblog.dago.lt/mano-ai-di-politika" target="_blank" rel="noopener noreferrer" className="print-a-no-link">
             <img src="https://dago.lt/assets/img/byai.png" srcSet="https://dago.lt/assets/img/byai.png 1x, https://dago.lt/assets/img/byai@2x.png 2x" alt="Sukūrė DI, ne žmogus" width="132" height="43" loading="lazy" />
