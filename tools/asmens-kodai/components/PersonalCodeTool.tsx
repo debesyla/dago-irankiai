@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, KeyboardEvent, useMemo, useState } from "react";
 import { buildLlmPrompt } from "@/lib/llm-prompt";
 import {
   formatIsoDate,
@@ -72,7 +72,6 @@ export function PersonalCodeTool({ initialCode }: { initialCode: string }) {
   const [notOlderThanPensionAge, setNotOlderThanPensionAge] = useState(false);
   const [useExactDate, setUseExactDate] = useState(false);
   const [exactDate, setExactDate] = useState("");
-  const [count, setCount] = useState(1);
   const [codes, setCodes] = useState([initialCode]);
   const [generatorError, setGeneratorError] = useState("");
   const [copyStatus, setCopyStatus] = useState<{
@@ -88,8 +87,8 @@ export function PersonalCodeTool({ initialCode }: { initialCode: string }) {
     notOlderThanPensionAge,
     useExactDate,
     exactDate,
-    count,
-  }), [adultOnly, count, exactDate, notOlderThanPensionAge, useExactDate]);
+    count: 1,
+  }), [adultOnly, exactDate, notOlderThanPensionAge, useExactDate]);
 
   function generate() {
     try {
@@ -97,7 +96,7 @@ export function PersonalCodeTool({ initialCode }: { initialCode: string }) {
         adultOnly,
         notOlderThan: notOlderThanPensionAge ? PENSION_AGE : null,
         exactBirthDate: useExactDate ? exactDate : null,
-        count,
+        count: 1,
       }));
       setGeneratorError("");
       setCopyStatus(null);
@@ -130,37 +129,38 @@ export function PersonalCodeTool({ initialCode }: { initialCode: string }) {
     }
   }
 
+  function switchWithKeyboard(event: KeyboardEvent<HTMLButtonElement>) {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const nextMode = event.key === "Home" ? "generate" : event.key === "End" ? "validate" : mode === "generate" ? "validate" : "generate";
+    setMode(nextMode);
+    document.getElementById(nextMode === "generate" ? "generate-tab" : "validate-tab")?.focus();
+  }
+
   return (
     <main className="tool-page">
       <header className="site-header">
-        {/* eslint-disable-next-line react/jsx-no-target-blank -- Matches the shared dago project header markup exactly. */}
-        <h1>asmens kodai <a href="https://dago.lt" target="_blank" rel="noopener" className="opacity-20 text-nowrap hover:opacity-100 no-underline">{"// dago"}</a></h1>
+        <h1>asmens kodai <a href="https://dago.lt" className="opacity-20 text-nowrap hover:opacity-100 no-underline">{"// dago"}</a></h1>
         <p>Lietuviško asmens kodo generatorius ir validatorius.</p>
       </header>
 
       <section className="tool-card" aria-label="Asmens kodo įrankis">
-        <div className="mode-switch" role="tablist" aria-label="Pasirinkite įrankį">
-          <button id="generate-tab" className={mode === "generate" ? "active" : ""} onClick={() => setMode("generate")} role="tab" aria-selected={mode === "generate"} aria-controls="generate-panel">
+        <div className="mode-switch" role="tablist" aria-label="Pasirinkite veiksmą">
+          <button id="generate-tab" className="text-button" onClick={() => setMode("generate")} onKeyDown={switchWithKeyboard} role="tab" aria-selected={mode === "generate"} tabIndex={mode === "generate" ? 0 : -1} aria-controls="generate-panel">
             Generuoti
           </button>
-          <button id="validate-tab" className={mode === "validate" ? "active" : ""} onClick={() => setMode("validate")} role="tab" aria-selected={mode === "validate"} aria-controls="validate-panel">
+          <button id="validate-tab" className="text-button" onClick={() => setMode("validate")} onKeyDown={switchWithKeyboard} role="tab" aria-selected={mode === "validate"} tabIndex={mode === "validate" ? 0 : -1} aria-controls="validate-panel">
             Tikrinti
           </button>
         </div>
 
         {mode === "generate" ? (
           <div id="generate-panel" className="tool-content" role="tabpanel" aria-labelledby="generate-tab">
-            <h2 className="sr-only">Sugeneruotas kodas{codes.length > 1 ? "i" : ""}</h2>
-            {codes.length > 1 && <button className="text-button copy-all-button" onClick={() => copy(codes.join("\n"), "generator", "all")}>{copyStatus?.area === "generator" && copyStatus.target === "all" ? copyStatus.message : "Kopijuoti visus"}</button>}
-
-            <div className="code-result">
-              <div className={codes.length > 1 ? "code-list" : "single-code"}>
-                {codes.map((code) => (
-                  <div className="code-row" key={code}>
-                    <output className="code-output">{copyStatus?.area === "generator" && copyStatus.target === code ? copyStatus.message : code}</output>
-                    <button className="text-button copy-button" onClick={() => copy(code, "generator", code)} aria-label={`Kopijuoti ${code}`}>kopijuoti</button>
-                  </div>
-                ))}
+            <h2 className="sr-only">Sugeneruotas kodas</h2>
+            <div className="single-code">
+              <div className="code-row">
+                <output className="code-output">{copyStatus?.area === "generator" ? copyStatus.message : codes[0]}</output>
+                <button className="text-button copy-button" onClick={() => copy(codes[0], "generator", codes[0])} aria-label={`Kopijuoti ${codes[0]}`}>kopijuoti</button>
               </div>
             </div>
 
@@ -175,15 +175,6 @@ export function PersonalCodeTool({ initialCode }: { initialCode: string }) {
                   <input id="birth-date" type="date" min="1800-01-01" max={todayIso} value={exactDate} onChange={(event) => setExactDate(event.target.value)} />
                 </label>
               )}
-              <label className="inline-field" htmlFor="count">
-                Kiek kodų?
-                <select id="count" value={count} onChange={(event) => setCount(Number(event.target.value))}>
-                  <option value="1">1</option>
-                  <option value="5">5</option>
-                  <option value="10">10</option>
-                  <option value="25">25</option>
-                </select>
-              </label>
             </fieldset>
 
             <button className="primary-button" onClick={generate}>Generuoti</button>
@@ -253,8 +244,12 @@ export function PersonalCodeTool({ initialCode }: { initialCode: string }) {
       </section>
 
       <footer className="contact-section">
-        <p>Reikia pagalbos su API jungtimis ar validatoriaus kūrimu? Galiu padėti.</p>
-        <strong>labas (sraigė) dago.lt</strong>
+        <p>Reikia pagalbos su API jungtimis ar validatoriaus kūrimu? Galiu padėti. <strong>labas (sraigė) dago.lt</strong></p>
+        <div className="site-footer">
+          <a href="https://weblog.dago.lt/mano-ai-di-politika" target="_blank" rel="noopener noreferrer" className="print-a-no-link">
+            <img src="https://dago.lt/assets/img/byai.png" srcSet="https://dago.lt/assets/img/byai.png 1x, https://dago.lt/assets/img/byai@2x.png 2x" alt="Sukūrė DI, ne žmogus" width="132" height="43" loading="lazy" />
+          </a>
+        </div>
       </footer>
     </main>
   );
